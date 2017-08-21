@@ -65,6 +65,8 @@ $$(x_{1}+x_{2}+...+x_{r})^{n}=\sum_{n_{1},n_{2},...,n_{r}}^{n_{1}+n_{2}+...+n_{r
 
 #Chapter 2 Axioms of Probability
 
+##样本空间及事件
+
 第一章所计算的结果是第二章的基础
 
 *Definition:The **sample space S** of an experiment(whose outcome is uncertain) is the set of all possible outcomes of the experiment.*
@@ -103,3 +105,32 @@ $$(\cap_{i=1}^{n}E_{i})^{c}=\cup_{i=1}^{n}E_{i}^{c}$$
 > $\Rightarrow \cap_{i=1}^{n}(F_{i}^{c})^{c}=(\cup_{i=1}^{n}F_{i}^{c})^{c}$  
 > 对上式两边取补集，即得证
 
+##概率
+
+我们现在从事件进入到概率。
+
+*Consider an experiment with sample space S.For each event E,we assume that a number P(E),the **probability** of the event E,is defined and satisfies the following 3 axioms.*
+
+* Axiom 1: $0\leq P(E)\leq 1$
+* Axiom 2: $P(S)=1$
+* Axiom 3: For any sequence of **mutually exclusive** events $\{E_{i}\}_{i\geq 1}$,i.e.$E_{i}\cap E_{j}=\phi$ when $i\neq j$,then $$P(\cup_{i=1}^{\infty}E_{i})=\sum_{i=1}^{\infty}P(E_{i})$$
+
+*Direct consequences include $P(\phi)=0$*
+
+1. $P(E^{c})=1-P(E)
+
+> $1=P(S)=P(E\cup E^{c})=P(E)+P(E^{c})$
+
+2. If $E\subset F$ then $P(E)\leq P(F)$
+
+> $P(F)=P((E\cup E^{c})\cap F)=P((E\cap F)\cup (E^{c}\cap F))=P(E\cap F)+P(E^{c}\cap F)=P(E)+P(E^{c}\cap F)$
+
+3. $P(E\cup F)=P(E)+P(F)-P(E\cap F)$
+
+> 容斥原理：$P(E_{1}\cup E_{2}\cdots\cup E_{n})=\sum_{i=1}^{n}P(E_{i})+\sum_{r=2}^{n-1}(-1)^{r+1}\sum_{i_{1}<i_{2}\cdots<i{r}}P(E_{i1}E_{i2}\cdots E_{ir})+(-1)^{n+1}P(E_{i1}\cdots E_{in})$
+
+##等概率情况
+
+*Assume S={1,2,...N} then it is often narural to assume P({i})=$\frac{1}{N}$.So for any event E,*
+
+$$P(E)=\frac{\textrm{# of outcomes in E}}{\textrm{# of outcomes in S}}$$
