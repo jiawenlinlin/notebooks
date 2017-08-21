@@ -1,5 +1,5 @@
 ---
-title: "Theory of probability"
+title: "Theory of Probability"
 author: "林嘉文"
 date: "2017年8月19日"
 output: html_document
@@ -63,4 +63,43 @@ $$(x+y)^{n}=\sum_{k=0}^{n}C_{n}^{k}x^{k}y^{n-k}$$
 
 $$(x_{1}+x_{2}+...+x_{r})^{n}=\sum_{n_{1},n_{2},...,n_{r}}^{n_{1}+n_{2}+...+n_{r}=n}C_{n}^{n_{1},n_{2},...,n_{r}}(x_{1})^{n_{1}}(x_{2})^{n_{2}}\cdots(x_{r})^{n_{r}}$$
 
-#Chapter2 Axioms of Probability
+#Chapter 2 Axioms of Probability
+
+第一章所计算的结果是第二章的基础
+
+*Definition:The **sample space S** of an experiment(whose outcome is uncertain) is the set of all possible outcomes of the experiment.*
+
+*Any **subset E** of the sample space S is known as an **event**.If the outcome of the experiment is in E,then we say that E has occoured.*
+
+> 一个样本空间有多少outcomes就需要用第一章的知识来计算。E就是S的一个子集，所以事件(event)就是一个集合，它是outcome的集合，某个事件可能只包含一个outcome，也可能包含多个outcome。比如，掷骰子，那么得到的结果{1,2,3,4,5,6}就是一个样本空间。事件“掷到6”对应的是一个outcome，但是事件“掷到奇数”对应的就是3个outcome。但是如果某个outcome进入到E这个集合中我们就说事件发生了，比如掷到3，那么我们就说掷到奇数这个事件发生了。
+
+* 交集：Given events E and F ,$E\cap F$ is the set of all outcomes which are both in E and F.$E\cap F$ is also denoted $EF$.(intersection oF events)
+* 并集：Given events E and F ,$E\cup F$ is the set of all outcomes either in E or F or both E and F.$E\cup F$ occours if either E or F occours.(union of events)
+* 补集：For any event E ,$E^{c}$ denote the complement set of all outcomes in S which are not in E.We have $E\cup E^{c}=S$ and $E\cap E^{c}=\phi$
+* 子集：For any two events E and F,we write $E\subset F$ as all the outcomes of E are in F.
+
+$$E\cup F=F\cup E \qquad E\cap F=F\cap E$$
+$$(E\cup F)\cup G=E\cup(F\cup G)$$
+$$(E\cap F)\cap G=E\cap(F\cap G)$$
+$$(E\cup F)\cap G=(E\cap G)\cup(F\cap G)$$
+$$(E\cap F)\cup G=(E\cup G)\cap(F\cup G)$$
+
+DeMorgan's law
+$$(\cup_{i=1}^{n}E_{i})^{c}=\cap_{i=1}^{n}E_{i}^{c}$$
+$$(\cap_{i=1}^{n}E_{i})^{c}=\cup_{i=1}^{n}E_{i}^{c}$$
+
+> (i)对于$\forall x \in (\cup_{i=1}^{n}E_{i})^{c}$,则$x \notin \cup_{i=1}^{n}E_{i}$  
+> $\Rightarrow x\notin E_{i},i=1,2,3,...,n$  
+> $\Rightarrow x\in E_{1}^{c},x\in E_{2}^{c},\cdots$  
+> $\Rightarrow x\in \cap_{i=1}^{n}E_{i}^{c}$  
+> $\therefore (\cup_{i=1}^{n}E_{i})^{c}\subset\cap_{i=1}^{n}E_{i}^{c}$  
+> 同理，对于$\forall x\in \cap_{i=1}^{n}E_{i}^{c}$,则$x\in E_{i}^{c},i=1,2,3,\cdots,n$  
+> $\Rightarrow x\notin E_{i},i=1,2,3,\cdots,n$  
+> $\Rightarrow x\notin \cup_{i=1}^{n}E_{i}$  
+> $\Rightarrow x\in (\cup_{i=1}^{n}E_{i})^{c}$  
+> $\therefore \cap_{i=1}^{n}E_{i}^{c}\subset(\cup_{i=1}^{n}E_{i})^{c}$  
+> 因此得证  
+> (ii)令$F_{i}=E_{i}^{c}$,则由(i)  
+> $\Rightarrow \cap_{i=1}^{n}(F_{i}^{c})^{c}=(\cup_{i=1}^{n}F_{i}^{c})^{c}$  
+> 对上式两边取补集，即得证
+
