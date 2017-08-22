@@ -134,3 +134,179 @@ $$(\cap_{i=1}^{n}E_{i})^{c}=\cup_{i=1}^{n}E_{i}^{c}$$
 *Assume S={1,2,...N} then it is often narural to assume P({i})=$\frac{1}{N}$.So for any event E,*
 
 $$P(E)=\frac{\textrm{# of outcomes in E}}{\textrm{# of outcomes in S}}$$
+
+#Chapter 3 Conditional probability and Independence
+
+##条件概率及贝叶斯公式
+
+*Conditional Probability:*$$P(E|F)=\frac{P(EF)}{P(F)}$$
+
+*Equally likely outcomes:*$$P(E|F)=\frac{\textrm{# of outcomes in } E\cap F}{\textrm{# of outcomes in } F}=\frac{\frac{\textrm{# of outcomes in }E\cap F}{\textrm{# of outcomes in }S}}{\frac{\textrm{# of outcomes in }F}{\textrm{# of outcomes in }S}}$$
+
+首先我们先理解一下条件概率的意思，就是要计算出当某件事发生之后，另一件事发生的概率。我们在很多时候就是要求这个，而不是单纯地求概率。其次我们来看一下计算的方式，其实分为两种。前者是一种reduced sample space的思想，也就是说在给定F发生时，样本空间已经发生了改变，所以分母是F的outcomes。后者就是纯粹利用计算公式。
+
+*The mulTiplication Rule:Let $E_{1}$,$E_{2}$,$\cdots$,$E_{n}$ be a sequence of events,then we have,*
+$$P(E_{1}\cap E_{2}\cap E_{3}...\cap E_{n})=P(E_{1})P(E_{2}|E_{1})P(E_{3}|E_{2}E_{1})...P(E_{n}|E_{1}E_{2}...E_{n-1})$$
+
+*Bayes formula:*
+$$P(E)=P(E\cap F)+P(E\cap F^{c})=P(E|F)P(F)+P(E|F^{c})P(F^{c})$$
+
+> $\Rightarrow$ geceralized,assume  $\cup F_{i}=S$,$F_{i}\cap F_{j}=\phi$, then  
+> $P(E)=P(E\cap (\cup F_{i}))=P(\cup(E\cap F_{i}))=\sum_{i=1}^{n}P(E\cap F_{i})=\sum_{i=1}^{n}P(E|F_{i})P(F_{i})$
+
+贝叶斯公式的想法也非常非常自然，一件事情E发生的概率，其实可以转换成在另一组事件Fi的所有互斥可能发生的情况下这件事情发生的概率之和。举个例子就是——小明明天要去打球的概率，等同于明天晴天、阴天或者下雨天三种情况（假设明天天气只有这三种，它们也明显互斥）下小明去打球的概率之和。
+
+##Independence and Conditional Independence
+
+*We say that two events E,F are independent if*
+$$P(E\cap F)=P(E)P(F)$$
+*or equivalently*
+$$P(E|F)=P(E) and P(F|E)=P(F)$$
+
+> 如果E和F独立，则E和$F^{c}$也独立。（用贝叶斯公式很容易证明）
+
+*We say that three events E,F,G are independent,if*
+$$\nearrow P(E\cap F\cap G)=P(E)P(F)P(G)$$
+$$\searrow P(E\cap F)=P(E)P(F),P(E\cap G)=P(E)P(G),P(F\cap G)=P(F)P(G)$$
+*更一般的说，我们如果要说明n个事件独立，则要求这n个事件两两独立，三三独立，....，一直到n个事件独立。*
+
+*We say that the events $T_{1},T_{2},T_{3}...T_{n}$ are conditionally independent given E(respectively $E^{c}$) if for any positive integer $2\leq r\leq n$,we have *
+$$P(T_{i_{1}}\cap T_{i_{2}}\cap ...\cap T_{i_{r}}|E)=\prod_{i=1}^{r}P(T_{i_{j}}|E)$$
+
+说白了就是在给定条件下满足事件独立。每个事件后面都加了一个条件。
+
+#Chapter 4 Random Variables
+
+##Definition of R.V.
+
+*Real-valued functions defined on the sample space are random variables.*
+
+> 所以随机变量就是一个函数，它的定义域就是sample space，它的值域就是函数的取值（实值）。更直白地说，因为定义域每一个outcome必然一一对应于某一个取值，所以我们把难以数理计算的sample space转为random variable处理。**这个函数的特殊性不在于我们找不到特定的函数形式，而在于它的定义域具有随机性这么一个最重要的特性。这就使得随机变量的取值具有随机性，而随机性我们用probability刻画**
+> $$probability\longleftarrow outcomes\longrightarrow random\, variable$$
+> 我们用outcome去推向probability这个概念，而random variable的取值就是outcome，所以random variable就有了一个概率分布，且所有取值的概率和为1$\Leftarrow P(S)=1$
+
+P.S.如果我们从随机变量是为了把无法数理化的实验outcome数理化的角度来看，那么随机变量一一对应于outcome的取值其实无关紧要。例如掷色子，有1,2,3,4,5,6这些outcomes，你可以定义值域就是1,2,3,4,5,6也可以定义2,4,6,8,10,12，只不过我们一般定义都有实际意义。所以这里就可以看出，真正重要的东西是定义域的不确定性而不是映射本身到底是什么。
+
+##Discrete R.V.
+
+从这之后我们就只讨论随机变量，因为它具有可数理化的优点。并且，可以看到，随机变量这个东西其实就是从一些具体的实验中抽象出来的（比如掷色子、掷硬币）。而现在我们就彻底的抽象它，我们直接考虑随机变量的取值以及它的概率分布，但是对于它的定义域也就是sample space到底是什么实验并不关心，也不需要关心。
+
+随机变量根据其值域可数还是不可数分为discrete R.V.和continuous R.V.我们现在先介绍离散随机变量
+
+*pmf=probability mass function*
+$$P(a)=P(X=a)$$
+$$P(X_{i})\geq 0\,and\, \sum_{i=1}^{\infty}P(X_{i})=1$$
+
+*CDF=culmulative distribution function*
+$$F(a)=P(X\leq a)=\sum_{x:x\leq}P(x)$$
+
+*Expected value*
+$$E(x)=\sum_{i=1}^{\infty}x_{i}P(x_{i})\quad \textrm{实际上是一种加权，是对分布的一种概括}$$
+
+* $E[g(x)]=\sum_{i}g(x_{i})P(x_{i})$  
+首先，我们套一个g(x)的目的是因为我们认为不同的人对于不同事件的重视程度是不同的，但一系列事件的发生概率分布是固定的（因此我们用g(x)之后还可以用P(xi)就是由于事件的不确定性是核心，我们只是更换了函数的取值），那我们就可以通过改变值域来定制每一个人的utility
+
+* $E(ax+b)=aE(x)+b$
+
+*Variance*
+
+*A random variable is entirely defined by its pmf but it's very useful to be able to summarize the essential properties of it through a few suitably defined measures*
+
+均值是一种描述分布的方式，但它无法描述离散程度。两个离散程度差异很大的随机变量，它们的均值可以是一样的。因此我们给出了方差定义。
+
+$$Var(X)=E[(X-\mu)^{2}]=E(X^{2})-[E(X)]^{2}$$
+$$Std(X)=\sqrt{Var(X)}$$
+
+* $Var(aX+b)=a^{2}Var(X)$
+
+**Bernoulli Distribution**
+
+它的sample space就是“实验成功”以及“实验失败”，X=1表示成功，X=0表示失败，从而构造R.V.
+$$P(X=1)=p,P(X=0)=1-p$$
+$$E(X)=p,Var(x)=p(1-p)$$
+
+**Binomial Distribution**
+
+Let X denote the # of success then we have $X=X_{1}+X_{2}+\cdots+X_{n}$ where $X_{i}$ is identical,independent distributed Bernoulli R.V. with probability p
+$$P(X=k)=C_{n}^{k}p^{k}(1-p)^{n-k}$$
+$$E(X)=np,Var(X)=np(1-p)$$
+
+> 证明均值有两种思路。一种是直接用计算公式$E(X)=\sum xP(x)$,然后计算就好了。另一种是从X的构成来思考，因为$X_{i}$是i.i.d.的，因此求均值可以拆开。  
+> 证明方差也是有两种思路，主要是针对$E(X^{2})$如何计算的问题。一种还是可以直接使用计算公式，$X^{2}$就相当于g(x)，另一种则使用构造新变量的方法。
+
+**Poisson Distribution**
+
+A discrete R.V. X taking values 0,1,2,... is said to be a Poisson R.V. with parameter $\lambda$,$\lambda>0$,if 
+$$P(i)=P(X=i)=e^{-\lambda}\frac{\lambda^{i}}{i!}$$
+$$\Rightarrow \sum_{i=1}^{\infty}P(i)=e^{-\lambda}\sum_{i=0}^{\infty}=e^{-\lambda}e^{\lambda}=1\quad\textrm{这是对于pmf的必然要求}$$
+
+This expresses the probability of a number of events occuring in a fixed period of time if these events occour with a known average rate $\lambda$.**首先，很多现象的分布都可以用它进行解释，比如电话中心每分钟的电话数、伦敦每年的谋杀案数目.....但是要注意的是这个$\lambda$，必须根据你所设的X的不同而不同。他表示的是你的fixed time的发生平均强度**
+
+eg：一小时有6辆公交车，如果你问5分钟内有可能来多少辆车，那么按照10分钟一辆车，则5分钟时间对应的$\lambda=0.5$，如果你问10分钟内有可能来多少辆车，那么对应的$\lambda=1$
+
+$$E(X)=\sum_{i=0}^{\infty}i\cdot e^{-\lambda}\frac{\lambda^{i}}{i!}=\sum_{i=1}^{\infty}i\cdot e^{-\lambda}\frac{\lambda^{i}}{i!}=\sum_{i=1}^{\infty}e^{-\lambda}\frac{\lambda\cdot\lambda^{i-1}}{(i-1)!}=\lambda\cdot\sum_{j=0}^{\infty}e^{-\lambda}\frac{\lambda^{j}}{j!}=\lambda$$
+
+$$Var(X)=E(X^{2})-[E(X)]^{2}=\sum_{i=0}^{\infty}i^{2}e^{-\lambda}\frac{\lambda^{i}}{i!}-\lambda^{2}=\lambda\cdot\sum_{j=0}^{\infty}(j+1)\cdot e^{-\lambda}\frac{\lambda^{j}}{j!}=\lambda\cdot E(X+1)-\lambda^{2}=\lambda$$
+
+> *Poisson as an approximation to Binomial*  
+> 当n非常大，p非常小使得np是一个较为适度的值时，Binomial(n,p)就可以很好地由poisson去近似。并且我们可以看到二项分布的均值为np，而二项分布的方差是np(1-p),都约等于$\lambda$
+
+**Geometric Distribution**
+
+考虑独立重复的Bernoulli实验，每一次成功概率为p。做实验直到有一次成功才停止。让X表示需要的实验次数。$X\in\{1,2,3,...\}$
+
+$$P(X=n)=(1-p)^{n-1}\cdot p$$
+
+> $\sum_{k=1}^{\infty}P(X=k)=\sum_{k=1}^{\infty}(1-p)^{k-1}\cdot p=p\cdot\sum_{k=1}^{\infty}(1-p)^{k-1}=1$ 符合pmf的要求
+
+$$E(X)=\sum_{k=1}^{\infty}k\cdot(1-p)^{k-1}\cdot p=p\cdot\sum_{k=1}^{\infty}[-(1-p)^{k}]^{'}=-p\cdot[\sum_{k=1}^{\infty}(1-p)^{k}]^{'}=\frac{1}{p}$$
+$$Var(X)=\frac{1-p}{p^{2}}$$
+
+> eg:买方便面送水浒卡，总共有n种卡片。定义$X_{k}$为在获得(k-1)张不同卡片之后，要想得到第k个不一样的卡片需要买的方便面的袋数。我们假设去商店买到任何一张卡片的概率是$\frac{1}{n}$。问想要获得n种卡片，平均要买多少包方便面？  
+> 解决逻辑：把问题细分到最底层，再反向一步步解决。而且题目已经提示得很明显了，$Y=X_{1}+X_{2}+X_{3}+...+X_{n}$,每一个X都是一个随机变量，我们就是要找$X_{k}$的分布。  
+> $X_{k}$服从几何分布，重要的是找到对应的$p_{k}$。$p_{k}=\frac{抽到不同于之前(k-1)张卡的可能数}{总共可能抽到的可能个数}=\frac{n-k+1}{n}$
+> $E(Y)=E(X_{1}+X_{2}+...+X_{n})=E(X_{1})+E(X_{2]})+...+E(X_{n})=\frac{1}{p_{1}}+\frac{1}{p_{2}}+...+\frac{1}{p_{n}}$
+
+**Hypergeometric Distribution**
+
+盒子里分别有黑球m个和白球(N-m)个，从N个球里不放回地抓n个，令X为黑球的个数。
+
+$$P(X=i)=\frac{C_{m}^{i}C_{N-m}^{n-i}}{C_{N}^{n}}$$
+$$E(X)=np$$
+$$Var(X)=np(1-p)[1-\frac{n-1}{N-1}]$$
+
+* 这种方法很适合于抽样中有两类，它们在整个N中分为m何N-m，你从中抽取n个，则你感兴趣的那一类抽出了多少个就满足这个分布。
+* 当m比n大很多时，放回与不放回近似。同时，从均值和方差可以看出当N很大时，它和二项分布的均值和方差近似。
+
+> eg1:Capture and Recapture Experiments
+> 我们可以人工构造超几何分布。在一块区域标记m个动物然后放回去区域中，这样整个区域的N个动物中有m个是已标记的，(N-m)个是未标记的。这时我们再去抓n个，则抓到的标记动物个数X服从Hyper(N,m,n).  
+> 这里的N为未知参数，而我们已知X的分布，显然可以用最大似然估计的方法来估计这个参数N  
+> $\Rightarrow$ 找到N使得$\,P(X=x_{0})=\frac{C_{m}^{x_{0}}C_{N-m}^{n-x_{0}}}{C_{N}^{n}}\,$最大化      
+> One can show that the maximum likelihood estimate is the largest integer value not exceeding $\frac{mn}{i}$
+
+> eg:两个编排人员审阅小说《龙族》，一个审出a个错别字，另一个人审出b个错别字，两个人审出的相同错别字为c个。请估计总错别字数。  
+> 解:总错别字数设为N，把第一个人审出的a个错别字当做标记，那么第二个人审出的b个错别字就相当于从这N个字里面抓b个，其中和第一个人相同的错别字数X服从Hyper(N,a,b)  
+> $P(X=i)=\frac{C_{a}^{i}C_{N-a}^{b-i}}{C_{N}^{b}}$  
+> 所以直接使用估计式得到$\Rightarrow\frac{ab}{c}$
+
+#Chapter 5 Continuous R.V.
+
+接着上一章的内容，R.V.的值域当然可以是*连续*，是*不可数尽*的，比如人的体重，等公交车的时间等等都是连续的值。
+
+##Definition of continuous R.V.
+
+*Formal definition:We say that X is a (real-valued) continuous R.V. if there exists a nonnegative function $f:\Re\rightarrow [0,\infty]$ such that for any set A of real number,*
+$$P(X\in A)=\int_{A}f(x)dx$$
+
+*f(x) is called the **probability density function(pdf)** of the R.V. X and associated **cumulative distribution function(cdf)** is*
+$$F(x)=P(X\leq x)=\int_{-\infty}^{x}f(t)dt$$
+
+*So we have*
+$$f(x)=\frac{dF(x)}{dx}$$
+
+> $\Rightarrow P(X\in\Re)=1=\int_{\Re}f(x)dx$ 这是pdf、pmf的必然要求
+
+1. $\Re$是X的值域
+2. 一定要记住X是一个特殊的函数，它的定义域是sample space所以具有随机性，而值域是$\Re$。而f(x)是X取某个值的概率密度，其实和离散时一样，它就好比某个outcome发生的概率。
+3. 对于$f(\cdot)$而言，$\Re$是它的定义域，$[0,+\infty]$是它的值域。
+
