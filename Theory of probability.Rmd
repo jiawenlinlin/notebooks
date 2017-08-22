@@ -308,5 +308,40 @@ $$f(x)=\frac{dF(x)}{dx}$$
 
 1. $\Re$是X的值域
 2. 一定要记住X是一个特殊的函数，它的定义域是sample space所以具有随机性，而值域是$\Re$。而f(x)是X取某个值的概率密度，其实和离散时一样，它就好比某个outcome发生的概率。
-3. 对于$f(\cdot)$而言，$\Re$是它的定义域，$[0,+\infty]$是它的值域。
+3. 对于$f(\cdot)$而言，$\Re$是它的定义域，$[0,+\infty]$是它的值域。f(x)本身不是概率，但是它刻画了概率（通过积分来刻画）。
+
+> 因为$P(X=x)=0$，所以$P(a\leq x\leq b)=P(a\leq x<b)=P(a<x\leq b)=P(a<x<b)$
+
+##几个典型连续分布
+
+**Uniform Distribution**
+
+We have c<d and $X\in[c,d]$
+
+$$f(x)=\frac{1}{d-c},\textrm{when x}\in[c,d]$$
+
+$$f(x)=0,otherwise$$
+
+$$E(X)=\int_{-\infty}^{\infty}x\cdot f(x)dx=\frac{1}{d-c}\int_{c}^{d}xdx=\frac{c+d}{2},E(X^{2})=\frac{c^{2}+d^{2}+cd}{3}$$
+
+$$Var(X)=E(x^{2})-[E(x)]^2=\frac{(d-c)^{2}}{12}$$
+
+**Exponential Distribution**
+
+We have $\lambda>0$ and $X\in[0,\infty)$
+
+$$f(x)=\lambda\cdot e^{-\lambda x},\textrm{when x}\in[0,\infty)$$
+
+$$f(x)=0,otherwise$$
+
+$$E(X)=\int_{-\infty}^{\infty}x\cdot f(x)=\lambda\int_{0}^{\infty}x\cdot e^{-\lambda x}=\frac{1}{\lambda}$$
+
+$$E(X^{2})=\int_{0}^{\infty}x^{2}\cdot f(x)=\lambda\int_{0}^{\infty}x^{2}e^{-\lambda x}=\frac{2}{\lambda^{2}}$$
+
+$$Var(X)=E(X^{2})-[E(X)]^{2}=\frac{1}{\lambda^{2}}$$
+
+*If the acerage rate of events is $\lambda$ in a given time interval,then it can be shown that the interval time between two events is a continuous R.V. with exponential distribution.*
+
+**Normal Distribution/Gaussion Distribution**
+
 

@@ -375,8 +375,27 @@ One can show that the maximum likelihood estimate is the largest integer value n
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(\Re\)</span>是X的值域</li>
 <li>一定要记住X是一个特殊的函数，它的定义域是sample space所以具有随机性，而值域是<span class="math inline">\(\Re\)</span>。而f(x)是X取某个值的概率密度，其实和离散时一样，它就好比某个outcome发生的概率。</li>
-<li>对于<span class="math inline">\(f(\cdot)\)</span>而言，<span class="math inline">\(\Re\)</span>是它的定义域，<span class="math inline">\([0,+\infty]\)</span>是它的值域。</li>
+<li>对于<span class="math inline">\(f(\cdot)\)</span>而言，<span class="math inline">\(\Re\)</span>是它的定义域，<span class="math inline">\([0,+\infty]\)</span>是它的值域。f(x)本身不是概率，但是它刻画了概率（通过积分来刻画）。</li>
 </ol>
+<blockquote>
+<p>因为<span class="math inline">\(P(X=x)=0\)</span>，所以<span class="math inline">\(P(a\leq x\leq b)=P(a\leq x&lt;b)=P(a&lt;x\leq b)=P(a&lt;x&lt;b)\)</span></p>
+</blockquote>
+</div>
+<div class="section level2">
+<h2>几个典型连续分布</h2>
+<p><strong>Uniform Distribution</strong></p>
+<p>We have c<d and $X\in[c,d]$ $$f(x)="\frac{1}{d-c},\textrm{when" x}\in[c,d]$$ $$f(x)="0,otherwise$$" $$E(X)="\int_{-\infty}^{\infty}x\cdot" f(x)dx="\frac{1}{d-c}\int_{c}^{d}xdx=\frac{c+d}{2},E(X^{2})=\frac{c^{2}+d^{2}+cd}{3}$$" $$Var(X)="E(x^{2})-[E(x)]^2=\frac{(d-c)^{2}}{12}$$" **Normal Distribution Gaussion Distribution** **Exponential Distribution** We have $\lambda>0$ and <span class="math inline">\(X\in[0,\infty)\)</span></p>
+<p><span class="math display">\[f(x)=\lambda\cdot e^{-\lambda x},\textrm{when x}\in[0,\infty)\]</span></p>
+<p><span class="math display">\[f(x)=0,otherwise\]</span></p>
+<p><span class="math display">\[E(X)=\int_{-\infty}^{\infty}x\cdot f(x)=\lambda\int_{0}^{\infty}x\cdot e^{-\lambda x}=\frac{1}{\lambda}\]</span></p>
+<p><span class="math display">\[E(X^{2})=\int_{0}^{\infty}x^{2}\cdot f(x)=\lambda\int_{0}^{\infty}x^{2}e^{-\lambda x}=\frac{2}{\lambda^{2}}\]</span></p>
+<p><span class="math display">\[Var(X)=E(X^{2})-[E(X)]^{2}=\frac{1}{\lambda^{2}}\]</span></p>
+<p><em>If the acerage rate of events is <span class="math inline">\(\lambda\)</span> in a given time interval,then it can be shown that the interval time between two events is a continuous R.V. with exponential distribution.</em></p>
+<p>dadfadf adfadf</p>
+<p>dafdafda</p>
+<p>dafasdfwef</p>
+<p>dafewfaefa eafa</p>
+<p>aefaef</p>
 </div>
 </div>
 
