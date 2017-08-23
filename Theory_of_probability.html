@@ -384,18 +384,80 @@ One can show that the maximum likelihood estimate is the largest integer value n
 <div class="section level2">
 <h2>几个典型连续分布</h2>
 <p><strong>Uniform Distribution</strong></p>
-<p>We have c<d and $X\in[c,d]$ $$f(x)="\frac{1}{d-c},\textrm{when" x}\in[c,d]$$ $$f(x)="0,otherwise$$" $$E(X)="\int_{-\infty}^{\infty}x\cdot" f(x)dx="\frac{1}{d-c}\int_{c}^{d}xdx=\frac{c+d}{2},E(X^{2})=\frac{c^{2}+d^{2}+cd}{3}$$" $$Var(X)="E(x^{2})-[E(x)]^2=\frac{(d-c)^{2}}{12}$$" **Normal Distribution Gaussion Distribution** **Exponential Distribution** We have $\lambda>0$ and <span class="math inline">\(X\in[0,\infty)\)</span></p>
+<p>We have <span class="math inline">\(c&lt;d\)</span> and <span class="math inline">\(X\in[c,d]\)</span></p>
+<p><span class="math display">\[f(x)=\frac{1}{d-c},\textrm{when x}\in[c,d]\]</span></p>
+<p><span class="math display">\[f(x)=0,otherwise\]</span></p>
+<p><span class="math display">\[E(X)=\int_{-\infty}^{\infty}x\cdot f(x)dx=\frac{1}{d-c}\int_{c}^{d}xdx=\frac{c+d}{2},E(X^{2})=\frac{c^{2}+d^{2}+cd}{3}\]</span></p>
+<p><span class="math display">\[Var(X)=E(x^{2})-[E(x)]^2=\frac{(d-c)^{2}}{12}\]</span></p>
+<p><strong>Exponential Distribution</strong></p>
+<p>We have <span class="math inline">\(\lambda&gt;0\)</span> and <span class="math inline">\(X\in[0,\infty)\)</span></p>
 <p><span class="math display">\[f(x)=\lambda\cdot e^{-\lambda x},\textrm{when x}\in[0,\infty)\]</span></p>
 <p><span class="math display">\[f(x)=0,otherwise\]</span></p>
 <p><span class="math display">\[E(X)=\int_{-\infty}^{\infty}x\cdot f(x)=\lambda\int_{0}^{\infty}x\cdot e^{-\lambda x}=\frac{1}{\lambda}\]</span></p>
 <p><span class="math display">\[E(X^{2})=\int_{0}^{\infty}x^{2}\cdot f(x)=\lambda\int_{0}^{\infty}x^{2}e^{-\lambda x}=\frac{2}{\lambda^{2}}\]</span></p>
 <p><span class="math display">\[Var(X)=E(X^{2})-[E(X)]^{2}=\frac{1}{\lambda^{2}}\]</span></p>
 <p><em>If the acerage rate of events is <span class="math inline">\(\lambda\)</span> in a given time interval,then it can be shown that the interval time between two events is a continuous R.V. with exponential distribution.</em></p>
-<p>dadfadf adfadf</p>
-<p>dafdafda</p>
-<p>dafasdfwef</p>
-<p>dafewfaefa eafa</p>
-<p>aefaef</p>
+<p><strong>Normal Distribution/Gaussion Distribution</strong></p>
+<p><span class="math display">\[f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}},x\in(-\infty,\infty),\sigma\in[0,\infty)\]</span></p>
+<blockquote>
+<p>写作<span class="math inline">\(X\sim(\mu,\sigma^{2})\)</span><br />
+<span class="math inline">\(\int_{-\infty}^{\infty}e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}dx=\sqrt{2\pi}\sigma\)</span></p>
+</blockquote>
+<p>正态分布本身是一个美丽的分布，它不仅是世界上绝大多数规律的展示，同时他还有很多性质。</p>
+<ol style="list-style-type: decimal">
+<li>Let X be a normal R.V. of parameters <span class="math inline">\((\mu,\sigma^{2})\)</span> and consider the new R.V. Y such that <span class="math inline">\(Y=aX+b\)</span> <span class="math display">\[\Rightarrow\, E(Y)=a\mu +b,Var(Y)=a^{2}\sigma^{2}\]</span> <span class="math display">\[Y\sim N(a\mu+b,a^{2}\sigma^{2})\]</span></li>
+</ol>
+<blockquote>
+<p>proof.<br />
+<span class="math inline">\(P(Y\leq y)=P(aX+b\leq y)=P(X\leq \frac{y-b}{a})=F_{X}(\frac{y-b}{a})\)</span><br />
+<span class="math inline">\(\therefore F_{Y}(y)=F_{X}(\frac{y-b}{a})\)</span><br />
+<span class="math inline">\(f_{Y}(y)=\frac{dF_{Y}(y)}{dy}=\frac{dF_{X}(\frac{y-b}{a})}{dy}=f_{X}(\frac{y-b}{a})\cdot\frac{1}{a}\)</span><br />
+<span class="math inline">\(\therefore f_{Y}(y)=\frac{1}{a}\cdot\frac{1}{\sqrt{2\pi\sigma}}\cdot e^{-\frac{(\frac{y-b}{a}-\mu)^{2}}{2\sigma^{2}}}=\frac{1}{\sqrt{2\pi}\sigma a}\cdot e^{-\frac{(y-b-\mu a)^{2}}{2\sigma^{2}a^{2}}}\)</span></p>
+</blockquote>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Standardizing<br />
+Let X a normal R.V. of mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^{2}\)</span> <span class="math display">\[Z=\frac{X-\mu}{\sigma}\sim N(0,1)是standard\,normal\,R.V. \]</span> <span class="math display">\[P(a\leq X\leq b)=P(\frac{a-\mu}{\sigma}\leq\frac{X-\mu}{\sigma}\leq\frac{b-\mu}{\sigma})=\Phi(\frac{b-\mu}{\sigma})-\Phi(\frac{a-\mu}{\sigma})\]</span></p></li>
+<li><p>CDF of <span class="math inline">\(X\sim N(0,1)\)</span> <span class="math display">\[\Phi(x)=P(X\leq x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x}e^{-\frac{t^{2}}{2}}dt\]</span></p></li>
+</ol>
+<blockquote>
+<p>对于<span class="math inline">\(\Phi(x)\)</span>,有<span class="math inline">\(\Phi(-x)=1-\Phi(x)\)</span></p>
+</blockquote>
+<ol start="4" style="list-style-type: decimal">
+<li>3<span class="math inline">\(\sigma\)</span>原则 <span class="math display">\[P(\mu-\sigma\leq X\leq \mu+\sigma)\approx0.68\]</span> <span class="math display">\[P(\mu-2\sigma\leq X\leq \mu+2\sigma)\approx0.95\]</span> <span class="math display">\[P(\mu-3\sigma\leq X\leq \mu+3\sigma)\approx0.997\]</span></li>
+</ol>
+<p>这里的X是服从均值为<span class="math inline">\(\mu\)</span>方差为<span class="math inline">\(\sigma^{2}\)</span>的正态分布，因此通过标准化之后就可以查表得到结果。这个原则告诉我们一个正态分布的随机变量其取值在3个标准差之内的概率几乎就是1。因此如果出现了超出3<span class="math inline">\(\sigma\)</span>的值，那么我们认为有问题。</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Normal approximation to the Binomial distribution<br />
+之前我们说过用泊松去近似二项分布，现在可以用正态分布去近似二项分布</li>
+</ol>
+<p><span class="math display">\[As\,n\rightarrow\infty,with\,\mu=np\,\,and\,\, \sigma^{2}=np(1-p),X\sim Bin(n,p)\]</span> <span class="math display">\[P(a\leq X\leq b)=P(\frac{a-np}{\sqrt{np(1-p)}}\leq\frac{X-np}{\sqrt{np(1-p)}}\leq\frac{b-np}{\sqrt{np(1-p)}})\approx\Phi()-\Phi()\]</span></p>
+<p>用正态的话并不要求p很小，只要均值和方差是有限值即可。因此相对来说会比用泊松来近似的条件要求的少。</p>
+<blockquote>
+<ul>
+<li><span class="math inline">\(E(x)=arg_{a}\,min\,E(X-a)^{2}\)</span><br />
+</li>
+<li><span class="math inline">\(m(x)=arg_{a}\,min\,E|X-a|\)</span><br />
+The median of a continuous R.V. X of pdf f(x) is the number such that <span class="math inline">\(\int_{-\infty}^{m}f(x)dx=\int_{m}^{\infty}f(x)dx=\frac{1}{2}\Leftrightarrow P(X\leq m)=P(X\geq m)=\frac{1}{2}\)</span></li>
+</ul>
+</blockquote>
+</div>
+<div id="other-continuous-distribution" class="section level2">
+<h2>Other continuous distribution</h2>
+<p><strong>Log-normal Distribution</strong></p>
+<p>X follow a log-normal <span class="math inline">\((\mu,\sigma)\)</span> Distribution if its pdf <span class="math display">\[f_{X}(x)=\frac{1}{\sqrt{2\pi}\sigma}\frac{1}{x}e^{-\frac{(logX-\mu)^{2}}{2\sigma^{2}}},\quad x\in(0,\infty)\]</span> <span class="math display">\[f_{X}(x)=0,\quad otherwise\]</span></p>
+<blockquote>
+<p>If X follows a log-normal<span class="math inline">\((\mu,\sigma)\)</span>,then <span class="math inline">\(logX\sim N(\mu,\sigma^{2})\)</span></p>
+</blockquote>
+<p><strong>Gamma Distribution</strong></p>
+<p><strong>Beta Distribution</strong></p>
+</div>
+<div id="change-of-variables" class="section level2">
+<h2>Change of variables</h2>
+<p>一般来说就是，给出X的pdf，然后要你求<span class="math inline">\(Y=g(X)\)</span>的pdf</p>
+<blockquote>
+<p>永远从CDF入手，先找<span class="math inline">\(F_{Y}(y)=P(Y\leq y)=P(g(X)\leq y)=P(X\leq g^{-1}(y))\)</span><br />
+再运用<span class="math inline">\(f(y)=\frac{dF_{Y}(y)}{dy}\)</span>求解</p>
+</blockquote>
 </div>
 </div>
 

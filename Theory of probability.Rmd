@@ -316,7 +316,7 @@ $$f(x)=\frac{dF(x)}{dx}$$
 
 **Uniform Distribution**
 
-We have c<d and $X\in[c,d]$
+We have $c<d$ and $X\in[c,d]$
 
 $$f(x)=\frac{1}{d-c},\textrm{when x}\in[c,d]$$
 
@@ -344,4 +344,70 @@ $$Var(X)=E(X^{2})-[E(X)]^{2}=\frac{1}{\lambda^{2}}$$
 
 **Normal Distribution/Gaussion Distribution**
 
+$$f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}},x\in(-\infty,\infty),\sigma\in[0,\infty)$$
 
+> 写作$X\sim(\mu,\sigma^{2})$  
+> $\int_{-\infty}^{\infty}e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}dx=\sqrt{2\pi}\sigma$
+
+正态分布本身是一个美丽的分布，它不仅是世界上绝大多数规律的展示，同时他还有很多性质。
+
+1. Let X be a normal R.V. of parameters $(\mu,\sigma^{2})$ and consider the new R.V. Y such that $Y=aX+b$
+$$\Rightarrow\, E(Y)=a\mu +b,Var(Y)=a^{2}\sigma^{2}$$
+$$Y\sim N(a\mu+b,a^{2}\sigma^{2})$$
+
+> proof.  
+> $P(Y\leq y)=P(aX+b\leq y)=P(X\leq \frac{y-b}{a})=F_{X}(\frac{y-b}{a})$  
+> $\therefore F_{Y}(y)=F_{X}(\frac{y-b}{a})$  
+> $f_{Y}(y)=\frac{dF_{Y}(y)}{dy}=\frac{dF_{X}(\frac{y-b}{a})}{dy}=f_{X}(\frac{y-b}{a})\cdot\frac{1}{a}$  
+> $\therefore f_{Y}(y)=\frac{1}{a}\cdot\frac{1}{\sqrt{2\pi\sigma}}\cdot e^{-\frac{(\frac{y-b}{a}-\mu)^{2}}{2\sigma^{2}}}=\frac{1}{\sqrt{2\pi}\sigma a}\cdot e^{-\frac{(y-b-\mu a)^{2}}{2\sigma^{2}a^{2}}}$ 
+
+2. Standardizing  
+Let X a normal R.V. of mean $\mu$ and variance $\sigma^{2}$
+$$Z=\frac{X-\mu}{\sigma}\sim N(0,1)是standard\,normal\,R.V. $$
+$$P(a\leq X\leq b)=P(\frac{a-\mu}{\sigma}\leq\frac{X-\mu}{\sigma}\leq\frac{b-\mu}{\sigma})=\Phi(\frac{b-\mu}{\sigma})-\Phi(\frac{a-\mu}{\sigma})$$
+
+3. CDF of $X\sim N(0,1)$
+$$\Phi(x)=P(X\leq x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x}e^{-\frac{t^{2}}{2}}dt$$
+
+> 对于$\Phi(x)$,有$\Phi(-x)=1-\Phi(x)$
+
+4. 3$\sigma$原则
+$$P(\mu-\sigma\leq X\leq \mu+\sigma)\approx0.68$$
+$$P(\mu-2\sigma\leq X\leq \mu+2\sigma)\approx0.95$$
+$$P(\mu-3\sigma\leq X\leq \mu+3\sigma)\approx0.997$$
+
+这里的X是服从均值为$\mu$方差为$\sigma^{2}$的正态分布，因此通过标准化之后就可以查表得到结果。这个原则告诉我们一个正态分布的随机变量其取值在3个标准差之内的概率几乎就是1。因此如果出现了超出3$\sigma$的值，那么我们认为有问题。
+
+5. Normal approximation to the Binomial distribution  
+之前我们说过用泊松去近似二项分布，现在可以用正态分布去近似二项分布
+
+$$As\,n\rightarrow\infty,with\,\mu=np\,\,and\,\, \sigma^{2}=np(1-p),X\sim Bin(n,p)$$
+$$P(a\leq X\leq b)=P(\frac{a-np}{\sqrt{np(1-p)}}\leq\frac{X-np}{\sqrt{np(1-p)}}\leq\frac{b-np}{\sqrt{np(1-p)}})\approx\Phi()-\Phi()$$
+
+用正态的话并不要求p很小，只要均值和方差是有限值即可。因此相对来说会比用泊松来近似的条件要求的少。
+
+> * $E(x)=arg_{a}\,min\,E(X-a)^{2}$  
+> * $m(x)=arg_{a}\,min\,E|X-a|$   
+> The median of a continuous R.V. X of pdf f(x) is the number such that $\int_{-\infty}^{m}f(x)dx=\int_{m}^{\infty}f(x)dx=\frac{1}{2}\Leftrightarrow P(X\leq m)=P(X\geq m)=\frac{1}{2}$ 
+
+
+##Other continuous distribution
+
+**Log-normal Distribution**
+
+X follow a log-normal $(\mu,\sigma)$ Distribution if its pdf
+$$f_{X}(x)=\frac{1}{\sqrt{2\pi}\sigma}\frac{1}{x}e^{-\frac{(logX-\mu)^{2}}{2\sigma^{2}}},\quad x\in(0,\infty)$$
+$$f_{X}(x)=0,\quad otherwise$$
+
+> If X follows a log-normal$(\mu,\sigma)$,then $logX\sim N(\mu,\sigma^{2})$
+
+**Gamma Distribution**
+
+**Beta Distribution**
+
+##Change of variables
+
+一般来说就是，给出X的pdf，然后要你求$Y=g(X)$的pdf
+
+> 永远从CDF入手，先找$F_{Y}(y)=P(Y\leq y)=P(g(X)\leq y)=P(X\leq g^{-1}(y))$  
+> 再运用$f(y)=\frac{dF_{Y}(y)}{dy}$求解
