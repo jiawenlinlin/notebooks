@@ -422,7 +422,7 @@ $$f_{X}(x)=0,\quad otherwise$$
 3. 两个变量（这两个变量是另外两个已知变量的函数）的联合分布
 4. 条件分布
 
-**Jointly Distributed R.V.**
+##Jointly Distributed R.V.##
 
 Assume we have two R.V. X and Y,then we define the joint CDF
 $$F_{X,Y}(a,b)=P(X\leq a,Y\leq b)$$
@@ -445,3 +445,90 @@ $$P\{(X,Y)\in C\}=\int\int_{(X,Y)\in C}f(x,y)dxdy$$
 In particular we have
 $$F(a,b)=P(X\leq a,Y\leq b)=\int_{-\infty}^{a}\int_{-\infty}^{b}f(x,y)dydx$$
 
+Hence,when we differentiate,we obtain
+$$f(x,y)=\frac{\partial^{2}F(x,y)}{\partial x\partial y}$$
+
+有了f(x,y)我们就能对一开始描述的cdf用积分来描述：
+$$F_{X}(a)=lim_{b\rightarrow\infty}F(a,b)=\int_{-\infty}^{a}\int_{-\infty}^{\infty}f(x,y)dydx$$
+$$f_{X}(x)=\infty_{-\infty}^{\infty}f(x,y)dy$$
+$$f_{Y}(y)=\infty_{-\infty}^{\infty}f(x,y)dx$$
+
+> 对于f(x)、f(y)的这种形式，可以理解为是变上限积分求导的结果。
+
+##Independent R.v.##
+
+The R.V. X and Y are said to be independent if,for any sets A and B we have
+$$P(x\in A,Y\in B)=P(X\in A)P(Y\in B)$$
+$$\Leftrightarrow\quad F(x,y)=F_{X}(x)F_{Y}(y)$$
+$$\Leftrightarrow\quad f(x,y)=f_{X}(x)f_{Y}(y)$$
+
+> 独立带来的最直接也是最重要的效果就是：联合分布是边际分布的乘积
+
+
+##Sum of Independent R.V.##
+
+我们其实就是要求出Z=X+Y或者再复杂一些的变量加减运算后得到的新变量的分布。
+
+对于离散变量，求pmf。我们以Z=X+Y为例
+
+因为当Z=z时，如果Y=y则必有X=z-y，且
+
+$$P(X=z-y\cap Y=y)=P(X=z-y)P(Y=y)$$
+
+又因为Y可以取其他值，每当Y取不同值，X也要对应变化
+$$\Rightarrow P_{Z}(z)=\sum_{y=-\infty}^{\infty}P_{X}(z-y)P_{Y}(y)$$
+
+对于连续变量求pdf，我们仍然以Z=X+Y为例
+
+*对于求pdf，我们总是从CDF开始求起*
+
+$$F_{Z}(z)=P(Z\leq z)=P(X+Y\leq z)=P(X\leq z-Y)=\int_{-\infty}^{\infty}\int_{-\infty}^{z-y}f(x,y)dxdy=\int_{-\infty}^{\infty}\int_{-\infty}^{z-y}f(x)f(y)dxdy$$
+
+$$\Rightarrow\quad F_{Z}(z)=\int_{-\infty}^{\infty}f_{Y}(y)\int_{-\infty}^{z-y}f_{X}(x)dxdy=\int_{-\infty}^{\infty}f_{Y}(y)F_{X}(z-y)dy$$
+$$\therefore\quad f_{Z}(z)=\frac{dF_{Z}(z)}{dz}=\int_{-\infty}^{\infty}f_{Y}(y)f_{X}(z-y)dy$$
+
+> 这个最终的式子有一个名字：卷积。卷积的定义——两个变量在某范围内相乘后求和的结果，它是z的函数，y被积分掉了。  
+> 我们以后会经常使用卷积，主要就是用在这里。但是不要每次都一开始就把f()打开了带进去来求，而是直接使用上面这个式子即可。我想说明的是，这个式子总是正确的，不论f(x)、f(y)是怎样的。因为，在推导过程中我们得到的那个F(z-y)永远是对的，虽然我们写着是从负无穷积上来，但是因为F()是一个不递减的函数，所以积分区域选到多余的地方也没关系，多余的地方f()=0。我们所要讨论的是，在什么时候$f_{Y}(y)$、$f_{X}(z-y)$可以被打开，那么就对应取y的区间就好。
+
+**sum of Poisson R.V.**
+
+$X\sim Poisson(\lambda)$,$Y\sim Poisson(\lambda')$,Z=X+Y
+
+$$P_{Z}(z)=\sum_{y=-\infty}^{\infty}P_{X}(z-y)P_{Y}(y)=\sum_{y=0}^{z}P_{X}(z-y)P_{Y}(y)\quad,因为(z-y)大于0且y大于0时才有正概率$$
+$$\Rightarrow\quad P_{Z}(z)=\sum_{y=0}^{z}e^{-\lambda}\frac{\lambda^{z-y}}{(z-y)!}e^{-\lambda'}\frac{(\lambda')^{y}}{y!}=e^{-(\lambda+\lambda')}\sum_{y=0}^{z}\frac{\lambda^{z-y}\cdot(\lambda')^{y}}{(z-y)!y!}$$
+$$\therefore\quad P_{Z}(z)=e^{-(\lambda+\lambda')}\frac{(\lambda+\lambda')^z}{z
+!}$$
+
+所以$Z\sim Poisson(\lambda+\lambda')$
+
+**sum of Uniform R.V.**
+
+$f_{X}(x)=1_{[0,1]}(x)$,$f_{Y}(y)=1_{[0,1]}(y)$,Z=X+Y
+
+$$P(Z\leq z)=P(X\leq z-Y)=\int_{-\infty}^{\infty}f_{X}(z-y)f_{Y}(y)dy=\int_{0}^{1}f_{X}(z-y)dy$$
+
+现在的问题就是什么时候我们可以打开这个f()，所以我们必须判断(z-y)的值什么时候能够在[0,1]中。
+
+$$当Z\in [0,1],\quad 0\leq z-y\leq 1\quad\Rightarrow\quad z-1\leq y\leq z$$
+$$\int_{0}^{1}f_{X}(z-y)dy=\int_{0}^{z}dy=z$$
+$$当Z\in (1,2],\quad 0\leq z-y\leq 1\quad\Rightarrow\quad z-1\leq y\leq z$$
+$$\int_{0}^{1}f_{X}(z-y)dy=\int_{z-1}^{1}dy=2-z$$
+
+**sum of Exponential R.V.**
+
+Consider two independent exponential R.V. X,Y of parameter $\lambda$,Z=X+Y
+
+For $z<0$,$f_{Z}(z)=0$,for $z>0$
+
+$$f_{Z}(z)=\int_{-\infty}^{\infty}f_{X}(z-y)f_{Y}(y)dy=\int_{0}^{\infty}f_{X}(z-y)\lambda e^{-\lambda x}dy=\int_{0}^{z}\lambda e^{-\lambda(z-y)}\lambda e^{-\lambda x}=\lambda^{2}z\cdot e^{-\lambda z}$$
+
+> 可以看到，我们分两次打开了f()，两次分别把y的取值压缩到(0,z)
+
+**sum of Gaussian R.V.**
+
+First consider two standard normal R.V. X and Y,Z=X+Y
+
+$$f_{Z}(z)=\int_{-\infty}^{\infty}f_{X}(z-y)f_{Y}(y)dy=\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}e^{\frac{(z-y)^{2}}{2}}\frac{1}{\sqrt{2\pi}}e^{-\frac{y^{2}}{2}}=\frac{1}{\sqrt{2\pi}\sqrt{2}}e^{-\frac{z^2}{4}}$$
+$$\therefore\quad Z\sim N(0,2)$$
+
+Generalization:If X is an normal R.V.$(\mu_{x},\sigma_{x}^{2})$ and Y is an normal R.V.$(\mu_{y},\sigma_{y}^{2})$ where X and Y are independent then Z is a normal R.V.$(\mu_{x}+\mu_{y},\sigma_{x}^{2}+\sigma_{y}^{2})$

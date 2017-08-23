@@ -469,7 +469,8 @@ The median of a continuous R.V. X of pdf f(x) is the number such that <span clas
 <li>两个变量（这两个变量是另外两个已知变量的函数）的联合分布</li>
 <li>条件分布</li>
 </ol>
-<p><strong>Jointly Distributed R.V.</strong></p>
+<div id="jointly-distributed-r.v." class="section level2">
+<h2>Jointly Distributed R.V.</h2>
 <p>Assume we have two R.V. X and Y,then we define the joint CDF <span class="math display">\[F_{X,Y}(a,b)=P(X\leq a,Y\leq b)\]</span> <span class="math display">\[F_{X}(a)=P(X\leq a,Y\leq\infty)=lim_{b\rightarrow\infty}F_{X,Y}(a,b)\]</span> <span class="math display">\[F_{Y}(b)=P(X\leq\infty,Y\leq b)=lim_{a\rightarrow\infty}F(a,b)\]</span></p>
 <p>For discrete variables,we work directly with the <em>joint pmf</em> <span class="math display">\[P(x,y)=P(X=x,Y=y)\]</span> from which we obtain <span class="math display">\[P_{X}(x)=\sum_{y}P(x,y),\quad P_{Y}(y)=\sum_{x}P(x,y)\]</span></p>
 <blockquote>
@@ -481,6 +482,56 @@ The median of a continuous R.V. X of pdf f(x) is the number such that <span clas
 你会发现我们永远都是先定义CDF再定义pdf，因为CDF具有概率的意义，而pdf只是对概率的刻画，它是概率密度，cdf与pdf是通过积分连接的，从而决定了F(x,y)与f(x,y)的原函数与导函数之间的关系。</p>
 </blockquote>
 <p>In particular we have <span class="math display">\[F(a,b)=P(X\leq a,Y\leq b)=\int_{-\infty}^{a}\int_{-\infty}^{b}f(x,y)dydx\]</span></p>
+<p>Hence,when we differentiate,we obtain <span class="math display">\[f(x,y)=\frac{\partial^{2}F(x,y)}{\partial x\partial y}\]</span></p>
+<p>有了f(x,y)我们就能对一开始描述的cdf用积分来描述： <span class="math display">\[F_{X}(a)=lim_{b\rightarrow\infty}F(a,b)=\int_{-\infty}^{a}\int_{-\infty}^{\infty}f(x,y)dydx\]</span> <span class="math display">\[f_{X}(x)=\infty_{-\infty}^{\infty}f(x,y)dy\]</span> <span class="math display">\[f_{Y}(y)=\infty_{-\infty}^{\infty}f(x,y)dx\]</span></p>
+<blockquote>
+<p>对于f(x)、f(y)的这种形式，可以理解为是变上限积分求导的结果。</p>
+</blockquote>
+</div>
+<div id="independent-r.v." class="section level2">
+<h2>Independent R.v.</h2>
+<p>The R.V. X and Y are said to be independent if,for any sets A and B we have <span class="math display">\[P(x\in A,Y\in B)=P(X\in A)P(Y\in B)\]</span> <span class="math display">\[\Leftrightarrow\quad F(x,y)=F_{X}(x)F_{Y}(y)\]</span> <span class="math display">\[\Leftrightarrow\quad f(x,y)=f_{X}(x)f_{Y}(y)\]</span></p>
+<blockquote>
+<p>独立带来的最直接也是最重要的效果就是：联合分布是边际分布的乘积</p>
+</blockquote>
+</div>
+<div id="sum-of-independent-r.v." class="section level2">
+<h2>Sum of Independent R.V.</h2>
+<p>我们其实就是要求出Z=X+Y或者再复杂一些的变量加减运算后得到的新变量的分布。</p>
+<p>对于离散变量，求pmf。我们以Z=X+Y为例</p>
+<p>因为当Z=z时，如果Y=y则必有X=z-y，且</p>
+<p><span class="math display">\[P(X=z-y\cap Y=y)=P(X=z-y)P(Y=y)\]</span></p>
+<p>又因为Y可以取其他值，每当Y取不同值，X也要对应变化 <span class="math display">\[\Rightarrow P_{Z}(z)=\sum_{y=-\infty}^{\infty}P_{X}(z-y)P_{Y}(y)\]</span></p>
+<p>对于连续变量求pdf，我们仍然以Z=X+Y为例</p>
+<p><em>对于求pdf，我们总是从CDF开始求起</em></p>
+<p><span class="math display">\[F_{Z}(z)=P(Z\leq z)=P(X+Y\leq z)=P(X\leq z-Y)=\int_{-\infty}^{\infty}\int_{-\infty}^{z-y}f(x,y)dxdy=\int_{-\infty}^{\infty}\int_{-\infty}^{z-y}f(x)f(y)dxdy\]</span></p>
+<p><span class="math display">\[\Rightarrow\quad F_{Z}(z)=\int_{-\infty}^{\infty}f_{Y}(y)\int_{-\infty}^{z-y}f_{X}(x)dxdy=\int_{-\infty}^{\infty}f_{Y}(y)F_{X}(z-y)dy\]</span> <span class="math display">\[\therefore\quad f_{Z}(z)=\frac{dF_{Z}(z)}{dz}=\int_{-\infty}^{\infty}f_{Y}(y)f_{X}(z-y)dy\]</span></p>
+<blockquote>
+<p>这个最终的式子有一个名字：卷积。卷积的定义——两个变量在某范围内相乘后求和的结果，它是z的函数，y被积分掉了。<br />
+我们以后会经常使用卷积，主要就是用在这里。但是不要每次都一开始就把f()打开了带进去来求，而是直接使用上面这个式子即可。我想说明的是，这个式子总是正确的，不论f(x)、f(y)是怎样的。因为，在推导过程中我们得到的那个F(z-y)永远是对的，虽然我们写着是从负无穷积上来，但是因为F()是一个不递减的函数，所以积分区域选到多余的地方也没关系，多余的地方f()=0。我们所要讨论的是，在什么时候<span class="math inline">\(f_{Y}(y)\)</span>、<span class="math inline">\(f_{X}(z-y)\)</span>可以被打开，那么就对应取y的区间就好。</p>
+</blockquote>
+<p><strong>sum of Poisson R.V.</strong></p>
+<p><span class="math inline">\(X\sim Poisson(\lambda)\)</span>,<span class="math inline">\(Y\sim Poisson(\lambda')\)</span>,Z=X+Y</p>
+<p><span class="math display">\[P_{Z}(z)=\sum_{y=-\infty}^{\infty}P_{X}(z-y)P_{Y}(y)=\sum_{y=0}^{z}P_{X}(z-y)P_{Y}(y)\quad,因为(z-y)大于0且y大于0时才有正概率\]</span> <span class="math display">\[\Rightarrow\quad P_{Z}(z)=\sum_{y=0}^{z}e^{-\lambda}\frac{\lambda^{z-y}}{(z-y)!}e^{-\lambda'}\frac{(\lambda')^{y}}{y!}=e^{-(\lambda+\lambda')}\sum_{y=0}^{z}\frac{\lambda^{z-y}\cdot(\lambda')^{y}}{(z-y)!y!}\]</span> <span class="math display">\[\therefore\quad P_{Z}(z)=e^{-(\lambda+\lambda')}\frac{(\lambda+\lambda')^z}{z
+!}\]</span></p>
+<p>所以<span class="math inline">\(Z\sim Poisson(\lambda+\lambda')\)</span></p>
+<p><strong>sum of Uniform R.V.</strong></p>
+<p><span class="math inline">\(f_{X}(x)=1_{[0,1]}(x)\)</span>,<span class="math inline">\(f_{Y}(y)=1_{[0,1]}(y)\)</span>,Z=X+Y</p>
+<p><span class="math display">\[P(Z\leq z)=P(X\leq z-Y)=\int_{-\infty}^{\infty}f_{X}(z-y)f_{Y}(y)dy=\int_{0}^{1}f_{X}(z-y)dy\]</span></p>
+<p>现在的问题就是什么时候我们可以打开这个f()，所以我们必须判断(z-y)的值什么时候能够在[0,1]中。</p>
+<p><span class="math display">\[当Z\in [0,1],\quad 0\leq z-y\leq 1\quad\Rightarrow\quad z-1\leq y\leq z\]</span> <span class="math display">\[\int_{0}^{1}f_{X}(z-y)dy=\int_{0}^{z}dy=z\]</span> <span class="math display">\[当Z\in (1,2],\quad 0\leq z-y\leq 1\quad\Rightarrow\quad z-1\leq y\leq z\]</span> <span class="math display">\[\int_{0}^{1}f_{X}(z-y)dy=\int_{z-1}^{1}dy=2-z\]</span></p>
+<p><strong>sum of Exponential R.V.</strong></p>
+<p>Consider two independent exponential R.V. X,Y of parameter <span class="math inline">\(\lambda\)</span>,Z=X+Y</p>
+<p>For <span class="math inline">\(z&lt;0\)</span>,<span class="math inline">\(f_{Z}(z)=0\)</span>,for <span class="math inline">\(z&gt;0\)</span></p>
+<p><span class="math display">\[f_{Z}(z)=\int_{-\infty}^{\infty}f_{X}(z-y)f_{Y}(y)dy=\int_{0}^{\infty}f_{X}(z-y)\lambda e^{-\lambda x}dy=\int_{0}^{z}\lambda e^{-\lambda(z-y)}\lambda e^{-\lambda x}=\lambda^{2}z\cdot e^{-\lambda z}\]</span></p>
+<blockquote>
+<p>可以看到，我们分两次打开了f()，两次分别把y的取值压缩到(0,z)</p>
+</blockquote>
+<p><strong>sum of Gaussian R.V.</strong></p>
+<p>First consider two standard normal R.V. X and Y,Z=X+Y</p>
+<p><span class="math display">\[f_{Z}(z)=\int_{-\infty}^{\infty}f_{X}(z-y)f_{Y}(y)dy=\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi}}e^{\frac{(z-y)^{2}}{2}}\frac{1}{\sqrt{2\pi}}e^{-\frac{y^{2}}{2}}=\frac{1}{\sqrt{2\pi}\sqrt{2}}e^{-\frac{z^2}{4}}\]</span> <span class="math display">\[\therefore\quad Z\sim N(0,2)\]</span></p>
+<p>Generalization:If X is an normal R.V.<span class="math inline">\((\mu_{x},\sigma_{x}^{2})\)</span> and Y is an normal R.V.<span class="math inline">\((\mu_{y},\sigma_{y}^{2})\)</span> where X and Y are independent then Z is a normal R.V.<span class="math inline">\((\mu_{x}+\mu_{y},\sigma_{x}^{2}+\sigma_{y}^{2})\)</span></p>
+</div>
 </div>
 
 
