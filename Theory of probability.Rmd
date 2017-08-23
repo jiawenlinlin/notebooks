@@ -405,9 +405,43 @@ $$f_{X}(x)=0,\quad otherwise$$
 
 **Beta Distribution**
 
-##Change of variables
+##Change of known variable
 
 一般来说就是，给出X的pdf，然后要你求$Y=g(X)$的pdf
 
 > 永远从CDF入手，先找$F_{Y}(y)=P(Y\leq y)=P(g(X)\leq y)=P(X\leq g^{-1}(y))$  
 > 再运用$f(y)=\frac{dF_{Y}(y)}{dy}$求解
+
+
+#Chapter 6 Jointly Distributed R.V.
+
+这一章的逻辑顺序是：
+
+1. 由*单个变量分布*进入到探讨*两个变量的联合分布*
+2. *sum of independent R.V.s的分布*（这是一个单独的变量）
+3. 两个变量（这两个变量是另外两个已知变量的函数）的联合分布
+4. 条件分布
+
+**Jointly Distributed R.V.**
+
+Assume we have two R.V. X and Y,then we define the joint CDF
+$$F_{X,Y}(a,b)=P(X\leq a,Y\leq b)$$
+$$F_{X}(a)=P(X\leq a,Y\leq\infty)=lim_{b\rightarrow\infty}F_{X,Y}(a,b)$$
+$$F_{Y}(b)=P(X\leq\infty,Y\leq b)=lim_{a\rightarrow\infty}F(a,b)$$
+
+For discrete variables,we work directly with the *joint pmf*
+$$P(x,y)=P(X=x,Y=y)$$
+from which we obtain
+$$P_{X}(x)=\sum_{y}P(x,y),\quad P_{Y}(y)=\sum_{x}P(x,y)$$
+
+> 如何理解这个joint？实际上就是用了“且”的表示方法，所以当我们想只要单个变量的时候我们就把另一个变量的所有取值可能都取了，就得到单个变量的了（这实际上就是贝叶斯公式那里的思想）。
+
+If both X and Y are jointly continuous,then their *joint pdf* is a non-negative function f(x,y) such that for any set C
+$$P\{(X,Y)\in C\}=\int\int_{(X,Y)\in C}f(x,y)dxdy$$
+
+> 首先我们想象一下这个pdf，它不同于一元情况下的pdf，因为在一元下y=f(x)是一个二维空间，所以我们如果积分积出来的是面积，并且整个面积和为1；而现在是二元情况，那么这时候z=f(x,y)是一个三维空间，我们积分积出来的是体积，并且整个体积为1。  
+> 你会发现我们永远都是先定义CDF再定义pdf，因为CDF具有概率的意义，而pdf只是对概率的刻画，它是概率密度，cdf与pdf是通过积分连接的，从而决定了F(x,y)与f(x,y)的原函数与导函数之间的关系。
+
+In particular we have
+$$F(a,b)=P(X\leq a,Y\leq b)=\int_{-\infty}^{a}\int_{-\infty}^{b}f(x,y)dydx$$
+
