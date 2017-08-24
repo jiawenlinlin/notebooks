@@ -166,8 +166,14 @@ $$P(E|F)=P(E) and P(F|E)=P(F)$$
 > 如果E和F独立，则E和$F^{c}$也独立。（用贝叶斯公式很容易证明）
 
 *We say that three events E,F,G are independent,if*
-$$\nearrow P(E\cap F\cap G)=P(E)P(F)P(G)$$
-$$\searrow P(E\cap F)=P(E)P(F),P(E\cap G)=P(E)P(G),P(F\cap G)=P(F)P(G)$$
+$$
+\left\{
+\begin{array}{11}
+P(E\cap F\cap G)=P(E)P(F)P(G)\\
+P(E\cap F)=P(E)P(F),P(E\cap G)=P(E)P(G),P(F\cap G)=P(F)P(G)\\
+\end{array}
+\right.
+$$
 *更一般的说，我们如果要说明n个事件独立，则要求这n个事件两两独立，三三独立，....，一直到n个事件独立。*
 
 *We say that the events $T_{1},T_{2},T_{3}...T_{n}$ are conditionally independent given E(respectively $E^{c}$) if for any positive integer $2\leq r\leq n$,we have *
@@ -318,9 +324,14 @@ $$f(x)=\frac{dF(x)}{dx}$$
 
 We have $c<d$ and $X\in[c,d]$
 
-$$f(x)=\frac{1}{d-c},\textrm{when x}\in[c,d]$$
-
-$$f(x)=0,otherwise$$
+$$f(x)=
+\left\{
+\begin{array}{11}
+\frac{1}{d-c} & \textrm{when x}\in[c,d]\\
+0 & otherwise\\
+\end{array}
+\right.
+$$
 
 $$E(X)=\int_{-\infty}^{\infty}x\cdot f(x)dx=\frac{1}{d-c}\int_{c}^{d}xdx=\frac{c+d}{2},E(X^{2})=\frac{c^{2}+d^{2}+cd}{3}$$
 
@@ -330,9 +341,14 @@ $$Var(X)=E(x^{2})-[E(x)]^2=\frac{(d-c)^{2}}{12}$$
 
 We have $\lambda>0$ and $X\in[0,\infty)$
 
-$$f(x)=\lambda\cdot e^{-\lambda x},\textrm{when x}\in[0,\infty)$$
-
-$$f(x)=0,otherwise$$
+$$f(x)=
+\left\{
+\begin{array}{11}
+\lambda\cdot e^{-\lambda x} & \textrm{when x}\in[0,\infty)\\
+0 & otherwise\\
+\end{array}
+\right.
+$$
 
 $$E(X)=\int_{-\infty}^{\infty}x\cdot f(x)=\lambda\int_{0}^{\infty}x\cdot e^{-\lambda x}=\frac{1}{\lambda}$$
 
@@ -396,8 +412,14 @@ $$P(a\leq X\leq b)=P(\frac{a-np}{\sqrt{np(1-p)}}\leq\frac{X-np}{\sqrt{np(1-p)}}\
 **Log-normal Distribution**
 
 X follow a log-normal $(\mu,\sigma)$ Distribution if its pdf
-$$f_{X}(x)=\frac{1}{\sqrt{2\pi}\sigma}\frac{1}{x}e^{-\frac{(logX-\mu)^{2}}{2\sigma^{2}}},\quad x\in(0,\infty)$$
-$$f_{X}(x)=0,\quad otherwise$$
+$$f_{X}(x)=
+\left\{
+\begin{array}{11}
+\frac{1}{\sqrt{2\pi}\sigma}\frac{1}{x}e^{-\frac{(logX-\mu)^{2}}{2\sigma^{2}}}\quad & x\in(0,\infty)\\
+0\quad & otherwise\\
+\end{array}
+\right.
+$$
 
 > If X follows a log-normal$(\mu,\sigma)$,then $logX\sim N(\mu,\sigma^{2})$
 
@@ -612,5 +634,122 @@ $$f_{X_{(i)}}(x)=f(x)\sum_{m=i}^{n}C_{n}^{m}[F(x)]^{m-1}[1-F(x)]^{n-m-1}[m-nF(x)
 
 #Chapter 7 Properties of Expectation
 
+##Property
 
- 
+**Definition:k-th moment**
+
+$$E(X^{k})=
+\left\{
+\begin{array}{11}
+\sum_{x}x^{k}f(x) & discrete R.V.\\
+\int x^{k}f(x)dx & continuous R.V.\\
+\end{array}
+\right.
+$$
+
+$$E[(X-\mu_{x})^{k}]=
+\left\{
+\begin{array}{11}
+\sum_{x}(x-\mu_{x})^{k}f(x) & discrete R.V.\\
+\int (x-\mu_{x})^{k}f(x)dx & continuous R.V.\\
+\end{array}
+\right.
+$$
+
+**Definition:Skewness**
+
+Measurement of "skewness"(of asymmetry) of the distribution for X
+
+$$S_{X}=\frac{E(x-\mu)^{3}}{\sigma_{x}^{3}}$$
+
+> 如果$S_{x}<0$,即左偏。表示偏小的数值更多。表现在pdf曲线上就是“裙摆”在左侧  
+> 如果$S_{x}>0$,即右偏。表示偏大的数值更多。表现在pdf曲线上就是“裙摆”在右侧
+
+**Definition:Kurtosis**
+
+Measurement of how heavy the tail of a distribution is
+
+$$K_{x}=\frac{E(X-\mu_{x})^{4}}{\sigma_{x}^{4}}$$
+
+> 如果$X\sim N(\mu,\sigma)$，则$E(X-\mu_{x})^{4}=3\sigma_{x}^{4}$,所以正态分布的$K_{x}=3$。因此我们拿3作为基准本，比3要大的称为leptokurtic(尖峰重尾),比3要小的称为platykurtic(厚峰细尾)。重尾意味着极端值出现概率比较大，细尾则相反。
+
+**Corvariance**
+
+Covariance是用来衡量X,Y两个随机变量的变化方向和程度，如果Cov>0,则X,Y同方向变化，且Cov绝对值越大则两者的关系越紧密
+
+$$Cov(X,Y)=E(X-\mu_{X})(Y-\mu_{Y})=E(XY)-E(X)E(Y)$$
+$$Cov(X,Y)=Cov(Y,X)$$
+$$Cov(X,X)=Var(X),Cov(aX,Y)=a\cdot Cov(X,Y)$$
+$$Cov(\sum_{i=1}^{n}X_{i},\sum_{j}^{m}Y_{j})=\sum_{i=1}^{n}\sum_{j=1}^{m}Cov(X_{i},Y_{j})$$
+$$\textrm{If X and Y are two independent R.V.,then }\, Cov(X,Y)=0$$
+
+**Correlation**
+
+$$\rho(X,Y)=\frac{Cov(X,Y)}{\sqrt{Var(X)}\sqrt{Var(Y)}}=\frac{\sigma_{XY}}{\sigma_{X}\sigma_{Y}}$$
+
+> The correlation is a measure of "linear dependence" between X and Y.So if X and Y are independent,then Cor(X,Y)=0,but if Cor(X,Y)=0,we can not say that X and Y are independent.
+
+$$E_{Y}(E_{X}(X|Y))=E(X)$$
+$$Var(X)=Var(E(X|Y))+E(Var(X|Y))$$
+
+##Moment Generating Function
+
+**Definition:MGF**
+
+The mgf of a R.V. X is defined as 
+$$M_{X}(t)=E[e^{tX}]=
+\left\{
+\begin{array}{11}
+\sum_{x}e^{tx}f(x) & Discrete R.V.\\
+\int_{-\infty}^{\infty}e^{tx}f(x)dx & Continuous R.V.\\
+\end{array}
+\right.
+$$
+
+**Theorem**
+
+If $M_{X}(t)$ exists for t in some neighborhood of 0,then for k=1,2,...,
+$$M_{X}^{(k)}(0)=E(X^{k})$$
+If a and b are constants,then
+$$M_{aX+b}(t)=e^{bt}\cdot M_{X}(at)$$
+
+> The existence of the MGF $M_{X}(t)$ imply the existence of an infinite set of moments  
+> The existence of all moments is not equivalent to the existence of moment generating function in a neibourhood of 0
+
+**Theorem:Uniqueness of MGF**
+
+简单来说就是一种$M_{X}(t)$对应唯一的$F_{X}(x)$。所以如果$M_{X}(t)$和$M_{Y}(t)$相同，则$F_{X}(x)=F_{Y}(y)$。但是反过来是不成立，也就是说如果所有阶矩都相同，并不能说它们的分布相同
+
+Theorem:Let $F_{X}(x)$ and $F_{Y}(y)$ be two CDF's both of which have bounded support.Then $F_{X}(z)=F_{Y}(z)$ for all $z\in(-\infty,\infty)$ if and only if $E(X^{k})=E(Y^{k})$ for all intergers k=1,2,3,...
+
+$$F_{X}(x)=F_{Y}(y)\quad\Leftrightarrow\quad
+\left\{
+\begin{array}{1}
+\textrm{矩母函数相同}\\
+\textrm{所有阶矩相同(bounded support)}\\
+\end{array}
+\right.
+$$
+
+> support:In mathematics, the support of a real-valued function f is the subset of the domain containing those elements which are not mapped to zero. 
+
+* Binomial  $M_{X}(t)=(pe^{t}+1-p)^{n}$
+* Poisson   $M_{X}(t)=e^{\lambda(e^{t}-1)}$
+* Uniform   $M_{X}(t)=\frac{1}{(b-a)t}[e^{tb}-e^{ta}]$
+* Exponential  $M_{X}(t)=\frac{\lambda}{\lambda-t}$
+* Garmma    $M_{X}(t)=(\frac{\lambda}{\lambda-t})^{s}$
+* Gassion   $M_{X}(t)=e^{\mu t+\frac{\sigma^{2}t^{2}}{2}}$
+* Chi-square   $M_{X_{n}^{2}}(t)=(1-2t)^{-\frac{n}{2}}$
+
+**Definition:Joint Moment Generating Function**
+
+The joint mgf of (X,Y) is defined as
+$$M_{XY}(t_{1},t_{2})=E[e^{t_{1}X+t_{2}Y}]$$
+
+**Theorem**
+
+Suppose $M_{XY}(t_{1},t_{2})$ exists in a neiborhood of (0,0),then
+$$E(X^{k}Y^{l})=\frac{\partial^{k+l}M_{XY}(0,0)}{\partial t_{1}^{k}\partial t_{2}^{l}}=M_{XY}^{(k,l)}(0,0)$$
+
+and
+$$Cov(X^{k},Y^{l})=M_{XY}^{k,l}(0,0)-M_{X}^{k}(0)M_{Y}^{l}(0)$$

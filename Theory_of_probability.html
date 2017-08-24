@@ -276,7 +276,14 @@ $(document).ready(function () {
 <blockquote>
 <p>如果E和F独立，则E和<span class="math inline">\(F^{c}\)</span>也独立。（用贝叶斯公式很容易证明）</p>
 </blockquote>
-<p><em>We say that three events E,F,G are independent,if</em> <span class="math display">\[\nearrow P(E\cap F\cap G)=P(E)P(F)P(G)\]</span> <span class="math display">\[\searrow P(E\cap F)=P(E)P(F),P(E\cap G)=P(E)P(G),P(F\cap G)=P(F)P(G)\]</span> <em>更一般的说，我们如果要说明n个事件独立，则要求这n个事件两两独立，三三独立，….，一直到n个事件独立。</em></p>
+<p><em>We say that three events E,F,G are independent,if</em> <span class="math display">\[
+\left\{
+\begin{array}{11}
+P(E\cap F\cap G)=P(E)P(F)P(G)\\
+P(E\cap F)=P(E)P(F),P(E\cap G)=P(E)P(G),P(F\cap G)=P(F)P(G)\\
+\end{array}
+\right.
+\]</span> <em>更一般的说，我们如果要说明n个事件独立，则要求这n个事件两两独立，三三独立，….，一直到n个事件独立。</em></p>
 <p><em>We say that the events <span class="math inline">\(T_{1},T_{2},T_{3}...T_{n}\)</span> are conditionally independent given E(respectively <span class="math inline">\(E^{c}\)</span>) if for any positive integer <span class="math inline">\(2\leq r\leq n\)</span>,we have </em> <span class="math display">\[P(T_{i_{1}}\cap T_{i_{2}}\cap ...\cap T_{i_{r}}|E)=\prod_{i=1}^{r}P(T_{i_{j}}|E)\]</span></p>
 <p>说白了就是在给定条件下满足事件独立。每个事件后面都加了一个条件。</p>
 </div>
@@ -385,14 +392,26 @@ One can show that the maximum likelihood estimate is the largest integer value n
 <h2>几个典型连续分布</h2>
 <p><strong>Uniform Distribution</strong></p>
 <p>We have <span class="math inline">\(c&lt;d\)</span> and <span class="math inline">\(X\in[c,d]\)</span></p>
-<p><span class="math display">\[f(x)=\frac{1}{d-c},\textrm{when x}\in[c,d]\]</span></p>
-<p><span class="math display">\[f(x)=0,otherwise\]</span></p>
+<p><span class="math display">\[f(x)=
+\left\{
+\begin{array}{11}
+\frac{1}{d-c} &amp; \textrm{when x}\in[c,d]\\
+0 &amp; otherwise\\
+\end{array}
+\right.
+\]</span></p>
 <p><span class="math display">\[E(X)=\int_{-\infty}^{\infty}x\cdot f(x)dx=\frac{1}{d-c}\int_{c}^{d}xdx=\frac{c+d}{2},E(X^{2})=\frac{c^{2}+d^{2}+cd}{3}\]</span></p>
 <p><span class="math display">\[Var(X)=E(x^{2})-[E(x)]^2=\frac{(d-c)^{2}}{12}\]</span></p>
 <p><strong>Exponential Distribution</strong></p>
 <p>We have <span class="math inline">\(\lambda&gt;0\)</span> and <span class="math inline">\(X\in[0,\infty)\)</span></p>
-<p><span class="math display">\[f(x)=\lambda\cdot e^{-\lambda x},\textrm{when x}\in[0,\infty)\]</span></p>
-<p><span class="math display">\[f(x)=0,otherwise\]</span></p>
+<p><span class="math display">\[f(x)=
+\left\{
+\begin{array}{11}
+\lambda\cdot e^{-\lambda x} &amp; \textrm{when x}\in[0,\infty)\\
+0 &amp; otherwise\\
+\end{array}
+\right.
+\]</span></p>
 <p><span class="math display">\[E(X)=\int_{-\infty}^{\infty}x\cdot f(x)=\lambda\int_{0}^{\infty}x\cdot e^{-\lambda x}=\frac{1}{\lambda}\]</span></p>
 <p><span class="math display">\[E(X^{2})=\int_{0}^{\infty}x^{2}\cdot f(x)=\lambda\int_{0}^{\infty}x^{2}e^{-\lambda x}=\frac{2}{\lambda^{2}}\]</span></p>
 <p><span class="math display">\[Var(X)=E(X^{2})-[E(X)]^{2}=\frac{1}{\lambda^{2}}\]</span></p>
@@ -444,7 +463,14 @@ The median of a continuous R.V. X of pdf f(x) is the number such that <span clas
 <div id="other-continuous-distribution" class="section level2">
 <h2>Other continuous distribution</h2>
 <p><strong>Log-normal Distribution</strong></p>
-<p>X follow a log-normal <span class="math inline">\((\mu,\sigma)\)</span> Distribution if its pdf <span class="math display">\[f_{X}(x)=\frac{1}{\sqrt{2\pi}\sigma}\frac{1}{x}e^{-\frac{(logX-\mu)^{2}}{2\sigma^{2}}},\quad x\in(0,\infty)\]</span> <span class="math display">\[f_{X}(x)=0,\quad otherwise\]</span></p>
+<p>X follow a log-normal <span class="math inline">\((\mu,\sigma)\)</span> Distribution if its pdf <span class="math display">\[f_{X}(x)=
+\left\{
+\begin{array}{11}
+\frac{1}{\sqrt{2\pi}\sigma}\frac{1}{x}e^{-\frac{(logX-\mu)^{2}}{2\sigma^{2}}}\quad &amp; x\in(0,\infty)\\
+0\quad &amp; otherwise\\
+\end{array}
+\right.
+\]</span></p>
 <blockquote>
 <p>If X follows a log-normal<span class="math inline">\((\mu,\sigma)\)</span>,then <span class="math inline">\(logX\sim N(\mu,\sigma^{2})\)</span></p>
 </blockquote>
@@ -579,6 +605,94 @@ The median of a continuous R.V. X of pdf f(x) is the number such that <span clas
 </div>
 <div id="chapter-7-properties-of-expectation" class="section level1">
 <h1>Chapter 7 Properties of Expectation</h1>
+<div id="property" class="section level2">
+<h2>Property</h2>
+<p><strong>Definition:k-th moment</strong></p>
+<p><span class="math display">\[E(X^{k})=
+\left\{
+\begin{array}{11}
+\sum_{x}x^{k}f(x) &amp; discrete R.V.\\
+\int x^{k}f(x)dx &amp; continuous R.V.\\
+\end{array}
+\right.
+\]</span></p>
+<p><span class="math display">\[E[(X-\mu_{x})^{k}]=
+\left\{
+\begin{array}{11}
+\sum_{x}(x-\mu_{x})^{k}f(x) &amp; discrete R.V.\\
+\int (x-\mu_{x})^{k}f(x)dx &amp; continuous R.V.\\
+\end{array}
+\right.
+\]</span></p>
+<p><strong>Definition:Skewness</strong></p>
+<p>Measurement of “skewness”(of asymmetry) of the distribution for X</p>
+<p><span class="math display">\[S_{X}=\frac{E(x-\mu)^{3}}{\sigma_{x}^{3}}\]</span></p>
+<blockquote>
+<p>如果<span class="math inline">\(S_{x}&lt;0\)</span>,即左偏。表示偏小的数值更多。表现在pdf曲线上就是“裙摆”在左侧<br />
+如果<span class="math inline">\(S_{x}&gt;0\)</span>,即右偏。表示偏大的数值更多。表现在pdf曲线上就是“裙摆”在右侧</p>
+</blockquote>
+<p><strong>Definition:Kurtosis</strong></p>
+<p>Measurement of how heavy the tail of a distribution is</p>
+<p><span class="math display">\[K_{x}=\frac{E(X-\mu_{x})^{4}}{\sigma_{x}^{4}}\]</span></p>
+<blockquote>
+<p>如果<span class="math inline">\(X\sim N(\mu,\sigma)\)</span>，则<span class="math inline">\(E(X-\mu_{x})^{4}=3\sigma_{x}^{4}\)</span>,所以正态分布的<span class="math inline">\(K_{x}=3\)</span>。因此我们拿3作为基准本，比3要大的称为leptokurtic(尖峰重尾),比3要小的称为platykurtic(厚峰细尾)。重尾意味着极端值出现概率比较大，细尾则相反。</p>
+</blockquote>
+<p><strong>Corvariance</strong></p>
+<p>Covariance是用来衡量X,Y两个随机变量的变化方向和程度，如果Cov&gt;0,则X,Y同方向变化，且Cov绝对值越大则两者的关系越紧密</p>
+<p><span class="math display">\[Cov(X,Y)=E(X-\mu_{X})(Y-\mu_{Y})=E(XY)-E(X)E(Y)\]</span> <span class="math display">\[Cov(X,Y)=Cov(Y,X)\]</span> <span class="math display">\[Cov(X,X)=Var(X),Cov(aX,Y)=a\cdot Cov(X,Y)\]</span> <span class="math display">\[Cov(\sum_{i=1}^{n}X_{i},\sum_{j}^{m}Y_{j})=\sum_{i=1}^{n}\sum_{j=1}^{m}Cov(X_{i},Y_{j})\]</span> <span class="math display">\[\textrm{If X and Y are two independent R.V.,then }\, Cov(X,Y)=0\]</span></p>
+<p><strong>Correlation</strong></p>
+<p><span class="math display">\[\rho(X,Y)=\frac{Cov(X,Y)}{\sqrt{Var(X)}\sqrt{Var(Y)}}=\frac{\sigma_{XY}}{\sigma_{X}\sigma_{Y}}\]</span></p>
+<blockquote>
+<p>The correlation is a measure of “linear dependence” between X and Y.So if X and Y are independent,then Cor(X,Y)=0,but if Cor(X,Y)=0,we can not say that X and Y are independent.</p>
+</blockquote>
+<p><span class="math display">\[E_{Y}(E_{X}(X|Y))=E(X)\]</span> <span class="math display">\[Var(X)=Var(E(X|Y))+E(Var(X|Y))\]</span></p>
+</div>
+<div id="moment-generating-function" class="section level2">
+<h2>Moment Generating Function</h2>
+<p><strong>Definition:MGF</strong></p>
+<p>The mgf of a R.V. X is defined as <span class="math display">\[M_{X}(t)=E[e^{tX}]=
+\left\{
+\begin{array}{11}
+\sum_{x}e^{tx}f(x) &amp; Discrete R.V.\\
+\int_{-\infty}^{\infty}e^{tx}f(x)dx &amp; Continuous R.V.\\
+\end{array}
+\right.
+\]</span></p>
+<p><strong>Theorem</strong></p>
+<p>If <span class="math inline">\(M_{X}(t)\)</span> exists for t in some neighborhood of 0,then for k=1,2,…, <span class="math display">\[M_{X}^{(k)}(0)=E(X^{k})\]</span> If a and b are constants,then <span class="math display">\[M_{aX+b}(t)=e^{bt}\cdot M_{X}(at)\]</span></p>
+<blockquote>
+<p>The existence of the MGF <span class="math inline">\(M_{X}(t)\)</span> imply the existence of an infinite set of moments<br />
+The existence of all moments is not equivalent to the existence of moment generating function in a neibourhood of 0</p>
+</blockquote>
+<p><strong>Theorem:Uniqueness of MGF</strong></p>
+<p>简单来说就是一种<span class="math inline">\(M_{X}(t)\)</span>对应唯一的<span class="math inline">\(F_{X}(x)\)</span>。所以如果<span class="math inline">\(M_{X}(t)\)</span>和<span class="math inline">\(M_{Y}(t)\)</span>相同，则<span class="math inline">\(F_{X}(x)=F_{Y}(y)\)</span>。但是反过来是不成立，也就是说如果所有阶矩都相同，并不能说它们的分布相同</p>
+<p>Theorem:Let <span class="math inline">\(F_{X}(x)\)</span> and <span class="math inline">\(F_{Y}(y)\)</span> be two CDF’s both of which have bounded support.Then <span class="math inline">\(F_{X}(z)=F_{Y}(z)\)</span> for all <span class="math inline">\(z\in(-\infty,\infty)\)</span> if and only if <span class="math inline">\(E(X^{k})=E(Y^{k})\)</span> for all intergers k=1,2,3,…</p>
+<p><span class="math display">\[F_{X}(x)=F_{Y}(y)\quad\Leftrightarrow\quad
+\left\{
+\begin{array}{1}
+\textrm{矩母函数相同}\\
+\textrm{所有阶矩相同(bounded support)}\\
+\end{array}
+\right.
+\]</span></p>
+<blockquote>
+<p>support:In mathematics, the support of a real-valued function f is the subset of the domain containing those elements which are not mapped to zero.</p>
+</blockquote>
+<ul>
+<li>Binomial <span class="math inline">\(M_{X}(t)=(pe^{t}+1-p)^{n}\)</span></li>
+<li>Poisson <span class="math inline">\(M_{X}(t)=e^{\lambda(e^{t}-1)}\)</span></li>
+<li>Uniform <span class="math inline">\(M_{X}(t)=\frac{1}{(b-a)t}[e^{tb}-e^{ta}]\)</span></li>
+<li>Exponential <span class="math inline">\(M_{X}(t)=\frac{\lambda}{\lambda-t}\)</span></li>
+<li>Garmma <span class="math inline">\(M_{X}(t)=(\frac{\lambda}{\lambda-t})^{s}\)</span></li>
+<li>Gassion <span class="math inline">\(M_{X}(t)=e^{\mu t+\frac{\sigma^{2}t^{2}}{2}}\)</span></li>
+<li>Chi-square <span class="math inline">\(M_{X_{n}^{2}}(t)=(1-2t)^{-\frac{n}{2}}\)</span></li>
+</ul>
+<p><strong>Definition:Joint Moment Generating Function</strong></p>
+<p>The joint mgf of (X,Y) is defined as <span class="math display">\[M_{XY}(t_{1},t_{2})=E[e^{t_{1}X+t_{2}Y}]\]</span></p>
+<p><strong>Theorem</strong></p>
+<p>Suppose <span class="math inline">\(M_{XY}(t_{1},t_{2})\)</span> exists in a neiborhood of (0,0),then <span class="math display">\[E(X^{k}Y^{l})=\frac{\partial^{k+l}M_{XY}(0,0)}{\partial t_{1}^{k}\partial t_{2}^{l}}=M_{XY}^{(k,l)}(0,0)\]</span></p>
+<p>and <span class="math display">\[Cov(X^{k},Y^{l})=M_{XY}^{k,l}(0,0)-M_{X}^{k}(0)M_{Y}^{l}(0)\]</span></p>
+</div>
 </div>
 
 
