@@ -422,7 +422,7 @@ $$f_{X}(x)=0,\quad otherwise$$
 3. 两个变量（这两个变量是另外两个已知变量的函数）的联合分布
 4. 条件分布
 
-##Jointly Distributed R.V.##
+##Jointly Distributed R.V.
 
 Assume we have two R.V. X and Y,then we define the joint CDF
 $$F_{X,Y}(a,b)=P(X\leq a,Y\leq b)$$
@@ -455,7 +455,7 @@ $$f_{Y}(y)=\infty_{-\infty}^{\infty}f(x,y)dx$$
 
 > 对于f(x)、f(y)的这种形式，可以理解为是变上限积分求导的结果。
 
-##Independent R.v.##
+##Independent R.V.
 
 The R.V. X and Y are said to be independent if,for any sets A and B we have
 $$P(x\in A,Y\in B)=P(X\in A)P(Y\in B)$$
@@ -465,7 +465,7 @@ $$\Leftrightarrow\quad f(x,y)=f_{X}(x)f_{Y}(y)$$
 > 独立带来的最直接也是最重要的效果就是：联合分布是边际分布的乘积
 
 
-##Sum of Independent R.V.##
+##Sum of Independent R.V.
 
 我们其实就是要求出Z=X+Y或者再复杂一些的变量加减运算后得到的新变量的分布。
 
@@ -532,3 +532,85 @@ $$f_{Z}(z)=\int_{-\infty}^{\infty}f_{X}(z-y)f_{Y}(y)dy=\int_{-\infty}^{\infty}\f
 $$\therefore\quad Z\sim N(0,2)$$
 
 Generalization:If X is an normal R.V.$(\mu_{x},\sigma_{x}^{2})$ and Y is an normal R.V.$(\mu_{y},\sigma_{y}^{2})$ where X and Y are independent then Z is a normal R.V.$(\mu_{x}+\mu_{y},\sigma_{x}^{2}+\sigma_{y}^{2})$
+
+##Jointly probability distribution of functions of R.V.
+
+我们考虑这样一种情况，需求U和供给V都会受到商品价格X和消费者收入Y的影响，也就是说$U=g_{1}(X,Y),V=g_{2}(X,Y)$.而我们希望找到(U,V)的联合分布。已知(X,Y)的联合分布。
+
+**Definition:Jacobian matrix and Jacobian**
+
+Consider the bivariate transformation:$U=g_{1}(X,Y)$,$V=g_{2}(X,Y)$,where $g_{1}$,$g_{2}$ are continuously differentiable with respect to X,Y.Then the $2\times2$ matrix
+
+$$J_{UV}(x,y)=
+ \left(
+ \begin{array}{11}
+  \frac{\partial g_{1}(x,y)}{\partial x} & \frac{\partial g_{1}(x,y)}{\partial y} \\
+  \frac{\partial g_{2}(x,y)}{\partial x} & \frac{\partial g_{2}(x,y)}{\partial y}
+  \end{array}
+  \right)
+$$
+
+is called the *Jacobian matrix* of (U,V).It's determinant is called the *Jacobian*.
+
+**Inverse Function**
+
+简单来说就是$U=g_{1}(X,Y)$,$V=g_{2}(X,Y)$.则反向表示$X=h_{1}(U,V)$,$Y=h_{2}(U,V)$.我们把$(h_{1},h_{2})$叫做inverse functions of $(g_{1},g_{2})$
+
+**Theorem**
+
+$$det[J_{XY}(U,V)]=\frac{1}{det[J_{UV}(X,Y)]}$$
+
+**Theorem:Bivariate Transformation**
+
+We have $A=\{(x,y)|f_{XY}(x,y)>0\}$,$B=\{(u,v)|f_{UV}(u,v)>0\}$,要求A和B是一一对应的，且$g_{1},g_{2}$是连续可导的，$det[J_{uv}(X,Y)]\neq0$,则
+$$f_{UV}(u,v)=
+ \left\{
+ \begin{array}{11}
+ \frac{f_{XY}(h_{1}(u,v),h_{2}(u,v))}{|det[J_{U,V}(x,y)]|} & for (u,v)\in B\\
+ 0 & otherwise\\
+ \end{array}
+ \right.
+ $$
+ 
+##Conditional Distributions
+
+**Discrete Case**
+
+$$P_{X|Y}(x|y)=\frac{P_{XY}(x,y)}{P_{Y}(y)}=\frac{P_{Y|X}(y|x)P_{X}(x)}{P_{Y}(y)}$$
+$$E(X|Y=y)=\sum_{x}x\cdot P_{X|Y}(x|y),\quad Var(X|Y=y)=E(X^{2}|Y=y)-[E(X|Y=y)]^{2}$$
+
+*$E(X|Y=y)$是一个function，但是已经没有随机性了！而$E(X|Y)$是一个R.V.具有随机性，随机性来自于Y而不是X，因为经过期望之后其实就是经过了积分，X已经被积分掉了。*
+
+$$E_{Y}(E_{X}(X|Y))=E(X)$$
+
+**Continuous Case**
+
+$$f_{X|Y}(x|y)=\frac{f(x,y)}{f(y)}=\frac{f_{Y|X}(y|x)f_{X}(x)}{f_{Y}(y)}$$
+$$E(X|Y=y)=\int x\cdot f_{X|Y}(x|y)dx,\quad Var(X|Y=y)=E(X^{2}|Y=y)-[E(X|Y=y)]^{2}$$
+
+##Order Statistic
+
+有一系列的iid的R.V. $X_{i}$，我们对它们进行排序:
+$$X_{(1)}<X_{(2)}<X_{(3)}<...<X_{(n)}$$
+$$X_{(1)}=smallest\,\,of\,\,X_{1},X_{2},X_{3},...,X_{n}$$
+$$X_{(n)}=largest\,\,of\,\,X_{1},X_{2},X_{3},...,X_{n}$$
+则我们可以得到一些分布
+$$f_{X_{(1)},X_{(2)},...,X_{(n)}}(x_{1},x_{2},...,x_{n})=n!\cdot f(x_{1})f(x_{2})\cdots f(x_{n})$$
+$$Range\{X_{1},X_{2},...,X_{n}\}= X_{(n)}-X_{(1)}$$
+
+对于最小统计量
+$$F_{X_{(1)}}(x)=P(X_{(1)}\leq x)=1-P(\textrm{all the }X_{i}\geq x)=1-P(X_{1}\geq x,X_{2}\geq x,...,X_{n}\geq x)=1-[1-F(x)]^{n}$$
+$$\Rightarrow\quad f_{X_{(1)}}(x)=n\cdot[1-F(x)]^{n-1}f(x)$$
+
+对于最大统计量
+$$F_{X_{(n)}}(x)=P(X_{(n)}\leq x)=P(\textrm{all }X_{i}\leq x)=[F(x)]^{n}$$
+$$\Rightarrow\quad f_{X_{(n)}}(x)=n\cdot[F(x)]^{n-1}\cdot f(x)$$
+
+对于任意一个统计量
+$$F_{X_{(i)}}(x)=P(X_{(i)}\leq x)=P(\textrm{at least i 个 }X\leq x)=\sum_{m=i}^{n}P(\textrm{exactly m 个 }X\leq x)=\sum_{m=i}^{n}C_{n}^{m}(F(x))^{m}[1-F(x)]^{n-m}$$
+$$f_{X_{(i)}}(x)=f(x)\sum_{m=i}^{n}C_{n}^{m}[F(x)]^{m-1}[1-F(x)]^{n-m-1}[m-nF(x)]$$
+
+#Chapter 7 Properties of Expectation
+
+
+ 
