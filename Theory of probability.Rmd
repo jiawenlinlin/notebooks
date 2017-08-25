@@ -753,3 +753,143 @@ $$E(X^{k}Y^{l})=\frac{\partial^{k+l}M_{XY}(0,0)}{\partial t_{1}^{k}\partial t_{2
 
 and
 $$Cov(X^{k},Y^{l})=M_{XY}^{k,l}(0,0)-M_{X}^{k}(0)M_{Y}^{l}(0)$$
+
+
+#Chapter 8 Limit Theorem
+
+##Some definitions
+
+在开始比较重要的内容之前，我们先给出一些定义。
+
+**Definition:Limit**
+
+Let $b_{n},n=1,2,3,...$ be a sequence of real numbers.If there exists a real number b such that for every $\epsilon>0$ we can find a finite integer $N(\epsilon)$ such that 
+$$|b_{n}-b|<\epsilon$$
+
+for all $n>N(\epsilon)$ ,then b is called the limit of the sequence $\{b_{n}\}$.We write 
+$$b_{n}\rightarrow\,b \,\,as \,\,n\rightarrow\,\infty\quad\quad or\quad lim_{n\rightarrow\infty}b_{n}=b$$
+
+> Limit是对sequence而言的  
+> 简单来说就是对于任意一个足够小的$\epsilon$，总能够找到一个有限值$N(\epsilon)$（不同的$\epsilon$需要不同的N），使得当$n>N(\epsilon)$之后能够满足$|b_{n}-b|<\epsilon$,则b就是极限
+
+**Definition:Continuity**
+
+The function $g:\Re\rightarrow\Re$ is continuous at point b if for any sequence $\{b_{n}\}$ such that $lim_{n\rightarrow\infty}b_{n}=b$,we have $lim_{n\rightarrow\infty}g(b_{n})=g(b)$
+
+Alternative definition:If $\forall\epsilon,\exists\sigma(\epsilon)$ such that $|g(x)-g(b)|<\epsilon$ for all $|x-b|<\sigma(\epsilon)$,then g is continuous at point b,denoted by
+$$lim_{x\rightarrow b}g(x)=g(b)$$
+
+> Continuity是对于函数的某一点而言的  
+> 运用alternative来考虑，其实类似于limit的想法。对于任意一个足够小的$\epsilon$，总能够找到一个$\sigma(\epsilon)$框住b的附近使g(x)-g(b)的绝对值小于$\epsilon$
+
+If $\forall\epsilon,\exists\sigma(\epsilon)>0$ such that $|g(x)-g(b)|<\epsilon$ for al $b<x<b+\sigma(\epsilon)$ then we say g is right continuous at b,denoted by
+$$lim_{x\rightarrow b^{+}}g(x)=g(b)$$
+then we say g is left continuous at b if $|g(x)-g(b)|<\epsilon$ for all $b-\sigma(\epsilon)<x<b$,denoted by
+$$lim_{x\rightarrow b^{-}}g(x)=g(b)$$
+
+Function g is continuous at b if and only if g is left continuous and right continuous at b.
+
+
+**Definition:Order of Magnitude**
+
+Suppose ${f_{n}>0}$ is a sequence of real numbers.
+
+* A sequence $\{f_{n}>0\}$ is at most order $f_{n}$,denoted by $b_{n}=O(f_{n})$ or $\frac{b_{n}}{f_{n}}=O(1)$,if $|\frac{b_{n}}{f_{n}}|<\triangle$ for a fixed $\triangle>0$ and all n.
+
+> 意思就是$b_{n},f_{n}$同数量级。  
+> 比如$b_{n}=5+2n+6n^{2}$,$\frac{b_{n}}{n}=\frac{4}{n}+2+6n$,当$n\rightarrow\infty,\frac{b_{n}}{n}\rightarrow\infty$,并不小于一个fixed value.  
+> 但是$\frac{b_{n}}{n^{2}}=\frac{4}{n^{2}}+\frac{2}{n}+6$,很容易可以找到$\triangle=13$，因此$b_{n}=O(n^{2})$
+
+* A sequence $\{b_{n}\}$ is of order smaller than $f_{n}$,denoted by $b_{n}=o(f_{n})$,if $\frac{b_{n}}{f_{n}}\rightarrow 0$ as $n\rightarrow\infty$
+
+> 意思就是$b_{n}$是$f_{n}$的低数量级。  
+> 很显然，$b_{n}=o(n^{3})$
+
+性质：Let $\{a_{n}\}$ and $\{b_{n}\}$ be two sequences of real numbers.
+
+* If $a_{n}=O(n^{\lambda})$ and $b_{n}=O(n^{\tau})$,then $a_{n}b_{n}=O(n^{\lambda+\tau})$,and $a_{n}+b_{n}=O(n^{k})$,where $k=max\{\lambda,\tau\}$
+* If $a_{n}=o(n^{\lambda})$ and $b_{n}=o(n^{\tau})$,then $a_{n}b_{n}=o(n^{\lambda+\tau})$,and $a_{n}+b_{n}=o(n^{k})$,where $k=max\{\lambda,\tau\}$
+* If $a_{n}=O(n^{\lambda})$ and $b_{n}=o(n^{\tau})$,then $a_{n}b_{n}=o(n^{\lambda+\tau})$.If $\lambda\geq\tau$,$a_{n}+b_{n}=O(n^{\lambda})$;if $\lambda\leq\tau$,$a_{n}+b_{n}=o(n^{\tau})$
+
+##关于收敛
+
+我们之所以想要研究收敛的问题是因为我们想知道关于*变量与值*、*变量与变量*的接近程度。
+
+**Definition:Converge in Distribution(Weak convergence)**
+
+Let $X_{n}$ be a sequence of R.V.s with cdf's$\{F_{n}(x)\}$.Let X be a R.V. with cdf $F_{X}(x)$.If $F_{n}(x)\rightarrow F_{X}(x)$ as $n\rightarrow\infty$ for all x's where $F_{X}(x)$ is continuous,we say $X_{n}$ converges in distribution to X,denoted by
+$$X_{n}\xrightarrow{d} X$$
+
+> $lim_{n\rightarrow\infty}F_{n}(x)=F_{X}(x)$只要求在$F_{X}(x)$连续的部分成立即可。
+
+**Definition:Convergence in Probability**
+
+A sequence of random variables $\{Z_{n}\}$,converges in probability to a random variable Z,denoted by $Z_{n}\xrightarrow{P}Z$,if
+$$\textrm{for every }\epsilon>0,lim_{n\rightarrow\infty}P(|Z_{n}-Z|>\epsilon)=0$$
+
+> When $Z_{n}\rightarrow^{P}b$,where b is a constant,we say that $Z_{n}$ is consistent for b.
+
+> Convergence in distribution means that cdf's cenverge,not the R.V.Usually,$Z_{n}\xrightarrow{d}Z$ does not contain the information about $|Z_{n}-Z|$  
+> Theorem:$Z_{n}\xrightarrow{P}Z$ implies $Z_{n}\xrightarrow{d}Z$
+
+
+**Markov's Inequality**
+
+Suppose X is a R.V. and g(x) is a nonnegative function.Then for any $\epsilon>0$,and $p>0$,we have
+$$P[g(x)\geq\epsilon]\leq\frac{E[g(x)]^{p}}{\epsilon^{p}}$$
+
+> 马尔科不不等式给出了随机变量的函数大于等于某个正数的概率上界
+
+**Chebyshev's inequality**
+
+If X is a R.V. with finite mean $\mu$ and variance $\sigma^{2}$,then for any value $\epsilon>0$
+$$P(|X-\mu|\geq\epsilon)\leq\frac{\sigma^{2}}{\epsilon^{2}}$$
+
+> 这是从马尔科夫不等式直接得到的  
+> 当$Var(X)=0$,则$P(X=\mu)=1$
+
+**Continuous Mapping Theorem**
+
+Suppose $g:\Re\rightarrow\Re$ is a continuous function,and $Z_{n}\xrightarrow{P}Z$,then $g(Z_{n})\xrightarrow{P}g(z)$
+
+**Slutsky's Theorem**
+
+Suppose $X_{n}\xrightarrow{d}X$ and $Y_{n}\xrightarrow{P}C$,where C is a constant.Then
+
+* $X_{n}+Y_{n}\xrightarrow{d}X+C$
+* $X_{n}-Y_{n}\xrightarrow{d}X-C$
+* $X_{n}Y_{n}\xrightarrow{d}X\cdot C$
+* $\frac{X_{n}}{Y_{n}}\xrightarrow{d}\frac{X}{c},if\,\,c\neq 0$
+
+> Suppose $X_{1},X_{2},...$ are i.i.d. with $E(X_{i})=\mu$ and $Var(X_{i})=\sigma^{2}$,we have
+$$\frac{\sqrt{n}(\bar{X_{n}}-\mu)}{\sigma}\xrightarrow{d}N(0,1)$$
+> If $S_{n}^{2}\rightarrow^{P}\sigma^{2}$,then
+$$\frac{\sqrt{n}(\bar{X_{n}}-\mu)}{S_{n}}\xrightarrow{d}N(0,1)$$
+> by Slutsky's Theorem.
+
+**Definition:Almost sure Convergence**
+
+In probability space $\{S,\beta,p\},Z_{1},Z_{2},...$ is a sequence of R.V.s.If
+$$P(\{s\in S:lim_{n\rightarrow\infty}Z_{n}(s)=Z(s)\})=1$$
+
+then we say that $Z_{n}$ converges to Z almost sure(a.s.),almost every(a.e.),or with probability 1,denoted by
+$$Z_{n}\xrightarrow{a.s.}Z$$
+
+> 也叫“几乎处处收敛”，“依概率1收敛”  
+> 同样有连续映射的性质  
+> Theorem:If $Z_{n}$ converges to Z almost surely,then $Z_{n}$ converges to Z in probability.
+
+**Theorem:Weak law of Large Numbers(WLLN)**
+
+Suppose R.V. $X_{1},X_{2},...$ are i.i.d. with mean $\mu$ and finite variance $\sigma^{2}$.Let $Z_{n}=\frac{1}{n}\sum\limits_{i=1}^{n}X_{i}$,then
+$$Z_{n}\xrightarrow{P}\mu$$
+
+**Theorem:Kolmogorov's Strong Law of Large Numbers(SLLN)**
+
+Suppose R.V. $X_{1},X_{2},...$ are i.i.d. with finite $\mu$,let $Z_{n}=\frac{1}{n}\sum\limits_{i=1}^{n}X_{i}$,then
+$$Z_{n}\xrightarrow{a.s.}\mu$$
+
+**Theorem:Lindeberg-Levys Central Limit Theorem(CLT)**
+
+Let $X_{1},X_{2},...$ be a sequence of i.i.d. R.V.s with mean $\mu$ and finite variance $\sigma^{2}$.Define $\bar{X_{n}}=\frac{1}{n}\sum\limits_{i=1}^{n}X_{i}$,then
+$$Z_{n}=\frac{\bar{X_{n}}-\mu}{\sigma/\sqrt{n}}\xrightarrow{d}N(0,1)$$

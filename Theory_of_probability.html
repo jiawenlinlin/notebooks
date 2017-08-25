@@ -694,6 +694,108 @@ The existence of all moments is not equivalent to the existence of moment genera
 <p>and <span class="math display">\[Cov(X^{k},Y^{l})=M_{XY}^{k,l}(0,0)-M_{X}^{k}(0)M_{Y}^{l}(0)\]</span></p>
 </div>
 </div>
+<div id="chapter-8-limit-theorem" class="section level1">
+<h1>Chapter 8 Limit Theorem</h1>
+<div id="some-definitions" class="section level2">
+<h2>Some definitions</h2>
+<p>在开始比较重要的内容之前，我们先给出一些定义。</p>
+<p><strong>Definition:Limit</strong></p>
+<p>Let <span class="math inline">\(b_{n},n=1,2,3,...\)</span> be a sequence of real numbers.If there exists a real number b such that for every <span class="math inline">\(\epsilon&gt;0\)</span> we can find a finite integer <span class="math inline">\(N(\epsilon)\)</span> such that <span class="math display">\[|b_{n}-b|&lt;\epsilon\]</span></p>
+<p>for all <span class="math inline">\(n&gt;N(\epsilon)\)</span> ,then b is called the limit of the sequence <span class="math inline">\(\{b_{n}\}\)</span>.We write <span class="math display">\[b_{n}\rightarrow\,b \,\,as \,\,n\rightarrow\,\infty\quad\quad or\quad lim_{n\rightarrow\infty}b_{n}=b\]</span></p>
+<blockquote>
+<p>Limit是对sequence而言的<br />
+简单来说就是对于任意一个足够小的<span class="math inline">\(\epsilon\)</span>，总能够找到一个有限值<span class="math inline">\(N(\epsilon)\)</span>（不同的<span class="math inline">\(\epsilon\)</span>需要不同的N），使得当<span class="math inline">\(n&gt;N(\epsilon)\)</span>之后能够满足<span class="math inline">\(|b_{n}-b|&lt;\epsilon\)</span>,则b就是极限</p>
+</blockquote>
+<p><strong>Definition:Continuity</strong></p>
+<p>The function <span class="math inline">\(g:\Re\rightarrow\Re\)</span> is continuous at point b if for any sequence <span class="math inline">\(\{b_{n}\}\)</span> such that <span class="math inline">\(lim_{n\rightarrow\infty}b_{n}=b\)</span>,we have <span class="math inline">\(lim_{n\rightarrow\infty}g(b_{n})=g(b)\)</span></p>
+<p>Alternative definition:If <span class="math inline">\(\forall\epsilon,\exists\sigma(\epsilon)\)</span> such that <span class="math inline">\(|g(x)-g(b)|&lt;\epsilon\)</span> for all <span class="math inline">\(|x-b|&lt;\sigma(\epsilon)\)</span>,then g is continuous at point b,denoted by <span class="math display">\[lim_{x\rightarrow b}g(x)=g(b)\]</span></p>
+<blockquote>
+<p>Continuity是对于函数的某一点而言的<br />
+运用alternative来考虑，其实类似于limit的想法。对于任意一个足够小的<span class="math inline">\(\epsilon\)</span>，总能够找到一个<span class="math inline">\(\sigma(\epsilon)\)</span>框住b的附近使g(x)-g(b)的绝对值小于<span class="math inline">\(\epsilon\)</span></p>
+</blockquote>
+<p>If <span class="math inline">\(\forall\epsilon,\exists\sigma(\epsilon)&gt;0\)</span> such that <span class="math inline">\(|g(x)-g(b)|&lt;\epsilon\)</span> for al <span class="math inline">\(b&lt;x&lt;b+\sigma(\epsilon)\)</span> then we say g is right continuous at b,denoted by <span class="math display">\[lim_{x\rightarrow b^{+}}g(x)=g(b)\]</span> then we say g is left continuous at b if <span class="math inline">\(|g(x)-g(b)|&lt;\epsilon\)</span> for all <span class="math inline">\(b-\sigma(\epsilon)&lt;x&lt;b\)</span>,denoted by <span class="math display">\[lim_{x\rightarrow b^{-}}g(x)=g(b)\]</span></p>
+<p>Function g is continuous at b if and only if g is left continuous and right continuous at b.</p>
+<p><strong>Definition:Order of Magnitude</strong></p>
+<p>Suppose <span class="math inline">\({f_{n}&gt;0}\)</span> is a sequence of real numbers.</p>
+<ul>
+<li>A sequence <span class="math inline">\(\{f_{n}&gt;0\}\)</span> is at most order <span class="math inline">\(f_{n}\)</span>,denoted by <span class="math inline">\(b_{n}=O(f_{n})\)</span> or <span class="math inline">\(\frac{b_{n}}{f_{n}}=O(1)\)</span>,if <span class="math inline">\(|\frac{b_{n}}{f_{n}}|&lt;\triangle\)</span> for a fixed <span class="math inline">\(\triangle&gt;0\)</span> and all n.</li>
+</ul>
+<blockquote>
+<p>意思就是<span class="math inline">\(b_{n},f_{n}\)</span>同数量级。<br />
+比如<span class="math inline">\(b_{n}=5+2n+6n^{2}\)</span>,<span class="math inline">\(\frac{b_{n}}{n}=\frac{4}{n}+2+6n\)</span>,当<span class="math inline">\(n\rightarrow\infty,\frac{b_{n}}{n}\rightarrow\infty\)</span>,并不小于一个fixed value.<br />
+但是<span class="math inline">\(\frac{b_{n}}{n^{2}}=\frac{4}{n^{2}}+\frac{2}{n}+6\)</span>,很容易可以找到<span class="math inline">\(\triangle=13\)</span>，因此<span class="math inline">\(b_{n}=O(n^{2})\)</span></p>
+</blockquote>
+<ul>
+<li>A sequence <span class="math inline">\(\{b_{n}\}\)</span> is of order smaller than <span class="math inline">\(f_{n}\)</span>,denoted by <span class="math inline">\(b_{n}=o(f_{n})\)</span>,if <span class="math inline">\(\frac{b_{n}}{f_{n}}\rightarrow 0\)</span> as <span class="math inline">\(n\rightarrow\infty\)</span></li>
+</ul>
+<blockquote>
+<p>意思就是<span class="math inline">\(b_{n}\)</span>是<span class="math inline">\(f_{n}\)</span>的低数量级。<br />
+很显然，<span class="math inline">\(b_{n}=o(n^{3})\)</span></p>
+</blockquote>
+<p>性质：Let <span class="math inline">\(\{a_{n}\}\)</span> and <span class="math inline">\(\{b_{n}\}\)</span> be two sequences of real numbers.</p>
+<ul>
+<li>If <span class="math inline">\(a_{n}=O(n^{\lambda})\)</span> and <span class="math inline">\(b_{n}=O(n^{\tau})\)</span>,then <span class="math inline">\(a_{n}b_{n}=O(n^{\lambda+\tau})\)</span>,and <span class="math inline">\(a_{n}+b_{n}=O(n^{k})\)</span>,where <span class="math inline">\(k=max\{\lambda,\tau\}\)</span></li>
+<li>If <span class="math inline">\(a_{n}=o(n^{\lambda})\)</span> and <span class="math inline">\(b_{n}=o(n^{\tau})\)</span>,then <span class="math inline">\(a_{n}b_{n}=o(n^{\lambda+\tau})\)</span>,and <span class="math inline">\(a_{n}+b_{n}=o(n^{k})\)</span>,where <span class="math inline">\(k=max\{\lambda,\tau\}\)</span></li>
+<li>If <span class="math inline">\(a_{n}=O(n^{\lambda})\)</span> and <span class="math inline">\(b_{n}=o(n^{\tau})\)</span>,then <span class="math inline">\(a_{n}b_{n}=o(n^{\lambda+\tau})\)</span>.If <span class="math inline">\(\lambda\geq\tau\)</span>,<span class="math inline">\(a_{n}+b_{n}=O(n^{\lambda})\)</span>;if <span class="math inline">\(\lambda\leq\tau\)</span>,<span class="math inline">\(a_{n}+b_{n}=o(n^{\tau})\)</span></li>
+</ul>
+</div>
+<div class="section level2">
+<h2>关于收敛</h2>
+<p>我们之所以想要研究收敛的问题是因为我们想知道关于<em>变量与值</em>、<em>变量与变量</em>的接近程度。</p>
+<p><strong>Definition:Converge in Distribution(Weak convergence)</strong></p>
+<p>Let <span class="math inline">\(X_{n}\)</span> be a sequence of R.V.s with cdf’s<span class="math inline">\(\{F_{n}(x)\}\)</span>.Let X be a R.V. with cdf <span class="math inline">\(F_{X}(x)\)</span>.If <span class="math inline">\(F_{n}(x)\rightarrow F_{X}(x)\)</span> as <span class="math inline">\(n\rightarrow\infty\)</span> for all x’s where <span class="math inline">\(F_{X}(x)\)</span> is continuous,we say <span class="math inline">\(X_{n}\)</span> converges in distribution to X,denoted by <span class="math display">\[X_{n}\xrightarrow{d} X\]</span></p>
+<blockquote>
+<p><span class="math inline">\(lim_{n\rightarrow\infty}F_{n}(x)=F_{X}(x)\)</span>只要求在<span class="math inline">\(F_{X}(x)\)</span>连续的部分成立即可。</p>
+</blockquote>
+<p><strong>Definition:Convergence in Probability</strong></p>
+<p>A sequence of random variables <span class="math inline">\(\{Z_{n}\}\)</span>,converges in probability to a random variable Z,denoted by <span class="math inline">\(Z_{n}\xrightarrow{P}Z\)</span>,if <span class="math display">\[\textrm{for every }\epsilon&gt;0,lim_{n\rightarrow\infty}P(|Z_{n}-Z|&gt;\epsilon)=0\]</span></p>
+<blockquote>
+<p>When <span class="math inline">\(Z_{n}\rightarrow^{P}b\)</span>,where b is a constant,we say that <span class="math inline">\(Z_{n}\)</span> is consistent for b.</p>
+</blockquote>
+<blockquote>
+<p>Convergence in distribution means that cdf’s cenverge,not the R.V.Usually,<span class="math inline">\(Z_{n}\xrightarrow{d}Z\)</span> does not contain the information about <span class="math inline">\(|Z_{n}-Z|\)</span><br />
+Theorem:<span class="math inline">\(Z_{n}\xrightarrow{P}Z\)</span> implies <span class="math inline">\(Z_{n}\xrightarrow{d}Z\)</span></p>
+</blockquote>
+<p><strong>Markov’s Inequality</strong></p>
+<p>Suppose X is a R.V. and g(x) is a nonnegative function.Then for any <span class="math inline">\(\epsilon&gt;0\)</span>,and <span class="math inline">\(p&gt;0\)</span>,we have <span class="math display">\[P[g(x)\geq\epsilon]\leq\frac{E[g(x)]^{p}}{\epsilon^{p}}\]</span></p>
+<blockquote>
+<p>马尔科不不等式给出了随机变量的函数大于等于某个正数的概率上界</p>
+</blockquote>
+<p><strong>Chebyshev’s inequality</strong></p>
+<p>If X is a R.V. with finite mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^{2}\)</span>,then for any value <span class="math inline">\(\epsilon&gt;0\)</span> <span class="math display">\[P(|X-\mu|\geq\epsilon)\leq\frac{\sigma^{2}}{\epsilon^{2}}\]</span></p>
+<blockquote>
+<p>这是从马尔科夫不等式直接得到的<br />
+当<span class="math inline">\(Var(X)=0\)</span>,则<span class="math inline">\(P(X=\mu)=1\)</span></p>
+</blockquote>
+<p><strong>Continuous Mapping Theorem</strong></p>
+<p>Suppose <span class="math inline">\(g:\Re\rightarrow\Re\)</span> is a continuous function,and <span class="math inline">\(Z_{n}\xrightarrow{P}Z\)</span>,then <span class="math inline">\(g(Z_{n})\xrightarrow{P}g(z)\)</span></p>
+<p><strong>Slutsky’s Theorem</strong></p>
+<p>Suppose <span class="math inline">\(X_{n}\xrightarrow{d}X\)</span> and <span class="math inline">\(Y_{n}\xrightarrow{P}C\)</span>,where C is a constant.Then</p>
+<ul>
+<li><span class="math inline">\(X_{n}+Y_{n}\xrightarrow{d}X+C\)</span></li>
+<li><span class="math inline">\(X_{n}-Y_{n}\xrightarrow{d}X-C\)</span></li>
+<li><span class="math inline">\(X_{n}Y_{n}\xrightarrow{d}X\cdot C\)</span></li>
+<li><span class="math inline">\(\frac{X_{n}}{Y_{n}}\xrightarrow{d}\frac{X}{c},if\,\,c\neq 0\)</span></li>
+</ul>
+<blockquote>
+<p>Suppose <span class="math inline">\(X_{1},X_{2},...\)</span> are i.i.d. with <span class="math inline">\(E(X_{i})=\mu\)</span> and <span class="math inline">\(Var(X_{i})=\sigma^{2}\)</span>,we have <span class="math display">\[\frac{\sqrt{n}(\bar{X_{n}}-\mu)}{\sigma}\xrightarrow{d}N(0,1)\]</span> If <span class="math inline">\(S_{n}^{2}\rightarrow^{P}\sigma^{2}\)</span>,then <span class="math display">\[\frac{\sqrt{n}(\bar{X_{n}}-\mu)}{S_{n}}\xrightarrow{d}N(0,1)\]</span> by Slutsky’s Theorem.</p>
+</blockquote>
+<p><strong>Definition:Almost sure Convergence</strong></p>
+<p>In probability space <span class="math inline">\(\{S,\beta,p\},Z_{1},Z_{2},...\)</span> is a sequence of R.V.s.If <span class="math display">\[P(\{s\in S:lim_{n\rightarrow\infty}Z_{n}(s)=Z(s)\})=1\]</span></p>
+<p>then we say that <span class="math inline">\(Z_{n}\)</span> converges to Z almost sure(a.s.),almost every(a.e.),or with probability 1,denoted by <span class="math display">\[Z_{n}\xrightarrow{a.s.}Z\]</span></p>
+<blockquote>
+<p>也叫“几乎处处收敛”，“依概率1收敛”<br />
+同样有连续映射的性质<br />
+Theorem:If <span class="math inline">\(Z_{n}\)</span> converges to Z almost surely,then <span class="math inline">\(Z_{n}\)</span> converges to Z in probability.</p>
+</blockquote>
+<p><strong>Theorem:Weak law of Large Numbers(WLLN)</strong></p>
+<p>Suppose R.V. <span class="math inline">\(X_{1},X_{2},...\)</span> are i.i.d. with mean <span class="math inline">\(\mu\)</span> and finite variance <span class="math inline">\(\sigma^{2}\)</span>.Let <span class="math inline">\(Z_{n}=\frac{1}{n}\sum\limits_{i=1}^{n}X_{i}\)</span>,then <span class="math display">\[Z_{n}\xrightarrow{P}\mu\]</span></p>
+<p><strong>Theorem:Kolmogorov’s Strong Law of Large Numbers(SLLN)</strong></p>
+<p>Suppose R.V. <span class="math inline">\(X_{1},X_{2},...\)</span> are i.i.d. with finite <span class="math inline">\(\mu\)</span>,let <span class="math inline">\(Z_{n}=\frac{1}{n}\sum\limits_{i=1}^{n}X_{i}\)</span>,then <span class="math display">\[Z_{n}\xrightarrow{a.s.}\mu\]</span></p>
+<p><strong>Theorem:Lindeberg-Levys Central Limit Theorem(CLT)</strong></p>
+<p>Let <span class="math inline">\(X_{1},X_{2},...\)</span> be a sequence of i.i.d. R.V.s with mean <span class="math inline">\(\mu\)</span> and finite variance <span class="math inline">\(\sigma^{2}\)</span>.Define <span class="math inline">\(\bar{X_{n}}=\frac{1}{n}\sum\limits_{i=1}^{n}X_{i}\)</span>,then <span class="math display">\[Z_{n}=\frac{\bar{X_{n}}-\mu}{\sigma/\sqrt{n}}\xrightarrow{d}N(0,1)\]</span></p>
+</div>
+</div>
 
 
 
