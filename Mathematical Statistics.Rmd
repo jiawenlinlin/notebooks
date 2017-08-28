@@ -78,7 +78,7 @@ $$\textrm{Suppose }X^{n}\textrm{ is a iid }N(\mu,\sigma^{2})\textrm{ random samp
 > 我们会用到雅可比矩阵的知识，因为我们需要在换元之后得到新的联合分布。  
 > 这个理论要求X必须来自正态分布，在证明中要用到。所以一定要注意这个前提。
 
-Theorem:$\frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim X_{n-1}^{2}$
+Theorem:$\frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim \chi_{n-1}^{2}$
 
 需要说明的是，首先要求X来自一个正态分布，那么这个随机样本的样本方差有这样一个结论，其中$X_{n-1}^{2}$是自由度为(n-1)的卡方分布。
 
@@ -88,6 +88,16 @@ $$\Rightarrow \textrm{令 }U=\sum\limits_{i=1}^{n}(\frac{X_{i}-\mu}{\sigma})^{2}
 $$\therefore U=Z+W$$
 $$M_{U}(t)=M_{Z+W}(t)=E[e^{(z+w)t}]=E(e^{zt+wt})=\int\int e^{zt+wt}f_{Z,W}(z,w)dzdw=\int e^{zt}f(z)dz\int e^{wt}f(w)dw=(1-2t)^{-\frac{1}{2}}M_{W}(t)$$
 $$\because M_{U}(t)=(1-2t)^{-\frac{n}{2}}\quad\therefore M_{W}(t)=(1-2t)^{-\frac{n-1}{2}}$$
-$$\therefore \frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim X_{n-1}^{2}$$
+$$\therefore \frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim \chi_{n-1}^{2}$$
 
-> 在我们使用矩母函数的时候，我们把联合分布拆开就用到了样本均值和样本方差独立的条件。
+> 在我们使用矩母函数的时候，我们把联合分布拆开就用到了样本均值和样本方差独立的条件。  
+> $If\,\,X\sim N(0,1),then\,\,X^{2}\sim \chi_{1}^{2}$  
+> $If\,\,X_{i}\sim N(0,1),iid,then\,\,\sum_{i=1}^{n}X_{i}^{2}\sim \chi_{n}^{2}$  
+> 为什么这里自由度是(n-1)呢，其实也是有讲究的。假设有$W_{n}^{2}=\frac{1}{n-1}\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}$,则有$\frac{(n-1)W_{n}^{2}}{\sigma^{2}}=\sum\limits_{i=1}^{n}(\frac{X_{i}-\mu}{\sigma})^{2}\sim \chi_{n}^{2}$。但是因为我们在$S_{n}^{2}$里面把均值换成了样本均值，就会丢失了一个信息，所以自由度减少1.
+
+有了分布之后，方差就很好计算了。因为
+
+$$E(\chi_{n-1}^{2})=n-1,Var(\chi_{n-1}^{2})=2(n-1)$$
+$$\Rightarrow Var(\frac{(n-1)S_{n}^{2}}{\sigma^{2}})=2(n-1)$$
+$$\Rightarrow \frac{(n-1)^{2}}{\sigma^{4}}Var(S_{n}^{2})=2(n-1)$$
+$$\therefore Var(S_{n}^{2})=\frac{2\sigma^{4}}{n-1}$$
