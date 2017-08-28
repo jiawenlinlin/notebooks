@@ -1,0 +1,93 @@
+---
+title: "Mathematical Statistics"
+author: "林嘉文"
+date: "2017年8月26日"
+output: html_document
+---
+首先我们明确我们所学的是参数统计，与之相对应的是非参数统计。它们都会涉及到*参数估计*和*假定检验*，这也是数理统计要做的两件最主要的事情。参数统计与非参数统计的区别就在于，参数统计对于随机变量的分布是有假设的，而非参数统计则相对来说缺少对于分布的假设,相对更robust。
+
+但是我们肯定想问，到底我们是在干什么呢？统计所在做的分为描述性统计和推断性统计(describetive statistics and inference statistics),我们现在说的是推断性统计到底在做什么。推断性统计其实都是为了研究“某个事情的规律”，这里的“某个事情”泛指某个随机变量，“规律”指的就是随机变量的分布。这世间很多东西可以简化为随机变量的各种取值，因此我们最想知道的就是这个随机变量的分布，而推断性统计就是为了将这个随机变量的分布找出来。对于随机变量而言，得到分布就得到了一切。
+
+但是我们永远无法确切知道分布到底是什么样子的，因此我们只能*估计*，估计完了之后还要*检定*这个估计是否正确。
+
+
+
+#Chapter 5 Parameter Estimation
+
+* 样本必须iid，并具有代表性。
+* 从大量数据中得出分布，有两种方法，一种是参数估计方法，一种是非参数估计方法，分别对应于参数统计和非参数统计。
+
+##参数估计基本介绍
+
+参数估计方法就是我们假设随机变量服从某个分布$f_{X}(x)=f(x,\theta)$,其中$f_{X}()$是已知函数而参数$\theta$是未知的，从而我们的任务从估计其分布变成估计参数，这里的$\theta$是一个概括，它可以是一个或者多个未知参数。
+
+> 如果$f_{X}(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}$,则$\theta=(\mu,\sigma)$  
+> 从这里我们就要记住我们现在的任务是估计一个*固定的*、*未知的*值。
+
+##统计量
+
+定义：$X^{n}=(X_{1},X_{2},X_{3},...,X_{n})$是从总体中取出的n个iid随机变量。$T(X^{n})=T(X_{1},X_{2},X_{3},...,X_{n})$则称为一个*统计量(statistic)*
+
+> 统计量也是一个随机变量，因为它实际上是对$X^{n}$加了一个法则。因此统计量也具有概率分布，也有期望、方差这些性质。  
+> 统计量中不能出现未知参数，不然不叫统计量。统计量的分布有可能已知有可能未知。与之相对应的一个东西叫做*枢轴量*，枢轴量是含有未知参数的随机变量，但是它的分布是已知的。  
+> 为什么要弄这么一个统计量呢？在我看来，其实统计量就是用来估计参数的。它也符合我们的一个逻辑：我们只拥有许多数据，这些数据是iid样本$X^{n}$的一次（或多次）取值，那么我们构造的统计量也能得到相应的取值，如果这些统计量被证明是一些参数的好的估计，那么我们就可以用它们来估计参数了。  
+> eg:$\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}$,$S_{n}^{2}=\frac{\sum_{i=1}^{n}(X_{i}-\bar{X_{n}})^{2}}{n-1}$,它们分别是样本均值和样本方差，但是实际上它们就是统计量。它们是由iii样本$X^{n}$构成的函数，它们是随机变量。
+
+
+**样本均值$\bar{X_{n}}$**
+
+样本均值，就是对样本取平均。
+$$\bar{X_{n}}=\frac{1}{n}\sum\limits_{i=1}^{n}X_{i}$$
+那么我们就会自然想知道它的期望、方差以及分布是什么，
+$$E(\bar{X_{n}})=E(\frac{1}{n}\sum\limits_{i=1}^{n}X_{i})=\frac{1}{n}\sum\limits_{i=1}^{n}E(X_{i})=\frac{1}{n}\sum\limits_{i=1}^{n}\mu=\mu$$
+
+> 因为$X_{i}$是iid的，所以得到这个结果。可以看到样本均值的期望就是$X_{i}$的期望$\mu$。因此我们把样本均值称为是总体均值$\mu$的无偏估计。
+
+$$Var(\bar{X_{n}})=Var(\frac{1}{n}\sum\limits_{i=1}^{n}X_{i})=\frac{1}{n^{2}}Var(\sum\limits_{i=1}^{n}X_{i})=\frac{1}{n^{2}}\sum\limits_{i=1}^{n}Var(X_{i})=\frac{\sigma^{2}}{n}$$
+
+> 求解过程中，因为$X_{i}$是独立同分布的，因此所有的协方差均为0。可以看到最后样本均值的方差和$X_{i}$的方差不同，它衡量的是$\bar{X_{n}}$这一随机变量的波动程度。  
+> 当n越大，$Var(\bar{X_{n}})$越小。当$n\rightarrow\infty$，$Var(\bar{X_{n}})\rightarrow 0$,换句话说就是当n趋向无穷时，样本均值就是总体均值。
+
+
+Theorem:suppose $X^{n}=(X_{1},X_{2},...X_{n})$是iid正态分布的随机样本，均值为$\mu$，方差为$\sigma^{2}$，那么就有
+$$\bar{X_{n}}\sim N(\mu,\frac{\sigma^{2}}{n})$$
+
+> 这个其实都不能算是一个theorem，因为这个实际上就是我们在概率论中说的sum of independent R.V.的结论的使用。
+
+Central Limit Theorem:$X^{n}=(X_{1},X_{x},...,X_{n})$是iid的随机样本，均值为$\mu$，方差为$\sigma^{2}$，$\bar{X_{n}}=\frac{1}{b}\sum\limits_{i=1}^{n}X_{i}$,则
+$$Z_{n}=\frac{\bar{X_{n}}-\mu}{\frac{\sigma}{\sqrt{n}}}\xrightarrow{d}N(0,1)$$
+
+> 中心极限定理并不要求$X_{i}$的任何分布信息，只需要n足够大。
+
+**样本方差$S_{n}^{2}=\frac{1}{n-1}\sum\limits_{i=1}^{n}(X_{i}-\bar{X_{n}})^{2}$**
+
+我们的第一反应其实是仿照样本均值，分母似乎是n而不是(n-1)，但是我们可以证明分母是(n-1)才能使其是总体方差的无偏估计。
+
+$$S_{n}^{2}=\frac{1}{n-1}\sum\limits_{i=1}^{n}(X_{i}-\bar{X_{n}})^{2}=\frac{1}{n-1}\sum\limits_{i=1}^{n}[(X_{i}-\mu)-(\bar{X_{n}}-\mu)]^{2}=\frac{1}{n-1}\sum\limits_{i=1}^{n}[(X_{i}-\mu)^{2}-2(X_{i}-\mu)(\bar{X_{n}}-\mu)+(\bar{X_{n}}-\mu)^{2}]$$
+$$\Rightarrow S_{n}^{2}=\frac{1}{n-1}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-2\sum\limits_{i=1}^{n}(X_{i}-\mu)(\bar{X_{n}}-\mu)+\sum\limits_{i=1}^{n}(\bar{X_{n}}-\mu)^{2}]=\frac{1}{n-1}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-2(\bar{X_{n}}-\mu)\sum\limits_{i=1}^{n}(X_{i}-\mu)+n\cdot(\bar{X_{n}}-\mu)^{2}]$$
+$$\Rightarrow S_{n}^{2}=\frac{1}{n-1}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-2(\bar{X_{n}}-\mu)(\sum\limits_{i=1}^{n}X_{i}-n\cdot\mu)+n\cdot(\bar{X_{n}}-\mu)^{2}]=\frac{1}{n-1}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-2(\bar{X_{n}}-\mu)\cdot n\cdot(\bar{X_{n}}-\mu)+n\cdot(\bar{X_{n}}-\mu)^{2}]$$
+$$\Rightarrow S_{n}^{2}=\frac{1}{n-1}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-n\cdot(\bar{X_{n}}-\mu)^{2}]$$
+$$\therefore E(S_{n}^{2})=\frac{1}{n-1}E[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-n\cdot(\bar{X_{n}}-\mu)^{2}]=\frac{1}{n-1}(n\cdot\sigma^{2}-n\cdot\frac{\sigma^{2}}{n})=\sigma^{2}$$
+
+> 显然我们可以看到，如果分母不是(n-1)，那么样本方差的期望就不是$\sigma^{2}$啦！
+
+为了推出样本方差的方差和分布，我们需要证明：
+$$\textrm{Suppose }X^{n}\textrm{ is a iid }N(\mu,\sigma^{2})\textrm{ random sample.Then for any n>1},S_{n}^{2}\,\,and\,\,\bar{X_{n}}\textrm{ are mutually independent.That is }S_{n}^{2}\bot\bar{X_{n}}$$
+
+> 这个我们就不详细证了，我们说一下大致的思路。等价于要证明$(X_{1}-\bar{X_{n}},X_{2}-\bar{X_{n}},...,X_{n}-\bar{X_{n}})\bot X_{n}$,则我们进行一次换元，以简化字符，然后通过$f_{X,Y}(x,y)=h(x)\cdot g(y)$这个推论来证明独立。  
+> 我们会用到雅可比矩阵的知识，因为我们需要在换元之后得到新的联合分布。  
+> 这个理论要求X必须来自正态分布，在证明中要用到。所以一定要注意这个前提。
+
+Theorem:$\frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim X_{n-1}^{2}$
+
+需要说明的是，首先要求X来自一个正态分布，那么这个随机样本的样本方差有这样一个结论，其中$X_{n-1}^{2}$是自由度为(n-1)的卡方分布。
+
+$$\frac{(n-1)S_{n}^{2}}{\sigma^{2}}=\sum\limits_{i=1}^{n}\frac{(X_{i}-\bar{X_{n}})^{2}}{\sigma^{2}}=\sum\limits_{i=1}^{n}\frac{[(X_{i}-\mu)-(\bar{X_{n}}-\mu)]^{2}}{\sigma^{2}}=\frac{1}{\sigma^{2}}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-n\cdot(\bar{X_{n}}-\mu)^{2}]$$
+$$\Rightarrow \frac{(n-1)S_{n}^{2}}{\sigma^{2}}=\sum\limits_{i=1}^{n}(\frac{X_{i}-\mu}{\sigma})^{2}-n\cdot (\frac{\bar{X_{n}}-\mu}{\sigma})^{2}=\sum\limits_{i=1}^{n}(\frac{X_{i}-\mu}{\sigma})^{2}-(\frac{\bar{X_{n}}-\mu}{\frac{\sigma}{\sqrt{n}}})^{2}$$
+$$\Rightarrow \textrm{令 }U=\sum\limits_{i=1}^{n}(\frac{X_{i}-\mu}{\sigma})^{2},Z=(\frac{\bar{X_{n}}-\mu}{\frac{\sigma}{\sqrt{n}}})^{2},W=\frac{(n-1)S_{n}^{2}}{\sigma^{2}}$$
+$$\therefore U=Z+W$$
+$$M_{U}(t)=M_{Z+W}(t)=E[e^{(z+w)t}]=E(e^{zt+wt})=\int\int e^{zt+wt}f_{Z,W}(z,w)dzdw=\int e^{zt}f(z)dz\int e^{wt}f(w)dw=(1-2t)^{-\frac{1}{2}}M_{W}(t)$$
+$$\because M_{U}(t)=(1-2t)^{-\frac{n}{2}}\quad\therefore M_{W}(t)=(1-2t)^{-\frac{n-1}{2}}$$
+$$\therefore \frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim X_{n-1}^{2}$$
+
+> 在我们使用矩母函数的时候，我们把联合分布拆开就用到了样本均值和样本方差独立的条件。
