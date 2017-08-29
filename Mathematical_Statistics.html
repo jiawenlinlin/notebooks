@@ -191,6 +191,101 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 <p>有了分布之后，方差就很好计算了。因为</p>
 <p><span class="math display">\[E(\chi_{n-1}^{2})=n-1,Var(\chi_{n-1}^{2})=2(n-1)\]</span> <span class="math display">\[\Rightarrow Var(\frac{(n-1)S_{n}^{2}}{\sigma^{2}})=2(n-1)\]</span> <span class="math display">\[\Rightarrow \frac{(n-1)^{2}}{\sigma^{4}}Var(S_{n}^{2})=2(n-1)\]</span> <span class="math display">\[\therefore Var(S_{n}^{2})=\frac{2\sigma^{4}}{n-1}\]</span></p>
 </div>
+<div class="section level2">
+<h2>两大估计方法</h2>
+<p>前面我们讲的样本均值和样本方差实际上也可以作为均值和方差的估计量，但是它们是我们从直觉中找到的统计量，而不是通过某种方法找到的。现在我们要介绍两种最主要的参数估计方法。</p>
+<p><strong>Maximum likelihood estimation</strong></p>
+<p><em>本质：观察到已经发生的事件，求得使这件事发生概率最大的参数的值。</em></p>
+<blockquote>
+<p>这种方法有一个很本质的想法，比如说一个池塘有A,B两种鱼，你随便捞10条鱼，其中8条是A，2条是B，从而你估计池塘中80%是A鱼;又比如说拿一枚硬币投掷30次，结果是20次为字朝上，10次花朝上，从而你估计字朝上的概率是<span class="math inline">\(\frac{2}{3}\)</span>。<br />
+概率论是已知参数求概率，而数理统计是由观察到的数据估计参数。</p>
+</blockquote>
+<p>The procedure to find a maximum likelihood estimator for <span class="math inline">\(\theta\)</span></p>
+<ol style="list-style-type: decimal">
+<li>得到<span class="math inline">\(L(\theta)\)</span>,<span class="math inline">\(L(\theta)=\prod\limits_{i=1}^{n}f_{Y}(yi,\theta)\)</span>.</li>
+<li>对<span class="math inline">\(L(\theta)\)</span>取对数,<span class="math inline">\(\rho(\theta)=ln(L(\theta))\)</span>（方便运算，尤其对于指数类的概率分布函数。并且ln是单调递增的，不会影响到<span class="math inline">\(L(\theta)\)</span>的极值点）</li>
+<li>解等式<span class="math inline">\(\frac{d\rho(\theta)}{d\theta}=0\)</span>，求得极值点</li>
+<li>验证二阶导是否小于0，保证极值点为极大值点。（这一步一般来说不需要）</li>
+</ol>
+<blockquote>
+<p><span class="math inline">\(L(\theta)被称为似然函数(likelihood function),要得到这个东西，前提就是我们已知Y的分布，所以最大似然估计很显然就是参数估计的方法。\)</span><br />
+实际上我们在求的东西是，<span class="math inline">\(\hat{\theta}=arg\,max_{\theta}L(\theta|Y_{1},Y_{2},...Y_{n})\)</span>。在随机样本没有取值之前，这个表达式是一个随机变量，也就是一个estimator，但是当随机样本取值之后，这个estimator也会取一个值，也就是estimate。</p>
+</blockquote>
+<blockquote>
+<p>eg1:我们以掷硬币为例子，我们想要估计的很显然就是伯努利分布中的那个p。<br />
+对于伯努利分布，<span class="math inline">\(f_{X}(x)=p^{x}(1-p)^{1-x},x\in\{0,1\}\)</span><br />
+<span class="math inline">\(\Rightarrow L(p)=f_{X}(x_{1})f_{X}(x_{1})\cdots f_{X}(x_{n})=p^{\sum\limits_{i=1}^{n}x_{i}}(1-p)^{n-\sum\limits_{i=1}^{n}x_{i}}\)</span><br />
+<span class="math inline">\(\Rightarrow\rho(p)=ln(L(p))=\sum\limits_{i=1}^{n}x_{i}ln(p)+(n-\sum\limits_{i=1}^{n}x_{i})ln(1-p)\)</span><br />
+<span class="math inline">\(\Rightarrow\frac{d\rho(p)}{dp}=\sum\limits_{i=1}^{n}x_{i}\frac{1}{p}-(n-\sum\limits_{i=1}^{n}x_{i})\frac{1}{1-p}=\frac{(1-p)\sum\limits_{i=1}^{n}x_{i}-p(n-\sum\limits_{i=1}^{n}x_{i})}{p(1-p)}=0\)</span><br />
+<span class="math inline">\(\therefore\quad \hat{p}=\frac{1}{n}\sum\limits_{i=1}^{n}x_{i}\)</span><br />
+这个就是p的估计量，它首先是一个随机变量，其实就是样本均值。当我们进行实验得到数据之后，就可以得到一个具体的估计值。</p>
+</blockquote>
+<blockquote>
+<p>eg2:当未知参数不止一个的时候，例如有两个参数则要对两个参数求偏导并联立求解。<span class="math inline">\(X_{i}\sim N(\mu,\sigma),X^{n}=(X_{1},X_{2},...,X_{n})\)</span>。求均值和方差的最大似然估计量。<br />
+<span class="math inline">\(f_{X}(X)=\frac{1}{\sqrt{2\pi\sigma^{2}}}e^{-frac{(x-\mu)^{2}}{2\sigma^{2}}}\)</span><br />
+<span class="math inline">\(\Rightarrow L(\mu,\sigma^{2})=\prod\limits_{i=1}^{n}f_{X}(x_{i},\mu,\sigma^{2})=\frac{1}{(2\pi\sigma^{2})^{\frac{n}{2}}}e^{-\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}}{2\sigma^{2}}}\)</span><br />
+<span class="math inline">\(\Rightarrow \rho(\mu,\sigma^{2})=ln(L(\mu,\sigma^{2}))=-\frac{n}{2}ln(2\pi\sigma^{2})-\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}}{2\sigma^{2}}\)</span><br />
+<span class="math display">\[\left\{
+\begin{array}{1}
+\frac{d\rho(\mu,\sigma^{2})}{d\mu}=\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)}{\sigma^{2}}=0\\ \frac{d\rho(\mu,\sigma^{2})}{d\sigma^{2}}=-\frac{n}{2}\cdot\frac{1}{\sigma^{2}}+\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}}{2}\cdot\frac{1}{\sigma^{4}}=0\\
+\end{array}
+\right.\]</span></p>
+</blockquote>
+<blockquote>
+<p><span class="math display">\[
+\left\{
+\begin{array}{1}
+\hat{\mu}=\bar{X_{n}}\\
+\hat{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(X_{i}-\bar{X_{n}})^{2}\\
+\end{array}
+\right.\]</span></p>
+</blockquote>
+<blockquote>
+<p>P.S.一定要注意，如果是对<span class="math inline">\(\sigma^{2}\)</span>进行估计，那么求偏导的时候就要把整个当做一个整体。<br />
+可以看到，用MLE来估计的方差的分母是n而不是样本方差中的(n-1)。所以显然它是一个有偏的估计量。</p>
+</blockquote>
+<p>当无法使用求导来求极大值时，就应该使用其他方法来求。</p>
+<blockquote>
+<p>eg3:<span class="math inline">\(f_{Y}(y)=e^{-(y-\theta)},y\geq\theta,\theta&gt;0,Y^{n}=(Y_{1},Y_{2},...,Y_{n}).\)</span><br />
+<span class="math inline">\(L(\theta)=\prod\limits_{i=1}^{n}e^{-(y_{i}-\theta)}\)</span><br />
+<span class="math inline">\(\Rightarrow \rho(\theta)=ln(L(\theta))=\sum\limits_{i=1}^{n}\theta-y_{i}\)</span><br />
+<span class="math inline">\(\frac{d\rho(\theta)}{d\theta}=n&gt;0\)</span><br />
+显然这里就没法说令其等于0，因为这个是一个递增函数没有极值点。但是因为它是递增的，如果我们在其定义域中取最大值就可以使函数最大化了。<br />
+<span class="math inline">\(\because \theta\leq y,\quad \therefore \theta\leq min(y_{i})=y_{(1)}\)</span><br />
+<span class="math inline">\(\therefore \hat{\theta}=y_{(1)}\)</span></p>
+</blockquote>
+<p><strong>Moments Estimation</strong></p>
+<p>首先我们要回忆一下关于矩的一些知识：</p>
+<p><span class="math display">\[E(X^{k})=
+\left\{
+\begin{array}{11}
+\sum_{x}x^{k}f(x) &amp; discrete R.V.\\
+\int x^{k}f(x)dx &amp; continuous R.V.\\
+\end{array}
+\right.\]</span></p>
+<p>矩估计的使用方法：</p>
+<ol style="list-style-type: decimal">
+<li>首先，你所要估计的参数必须是各阶矩的函数，并且一般来说有s个未知函数，那么就应该用到s阶矩。</li>
+<li>我们所要做的仅仅是用样本矩去替代总体矩,作为总体矩的估计，然后求解出各个参数的估计表达式即可（解方程组）</li>
+</ol>
+<p><em>j阶样本矩</em>： <span class="math display">\[\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}^{j}\]</span></p>
+<blockquote>
+<p>eg1:Suppose that <span class="math inline">\(Y^{n}=(Y_{1},Y_{2},...,Y_{n})\)</span> is a random sample of size n from a normal distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^{2}\)</span>.Estimate these two parameters.<br />
+<span class="math inline">\(\mu=E(Y),\sigma^{2}=E(Y^{2})-(E(Y))^{2}\)</span><br />
+<span class="math inline">\(\Rightarrow \hat{\mu}=\hat{E(Y)}=\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i},\hat{\sigma^{2}}=\hat{E(Y^{2})}-(\hat{E(Y)})^{2}=\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}^{2}-(\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i})^{2}\)</span><br />
+这就是矩估计量</p>
+</blockquote>
+<blockquote>
+<p>eg2:Suppose that <span class="math inline">\(Y^{n}=(Y_{1},Y_{2},...,Y_{n})\)</span> is a random sample of size n from a general gamma distribution with the pdf <span class="math inline">\(f_{Y}(y,\alpha,\beta)=\frac{1}{\tau(\alpha)\beta^{\alpha}}y^{\alpha-1}e^{-\frac{y}{\beta}},for\,\,y&gt;0\)</span>,where <span class="math inline">\(\alpha,\beta&gt;0\)</span> and <span class="math inline">\(\tau(\alpha)=\int_{0}^{\infty}t^{\alpha-1}e^{-t}dt\)</span>.Estimate <span class="math inline">\(\alpha,\beta\)</span><br />
+<span class="math inline">\(E(Y)=\alpha\beta,Var(Y)=\alpha\beta^{2}\)</span><br />
+<span class="math inline">\(\Rightarrow \beta=\frac{E(Y^{2})-(E(Y))^{2}}{E(Y)},\alpha=\frac{(E(Y))^{2}}{E(Y^{2})-(E(Y))^{2}}\)</span><br />
+<span class="math inline">\(\therefore \hat{\beta}=\frac{\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}^{2}-(\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i})^{2}}{\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}},\hat{\alpha}=\frac{(\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i})^{2}}{\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}^{2}-(\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i})^{2}}\)</span></p>
+</blockquote>
+<p><em>所以你会发现MME非常方便，因为它的过程非常简单不想MLE那样需要求极值之类的，同时MME没有直接用到分布的信息。但是我们可以看到，MME在某种程度上比较鸡肋，因为首先你需要估计的参数要能够被各阶矩表示出来，才能进行后面的替代，其次因为它的简便性，它的精确度就没有MLE那么高，毕竟它只使用了矩的信息，而没有使用整个分布的信息。</em></p>
+</div>
+<div class="section level2">
+<h2>区间估计</h2>
+</div>
 </div>
 
 
