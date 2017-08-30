@@ -140,8 +140,8 @@ $(document).ready(function () {
 从这里我们就要记住我们现在的任务是估计一个<em>固定的</em>、<em>未知的</em>值。</p>
 </blockquote>
 </div>
-<div class="section level2">
-<h2>统计量</h2>
+<div id="statistics" class="section level2">
+<h2>Statistics</h2>
 <p>定义：<span class="math inline">\(X^{n}=(X_{1},X_{2},X_{3},...,X_{n})\)</span>是从总体中取出的n个iid随机变量。<span class="math inline">\(T(X^{n})=T(X_{1},X_{2},X_{3},...,X_{n})\)</span>则称为一个<em>统计量(statistic)</em></p>
 <blockquote>
 <p>统计量也是一个随机变量，因为它实际上是对<span class="math inline">\(X^{n}\)</span>加了一个法则。因此统计量也具有概率分布，也有期望、方差这些性质。<br />
@@ -191,8 +191,8 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 <p>有了分布之后，方差就很好计算了。因为</p>
 <p><span class="math display">\[E(\chi_{n-1}^{2})=n-1,Var(\chi_{n-1}^{2})=2(n-1)\]</span> <span class="math display">\[\Rightarrow Var(\frac{(n-1)S_{n}^{2}}{\sigma^{2}})=2(n-1)\]</span> <span class="math display">\[\Rightarrow \frac{(n-1)^{2}}{\sigma^{4}}Var(S_{n}^{2})=2(n-1)\]</span> <span class="math display">\[\therefore Var(S_{n}^{2})=\frac{2\sigma^{4}}{n-1}\]</span></p>
 </div>
-<div class="section level2">
-<h2>两大估计方法</h2>
+<div id="two-classical-estimation-methods" class="section level2">
+<h2>Two classical estimation methods</h2>
 <p>前面我们讲的样本均值和样本方差实际上也可以作为均值和方差的估计量，但是它们是我们从直觉中找到的统计量，而不是通过某种方法找到的。现在我们要介绍两种最主要的参数估计方法。</p>
 <p><strong>Maximum likelihood estimation</strong></p>
 <p><em>本质：观察到已经发生的事件，求得使这件事发生概率最大的参数的值。</em></p>
@@ -224,14 +224,13 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 <p>eg2:当未知参数不止一个的时候，例如有两个参数则要对两个参数求偏导并联立求解。<span class="math inline">\(X_{i}\sim N(\mu,\sigma),X^{n}=(X_{1},X_{2},...,X_{n})\)</span>。求均值和方差的最大似然估计量。<br />
 <span class="math inline">\(f_{X}(X)=\frac{1}{\sqrt{2\pi\sigma^{2}}}e^{-frac{(x-\mu)^{2}}{2\sigma^{2}}}\)</span><br />
 <span class="math inline">\(\Rightarrow L(\mu,\sigma^{2})=\prod\limits_{i=1}^{n}f_{X}(x_{i},\mu,\sigma^{2})=\frac{1}{(2\pi\sigma^{2})^{\frac{n}{2}}}e^{-\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}}{2\sigma^{2}}}\)</span><br />
-<span class="math inline">\(\Rightarrow \rho(\mu,\sigma^{2})=ln(L(\mu,\sigma^{2}))=-\frac{n}{2}ln(2\pi\sigma^{2})-\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}}{2\sigma^{2}}\)</span><br />
-<span class="math display">\[\left\{
+<span class="math inline">\(\Rightarrow \rho(\mu,\sigma^{2})=ln(L(\mu,\sigma^{2}))=-\frac{n}{2}ln(2\pi\sigma^{2})-\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}}{2\sigma^{2}}\)</span></p>
+</blockquote>
+<p><span class="math display">\[\left\{
 \begin{array}{1}
 \frac{d\rho(\mu,\sigma^{2})}{d\mu}=\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)}{\sigma^{2}}=0\\ \frac{d\rho(\mu,\sigma^{2})}{d\sigma^{2}}=-\frac{n}{2}\cdot\frac{1}{\sigma^{2}}+\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}}{2}\cdot\frac{1}{\sigma^{4}}=0\\
 \end{array}
 \right.\]</span></p>
-</blockquote>
-<blockquote>
 <p><span class="math display">\[
 \left\{
 \begin{array}{1}
@@ -239,7 +238,6 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 \hat{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(X_{i}-\bar{X_{n}})^{2}\\
 \end{array}
 \right.\]</span></p>
-</blockquote>
 <blockquote>
 <p>P.S.一定要注意，如果是对<span class="math inline">\(\sigma^{2}\)</span>进行估计，那么求偏导的时候就要把整个当做一个整体。<br />
 可以看到，用MLE来估计的方差的分母是n而不是样本方差中的(n-1)。所以显然它是一个有偏的估计量。</p>
@@ -265,8 +263,8 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 \right.\]</span></p>
 <p>矩估计的使用方法：</p>
 <ol style="list-style-type: decimal">
-<li>首先，你所要估计的参数必须是各阶矩的函数，并且一般来说有s个未知函数，那么就应该用到s阶矩。</li>
-<li>我们所要做的仅仅是用样本矩去替代总体矩,作为总体矩的估计，然后求解出各个参数的估计表达式即可（解方程组）</li>
+<li>首先，你先要判断一共要估计多少个未知参数。如果呀估计s个未知参数，就要用到s阶矩。分别计算s阶矩的表达式，它们由着s个未知参数的代数式表示。</li>
+<li>我们所要做的仅仅是用样本矩去替代总体矩,作为总体矩的估计，然后反解出各个参数的估计表达式即可（解方程组）</li>
 </ol>
 <p><em>j阶样本矩</em>： <span class="math display">\[\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}^{j}\]</span></p>
 <blockquote>
@@ -281,10 +279,114 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 <span class="math inline">\(\Rightarrow \beta=\frac{E(Y^{2})-(E(Y))^{2}}{E(Y)},\alpha=\frac{(E(Y))^{2}}{E(Y^{2})-(E(Y))^{2}}\)</span><br />
 <span class="math inline">\(\therefore \hat{\beta}=\frac{\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}^{2}-(\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i})^{2}}{\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}},\hat{\alpha}=\frac{(\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i})^{2}}{\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}^{2}-(\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i})^{2}}\)</span></p>
 </blockquote>
-<p><em>所以你会发现MME非常方便，因为它的过程非常简单不想MLE那样需要求极值之类的，同时MME没有直接用到分布的信息。但是我们可以看到，MME在某种程度上比较鸡肋，因为首先你需要估计的参数要能够被各阶矩表示出来，才能进行后面的替代，其次因为它的简便性，它的精确度就没有MLE那么高，毕竟它只使用了矩的信息，而没有使用整个分布的信息。</em></p>
+<p><em>所以你会发现MME非常方便，因为它的过程非常简单不想MLE那样需要求极值之类的，同时MME没有直接用到分布的信息。但是我们可以看到，因为它的简便性，它的精确度就没有MLE那么高，毕竟它只使用了矩的信息，而没有使用整个分布的信息。</em></p>
 </div>
-<div class="section level2">
-<h2>区间估计</h2>
+<div id="interval-estimation" class="section level2">
+<h2>Interval Estimation</h2>
+<p>之前我们所做的都是point estimation(点估计),也就是说我们每次我们进行一次估计，因为估计量是一个随机变量，它就会得到一次取值，是一个点。但是这样就存在一个问题：好比说有一个无偏的估计量，它的期望就是这个未知的参数值，这时候如果只进行一次观察得到估计量的一个实现值，我们就无法知道这个实现值到底离它的均值是近还是远，尽管按理来说大部分的实现值会在期望附近出现。那我们可能又会问了，那就多观察几次呗？但是一般来说我们只会对随机样本进行一次取值。</p>
+<p>To this end,we usually construct a confidence interval to quantify the amount of uncertainty in an estimator.By looking at the width of a confidence interval,we can get a good sense of the estimators precision.</p>
+<blockquote>
+<p>说白了，区间估计从估计的角度来说是对点估计的改进。它的改进在于减少了点估计的不确定性，这个不确定性就体现在我刚刚说的在一次取值中无法知道它离期望是远是近。但是用区间估计的话，就会控制住这个不确定性。</p>
+</blockquote>
+<p>Given a confidence level <span class="math inline">\(1-\alpha\in[0,1]\)</span>,we have two statistics <span class="math display">\[\textrm{lower bound: }L(X_{1},X_{2},...,X_{n})\textrm{ and upper bound: }U(X_{1},X_{2},...,X_{n})\]</span> such that <span class="math display">\[P_{\theta_{0}}\{L(X_{1},X_{2},...,X_{n})\leq\theta_{0}\leq U(X_{1},X_{2},...,X_{n})\}=1-\alpha\]</span> We say that <span class="math inline">\([L(X_{1},X_{2},...,X_{n}),U(X_{1},X_{2},...,X_{n})]\)</span> is the confidence interval of the unknown parameter <span class="math inline">\(\theta_{0}\)</span> with confidence level <span class="math inline">\(1-\alpha\)</span></p>
+<blockquote>
+<p>注意了，L和U其实都是随机变量，都是统计量。相较于点估计只用了一个随机变量，现在我们用两个随机变量去框住一个范围。</p>
+</blockquote>
+<p>问题在于我们如何能够构造出confidence interval呢？我们必须回到自信区间的定义去寻找方法。可以看到我们只要能够实现这样的一个概率等式，那么我们就算找到了L和U。关键点有两个：</p>
+<ol style="list-style-type: decimal">
+<li>区间估计是点估计的升级改进，所以会和点估计有一定的联系</li>
+<li>枢轴量</li>
+</ol>
+<blockquote>
+<p>eg1:<span class="math inline">\(X_{i}\sim N(\mu,\sigma^{2})\)</span>,其中方差已知，我们想要求得均值的区间估计。那么我们首先想到的当然是<br />
+<span class="math display">\[\frac{\bar{X_{n]}}-\mu}{\frac{\sigma}{\sqrt{n}}}\sim N(0,1)\]</span><br />
+<span class="math display">\[\Rightarrow P(-Z_{\frac{\alpha}{2}}\leq\frac{\bar{X_{n}}-\mu}{\frac{\sigma}{\sqrt{n}}}\leq Z_{\frac{\alpha}{2}})=1-\alpha\]</span><br />
+<span class="math display">\[\Rightarrow P(\bar{X_{n}}-Z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\leq\mu\leq\bar{X_{n}}+Z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}})=1-\alpha\]</span><br />
+<span class="math display">\[\therefore [\bar{X_{n}}-Z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}},\bar{X_{n}}+Z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}]\textrm{就是我们要找的自信度为}(1-\alpha)\textrm{的自信区间}\]</span><br />
+可以看到，首先我们会先找均值的点估计量，但是最关键的是概率等式中的那个枢轴量，它含有未知参数<span class="math inline">\(\mu\)</span>，但是我们知道它的分布，知道它的分布就可以求概率了！！！然后再把未知参数放在中间就好了。</p>
+</blockquote>
+<blockquote>
+<p>eg2:如果X不服从正态分布且方差已知，我们仍然想估计它的均值。那么由中心极限定理我们还是有<br />
+<span class="math display">\[\frac{\bar{X_{n}}-\mu}{\frac{\sigma}{\sqrt{n}}}\xrightarrow{d}N(0,1)\]</span><br />
+后面的过程和第一个例子是相同的，关键点还是我们用CLT得到了一个类似于枢轴量的东西。也就是我们必须得到一个已知的分布。</p>
+</blockquote>
+<blockquote>
+<p>eg3:在前两个例子中，方差总是已知的。如果方差未知我们可以用样本方差替代总体方差。当X是正态分布时，那个枢轴量将服从T分布；当X是未知分布时，通过中心极限定理以及Slutsky’s Theorem可以得到那个枢轴量仍然依概率收敛于标准正态分布。</p>
+</blockquote>
+<blockquote>
+<p>eg4:Let <span class="math inline">\(X\sim Bin(n,p)\)</span>.We are interested in the confidence interval of p.Note that <span class="math inline">\(X=\sum\limits_{i=1}^{n}Y_{i}\)</span> with <span class="math inline">\(Y_{i}\)</span> iid from Bernoulli(p).<br />
+<span class="math display">\[\textrm{由CLT }，\frac{\frac{X}{n}-p}{\sqrt{\frac{p(1-p)}{n}}}\xrightarrow{d}N(0,1)\]</span><br />
+<span class="math display">\[\Rightarrow P(-Z_{\frac{\alpha}{2}}\leq\frac{\frac{X}{N}-p}{\sqrt{\frac{p(1-p)}{n}}}\leq Z_{\frac{\alpha}{2}})=1-\alpha\]</span><br />
+这时候你发现没有办法把p单独分离出来，无法得到自信区间的定义式。但是我们可以通过Slutsky’s Theorem再构造一个依概率收敛于标准正态分布的枢轴量。具体就不展开了。</p>
+</blockquote>
+<p>最后，我们还要说一下对于区间估计的理解。所有的理解都是基于自信区间的定义式展开的，因为它是一个概率等式，那么这个自信度<span class="math inline">\((1-\alpha)\)</span>的意思就是概率的意思。比如说自信度为95%，那意思就是如果我<em>能够</em>重复观察10000次，那么其中9500次均值会落在这个区间内，如果我<em>能够</em>重复观察100000次，那么其中95000次均值会落在这个区间内。但是，还是之前的那句话，<em>一般来说我们只进行一次观察</em>，对于这一次观察这个均值到底落不落进这一次的实现范围，只有两种情况：要么落进去，要么不落进去。而这个自信度越高，说明落进去的概率越大，那么对应于某一次来说我们<em>更加相信</em>它是落进去的。至于到底落进去没有，只有上帝知道了。</p>
+</div>
+<div id="properties-of-estimators" class="section level2">
+<h2>Properties of Estimators</h2>
+<p>之所以我们想要了解估计量的性质，是因为我们想知道：哪一个估计量更好？因为估计量实际上就是统计量，因此它是一个随机变量，也就会有期望、方差、分布这些性质，这也是我们用来判断的标准。</p>
+<p><strong>Unbiasedness</strong></p>
+<p>Definition:Suppose <span class="math inline">\(Y^{n}=(Y_{1},Y_{2},...,Y_{n})\)</span> is a random sample with pdf <span class="math inline">\(f_{Y}(y,\theta)\)</span>,<span class="math inline">\(\theta\)</span> is an unknown parameter.Then <span class="math inline">\(\hat{\theta}=h(Y_{1},Y_{2},...,Y_{n})\)</span> is called unbiased estimator if <span class="math display">\[E(\hat{\theta})=\theta\]</span> and the bias of <span class="math inline">\(\hat{\theta}\)</span> is defined by <span class="math display">\[Bias(\hat{\theta})=E(\hat{\theta})-\theta\]</span></p>
+<blockquote>
+<p>eg:<span class="math inline">\(Y_{1},Y_{2},...,Y_{n}\sim f_{Y}(y,\theta)=\frac{2y}{\theta^{2}},0\leq y\leq\theta\)</span>.Give the MLE and MME of <span class="math inline">\(\theta\)</span> and distinguish their unbiasedness.<br />
+我们直接给出两种估计量，<br />
+<span class="math display">\[\hat{\theta_{MLE}}=Y_{Max}=Y_{(n)},\hat{\theta_{MME}}=\frac{3}{2}\cdot\bar{Y_{n}}\]</span><br />
+<span class="math display">\[E(\hat{\theta_{MME}})=\frac{3}{2n}E(\sum\limits_{i=1}^{n}Y_{i})=\frac{3}{2}E(Y_{i}),E(Y_{i})=\int_{0}^{\theta}Y\cdot f_{Y}(y,\theta)dy=\frac{2}{3}\theta\]</span><br />
+<span class="math display">\[\therefore E(\hat{\theta_{MME}})=\theta\quad \textrm{MME为无偏估计量}\]</span> <span class="math display">\[E(\hat{\theta_{MLE}})=E(Y_{(n)})=\frac{2n}{2n+1}\theta\]</span><br />
+<span class="math display">\[\therefore \textrm{MLE是有偏估计量且 } Bias(\hat{\theta_{MLE}})=E(\hat(\theta_{MLE}))-\theta=-\frac{1}{2n+1}\theta\]</span></p>
+</blockquote>
+<p>Find an unbiased estimator for some parameter</p>
+<p>方法：一般来说我们一开始找到的估计量它的期望会带有这个未知参数的一部分或者除了这个未知参数以外还多了一些东西。如果一开始找到的这个估计量的期望就是未知参数，那就刚刚好，但大多数之后是有偏的——可能是多了一个系数，也可能是多了一些代数式子。那么我们就反向处理即可。</p>
+<blockquote>
+<p>eg1:<span class="math inline">\(X^{n}\)</span> is an iid random sample from some population with <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>.Find an unbiased estimator for <span class="math inline">\(Var_{\theta}(\bar{X_{n}})\)</span><br />
+首先我们知道我们要估的是<span class="math inline">\(\frac{\sigma^{2}}{n}\)</span>，那么我们就要找一个估计量它的期望里面能包含方差<span class="math inline">\(\sigma^{2}\)</span>，所以就找到了样本方差。但是还少一个系数，所以就有<br />
+<span class="math display">\[E(\frac{1}{n}S_{n}^{2})=\frac{1}{n}\sigma^{2}=\frac{\sigma^{2}}{n}\]</span></p>
+</blockquote>
+<blockquote>
+<p>eg2:<span class="math inline">\(X^{n}\)</span> is an iid random sample from some population with <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>.Find an unbiased estimator for <span class="math inline">\(\mu^{2}\)</span><br />
+我们知道样本均值的期望是<span class="math inline">\(\mu\)</span>，所以我们想到样本均值的平方可能可行。<br />
+<span class="math inline">\(E(\bar{X_{n}}^{2})=Var(\bar{X_{n}})+[E(\bar{X_{n}})]^{2}=\frac{\sigma^{2}}{n}+\mu^{2}\)</span>,多了一个部分我们就反向处理！<br />
+<span class="math inline">\(\because E(\frac{1}{n}S_{n}^{2})=\frac{\sigma^{2}}{n}\quad\therefore E(\bar{X_{n}}^{2}-\frac{1}{n}S_{n}^{2})=\mu^{2}\)</span><br />
+<span class="math inline">\(\bar{X_{n}}^{2}-\frac{1}{n}S_{n}^{2}\)</span>就是我们找的无偏估计量</p>
+</blockquote>
+<p><strong>Efficiency</strong></p>
+<p>对于一个未知参数，它可以有不止一个统计量，那么它当然也有可能有不止一个无偏统计量，那么对于多个无偏统计量，哪一个更好呢？</p>
+<p>我们在考察估计量的时候，除了看其无偏性以外，还会看它的精确度(precision)。可以这样想，无偏就是这个估计量取很多次值但是它们平均来说会不会和真实的参数相等；精确度则是说这个估计量会不会大范围波动。</p>
+<p>Definition:Relative Efficiency</p>
+<p>Let <span class="math inline">\(\hat\theta_{1}\)</span> and <span class="math inline">\(\hat\theta_{2}\)</span> be two unbiased estimators for <span class="math inline">\(\theta\)</span>.If <span class="math display">\[Var(\hat\theta_{2})&lt;Var(\hat\theta_{1})\]</span> we say that <span class="math inline">\(\hat\theta_{2}\)</span> is more efficient than <span class="math inline">\(\hat\theta_{1}\)</span>,also the relative efficiency of <span class="math inline">\(\hat\theta_{2}\)</span> with respect to <span class="math inline">\(\hat\theta_{1}\)</span> is the ratio <span class="math display">\[\frac{Var(\hat\theta_{1})}{Var(\hat\theta_{2})}\]</span></p>
+<blockquote>
+<p>因为这个是2对于1的有效性，如果2对于1更加有效说明2的方差更小，所以这个ratio中分子是1的方差，分母是2的方差。</p>
+</blockquote>
+<p><strong>Mean Squared Error</strong></p>
+<p>我们从unbiasedness开始比较两个estimator的好坏，然后在都是无偏的情况下时我们用efficiency来进行比较。那么进一步我们就想问一个问题：<em>如果一个估计量是有偏但方差小一些，另一个是无偏但方差大一些，这两个估计量哪个更优？</em></p>
+<p><span class="math display">\[MSE=E[(\hat\theta-\theta)^{2}]\]</span></p>
+<blockquote>
+<p>MSE的想法是：我们使用<span class="math inline">\(\hat\theta\)</span>的目的是为了顾及<span class="math inline">\(\theta\)</span>，所以两者当然越接近越好，那么就转变为我们怎么去度量这个接近程度。如果这样想的话，好像<span class="math inline">\(E(\hat\theta-\theta)\)</span>也可以，但是问题在于它度量的是difference,它是可以正负相抵消的！因此我们进行改进就有了考虑distance的两种衡量方法<br />
+<span class="math display">\[E(|\hat\theta-\theta|)\quad\textrm{or}\quad E[(\hat\theta-\theta)^{2}]\]</span><br />
+现在我们只考虑使用平方的方法，因为从数理角度看，平方比绝对值更好处理。<br />
+还要注意的一点是，这里的<span class="math inline">\(\theta\)</span>并不是天然就是<span class="math inline">\(\hat\theta\)</span>的期望啊!</p>
+</blockquote>
+<p><span class="math display">\[MSE(\hat\theta)=E[(\hat\theta-\theta)^{2}]=E[(\hat\theta-E(\hat\theta)+E(\hat\theta)-\theta)^{2}]=E[(\hat\theta-E(\hat\theta))^{2}]+2E[(\hat\theta-E(\hat\theta))(E(\hat\theta)-\theta)]+E[(E(\hat\theta)-\theta)^{2}]\]</span> <span class="math display">\[\Rightarrow MSE(\hat\theta)=Var(\hat\theta)+2(E(\hat\theta)-\theta)E[\hat\theta-E(\hat\theta)]+(E(\hat\theta)-\theta)^{2}\]</span> <span class="math display">\[\therefore MSE(\hat\theta)=Var(\hat\theta)+[Bias(\hat\theta)]^{2}\]</span></p>
+<blockquote>
+<p>可以发现，我们找到了连接<em>无偏性</em>和<em>有效性</em>去判断估计量好坏的一种方法，并且有效性其实就是当偏差为0的特例。</p>
+</blockquote>
+<p><strong>Best Unbiased Estimators</strong></p>
+<p>在有了MSE这个判断标准之后，如果我们想找一系列估计量中最好的那个，只要找到那个有最小均方误差的估计量即可。但是我们几乎无法一一比较每一个估计量尤其是当估计量很多的时候，因此我们做出必要的简化。我们去寻找<em>最优无偏估计量</em></p>
+<p>在一系列的<span class="math inline">\(\hat\theta\)</span>中，称<span class="math inline">\(\hat\theta_{\star}\)</span>为minimum variance unbiased estimator(MVUE) if <span class="math inline">\(\hat\theta_{\star}\in\theta\)</span> and <span class="math inline">\(Var(\hat\theta_{\star})\leq Var(\hat\theta)\,for\,\hat\theta\in\theta\)</span></p>
+<p><strong>The Cramer-Rao Lower Bound</strong></p>
+<p>Theorem:Let <span class="math inline">\(f_{Y}(y)\)</span> be a continuous pdf with continuous first-order and second-order derivatives.Also,suppose that the set of y values,where <span class="math inline">\(f_{Y}(y)\neq0\)</span>,does not depend on <span class="math inline">\(\theta\)</span>.<span class="math inline">\(Y^{n}=(Y_{1},Y_{2},...,Y_{n})\)</span> is a random sample with <span class="math inline">\(f_{Y}(y,\theta)\)</span> and let <span class="math inline">\(\hat\theta=h(Y_{1},Y_{2},...,Y_{n})\)</span> be any unbiased estimator of <span class="math inline">\(\theta\)</span>. <span class="math display">\[Var(\hat\theta)\geq\frac{1}{nE[(\frac{\partial lnf(y,\theta)}{\partial\theta})^{2}]}=-\frac{1}{nE(\frac{\partial^{2}lnf(y,\theta)}{\partial^{2}\theta})}\]</span></p>
+<blockquote>
+<p>首先要主义这个定理的要求，就是随机变量的取值范围不可以和未知参数有关，这里唯一的例外就是Uniform Distribution。<br />
+然后这个定理是用来求一个无偏估计量的最小方差的界限的。</p>
+</blockquote>
+<p>证明的过程就不详细展开了，但是有一些定义以及知识点要说明。</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Score\,\,function:S(Y^{n},\theta)=\frac{\partial log\,likelihood funtion}{\partial\theta}=\sum\limits_{i=1}^{n}\frac{\partial lnf(y_{i},\theta)}{\partial\theta}\)</span>并且还有一个性质，<span class="math inline">\(E[S(Y^{n},\theta)]=0\)</span>。这个score function就是我们在求MLE的时候要使其为0的function</li>
+<li>Fisher Information实际上就是score function的二阶矩:<span class="math inline">\(I(\theta)=E[S(Y^{n},\theta)^{2}]\)</span>。</li>
+<li>我们发现：<span class="math inline">\(Var(S(Y^{n},\theta))=E(S(Y^{n},\theta)^{2})-[E(S(Y^{n}),\theta)]^{2}=E(S(Y^{n},\theta)^{2})=I(\theta)\)</span>因此我们得到了Fisher information的第一个数学意义：<em>用来估计MLE方程的方差</em>。它的直观表示就是，随着收集的数据越来越多，这个方差由于是一个independent sum的形式，也就变得越来越大也就象征着得到的信息越来越多。</li>
+<li>当log likelihood function二阶可导的情况下，一般来说(under some specific regularity conditions)很容易证明：<span class="math inline">\(E[S(Y^{n},\theta)^{2}]=-E(\frac{\partial^{2}lnf(y^{n},\theta)}{\partial^{2}\theta})\)</span>，于是我们得到了Fisher information的第二个数学意义：<em>它是log likelihood function在参数真实值处的负二阶导数的期望</em></li>
+<li>Fisher information的第三个数学意义的直观含义是：<em>它反映了我们对参数估计的准确度，它越大，对参数估计的准确度就越高，即代表了更多的信息</em></li>
+<li>从这个定理，我们知道Fisher information越大，得到的估计量的最小方差的界限就越小，也就意味着估计越准确。</li>
+</ol>
 </div>
 </div>
 
