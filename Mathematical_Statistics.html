@@ -356,6 +356,9 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 <blockquote>
 <p>因为这个是2对于1的有效性，如果2对于1更加有效说明2的方差更小，所以这个ratio中分子是1的方差，分母是2的方差。</p>
 </blockquote>
+<blockquote>
+<p>这里要说明一下。<span class="math inline">\(Var\rightarrow\textrm{precision 准度/准确度}\)</span>，<span class="math inline">\(Bias\rightarrow\textrm{accuracy 精度/精确度}\)</span></p>
+</blockquote>
 <p><strong>Mean Squared Error</strong></p>
 <p>我们从unbiasedness开始比较两个estimator的好坏，然后在都是无偏的情况下时我们用efficiency来进行比较。那么进一步我们就想问一个问题：<em>如果一个估计量是有偏但方差小一些，另一个是无偏但方差大一些，这两个估计量哪个更优？</em></p>
 <p><span class="math display">\[MSE=E[(\hat\theta-\theta)^{2}]\]</span></p>
@@ -376,18 +379,63 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 <p>Theorem:Let <span class="math inline">\(f_{Y}(y)\)</span> be a continuous pdf with continuous first-order and second-order derivatives.Also,suppose that the set of y values,where <span class="math inline">\(f_{Y}(y)\neq0\)</span>,does not depend on <span class="math inline">\(\theta\)</span>.<span class="math inline">\(Y^{n}=(Y_{1},Y_{2},...,Y_{n})\)</span> is a random sample with <span class="math inline">\(f_{Y}(y,\theta)\)</span> and let <span class="math inline">\(\hat\theta=h(Y_{1},Y_{2},...,Y_{n})\)</span> be any unbiased estimator of <span class="math inline">\(\theta\)</span>. <span class="math display">\[Var(\hat\theta)\geq\frac{1}{nE[(\frac{\partial lnf(y,\theta)}{\partial\theta})^{2}]}=-\frac{1}{nE(\frac{\partial^{2}lnf(y,\theta)}{\partial^{2}\theta})}\]</span></p>
 <blockquote>
 <p>首先要主义这个定理的要求，就是随机变量的取值范围不可以和未知参数有关，这里唯一的例外就是Uniform Distribution。<br />
-然后这个定理是用来求一个无偏估计量的最小方差的界限的。</p>
+然后这个定理是用来求一个无偏估计量的最小方差的界限的。<br />
+这个定理实际上的逻辑推导过程是这样的：<span class="math inline">\(Var(\hat\theta)\geq\frac{1}{Var(S(\theta,Y^{n}))}=\frac{1}{E(S^{2}(\theta,Y^{n}))}=\frac{1}{nE((\frac{\partial lnf(Y,\theta)}{\partial \theta})^{2})}=-\frac{1}{nE(\frac{\partial^{2}lnf(Y,\theta)}{\partial^{2}\theta})}\)</span></p>
 </blockquote>
 <p>证明的过程就不详细展开了，但是有一些定义以及知识点要说明。</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(Score\,\,function:S(Y^{n},\theta)=\frac{\partial log\,likelihood funtion}{\partial\theta}=\sum\limits_{i=1}^{n}\frac{\partial lnf(y_{i},\theta)}{\partial\theta}\)</span>并且还有一个性质，<span class="math inline">\(E[S(Y^{n},\theta)]=0\)</span>。这个score function就是我们在求MLE的时候要使其为0的function</li>
-<li>Fisher Information实际上就是score function的二阶矩:<span class="math inline">\(I(\theta)=E[S(Y^{n},\theta)^{2}]\)</span>。</li>
-<li>我们发现：<span class="math inline">\(Var(S(Y^{n},\theta))=E(S(Y^{n},\theta)^{2})-[E(S(Y^{n}),\theta)]^{2}=E(S(Y^{n},\theta)^{2})=I(\theta)\)</span>因此我们得到了Fisher information的第一个数学意义：<em>用来估计MLE方程的方差</em>。它的直观表示就是，随着收集的数据越来越多，这个方差由于是一个independent sum的形式，也就变得越来越大也就象征着得到的信息越来越多。</li>
+<li>Fisher Information实际上就是score function的二阶矩:<span class="math inline">\(I(\theta)=E[S^{2}(Y^{n},\theta)]\)</span>。</li>
+<li>我们发现：<span class="math inline">\(Var(S(Y^{n},\theta))=E(S^{2}(Y^{n},\theta))-[E(S(Y^{n}),\theta)]^{2}=E(S^{2}(Y^{n},\theta))=I(\theta)\)</span>因此我们得到了Fisher information的第一个数学意义：<em>用来估计MLE方程的方差</em>。它的直观表示就是，随着收集的数据越来越多，这个方差由于是一个independent sum的形式，也就变得越来越大也就象征着得到的信息越来越多。</li>
 <li>当log likelihood function二阶可导的情况下，一般来说(under some specific regularity conditions)很容易证明：<span class="math inline">\(E[S(Y^{n},\theta)^{2}]=-E(\frac{\partial^{2}lnf(y^{n},\theta)}{\partial^{2}\theta})\)</span>，于是我们得到了Fisher information的第二个数学意义：<em>它是log likelihood function在参数真实值处的负二阶导数的期望</em></li>
 <li>Fisher information的第三个数学意义的直观含义是：<em>它反映了我们对参数估计的准确度，它越大，对参数估计的准确度就越高，即代表了更多的信息</em></li>
 <li>从这个定理，我们知道Fisher information越大，得到的估计量的最小方差的界限就越小，也就意味着估计越准确。</li>
+<li>一定要注意，在定理中我们使用的并不是整个random sample，而是只用了一个pdf。但是在证明的过程中，我们是从整个random sample开始推导的。</li>
 </ol>
+<blockquote>
+<p>eg1:<span class="math inline">\(X^{n}=(X_{1},X_{2},X_{3},...,X_{n})\sim Possion(\lambda)\)</span>,<span class="math inline">\(f(x)=e^{-\lambda}\frac{\lambda^{x}}{x!},x=0,1,2,...\)</span>。求出<span class="math inline">\(\theta\)</span>的估计量，并判断是否是MVUE.<br />
+<span class="math inline">\(L(X,\lambda)=\prod\limits_{i=1}^{n}f(x_{i},\lambda)=\prod\limits_{i=1}^{n}e^{-\lambda}\frac{\lambda^{x_{i}}}{x_{i}!}\)</span><br />
+<span class="math inline">\(\Rightarrow \rho(x,\lambda)=ln[\prod\limits_{i=1}^{n}e^{-\lambda}\frac{\lambda^{x_{i}}}{x_{i}!}]=\sum\limits_{i=1}^{n}e^{-\lambda}\frac{\lambda^{x_{i}}}{x_{i}!}=-n\lambda+ln\lambda\sum\limits_{i=1}^{n}x_{i}-\sum\limits_{i=1}^{n}lnx_{i}!\)</span><br />
+<span class="math inline">\(\Rightarrow S(X,\lambda)=-n+\frac{1}{\lambda}\sum\limits_{i=1}^{n}x_{i}=0\)</span><br />
+<span class="math inline">\(\therefore \hat\lambda=\bar{X_{n}}\)</span> 且显然这是一个无偏估计量<br />
+接着我们求一下无偏估计量可以取到的最小方差<br />
+<span class="math inline">\(Var(\hat\theta)\geq \frac{1}{E[S(Y^{n},\theta)^{2}]}=-\frac{1}{E(\frac{\partial^{2}lnf(y^{n},\theta)}{\partial^{2}\theta})}=-\frac{1}{E(-\frac{1}{\lambda}\sum\limits_{i=1}^{n}X_{i})}=\frac{\lambda}{n}\)</span><br />
+<span class="math inline">\(\frac{\lambda}{n}=Var(\bar{X_{n}})\)</span>,<span class="math inline">\(\therefore \bar{X_{n}}\textrm{is the MVUE for }\lambda\)</span></p>
+</blockquote>
+<blockquote>
+<p>eg2:<span class="math inline">\(X^{n}=(X_{1},X_{2},...,X_{n})\sim N(\mu,\sigma^{2})\)</span>。给出方差的估计量并判断是否是MVUE。<br />
+我们可以使用样本方差，也可以使用MLE的方法来估计方差，得到的是不同的。我们先给出这两个估计量的方差。<br />
+<span class="math inline">\(Var(S_{n}^{2})=\frac{2\sigma^{4}}{n-1}\)</span>,<span class="math inline">\(Var(\hat\theta_{MLE})=Var(\frac{n-1}{n}S_{n}^{2})=\frac{2(n-1)\sigma^{4}}{n^{2}}\)</span><br />
+接下来我们来计算一下无偏估计量的最小方差，这里我们使用的方法不同于第一个例子但是是等价的。第一个例子用的是score function，而这里我们只使用一个pdf而不使用random sample。<br />
+<span class="math inline">\(\frac{\partial^{2}lnf(x,\sigma^{2})}{\partial^{2}(\sigma^{2})}=\frac{1}{2(\sigma^{2})^{2}}-\frac{(x-\mu)^{2}}{(\sigma^{2})^{3}}\)</span><br />
+<span class="math inline">\(\Rightarrow I(\sigma^{2})=-nE(\frac{\partial^{2}lnf(x,\sigma^{2})}{\partial^{2}(\sigma^{2})})=\frac{n}{2\sigma^{4}}\)</span><br />
+<span class="math inline">\(Var(\hat\sigma^{2})\geq -\frac{1}{nE(\frac{\partial^{2}lnf(x,\sigma^{2})}{\partial^{2}(\sigma^{2})})}=\frac{2\sigma^{4}}{n}\)</span><br />
+显然我们可以看到虽然样本方差是无偏估计量，但是它并不是MVUE。并且我们还发现，MLE虽然有偏但是它的方差比无偏估计量的最小方差还要小。</p>
+</blockquote>
+<p><strong>Consistency</strong></p>
+<ol style="list-style-type: decimal">
+<li>asymptotically unbiased</li>
+</ol>
+<p>之前我们讨论的很多估计量都是对未知参数的有偏估计，但是其中大多数估计量的期望在n趋向于无穷的时候是无偏的，这就叫做<em>渐进无偏性</em></p>
+<ol start="2" style="list-style-type: decimal">
+<li>consistency</li>
+</ol>
+<p>Definition:An estimator <span class="math inline">\(\hat\theta_{n}=h(W_{1},W_{2},...,W_{n})\)</span> is said to be consistent for <span class="math inline">\(\theta\)</span> if it converges in probability to <span class="math inline">\(\theta\)</span>—that is,if for all <span class="math inline">\(\epsilon&gt;0\)</span> <span class="math display">\[lim_{n\rightarrow\infty}P(|\hat\theta_{n}-\theta|&lt;\epsilon)=1\]</span></p>
+<blockquote>
+<p>eg:<span class="math inline">\(Y^{n}=(Y_{1},Y_{2},...,Y_{n})\sim Uniform distribution\)</span>,<span class="math inline">\(f_{Y}(y,\theta)=\frac{1}{\theta},0\geq y\geq\theta\)</span>.Find the MLE;is it unbiased;is it asymptotically unbiased;is it consistent?<br />
+首先MLE我们需要使用到次序统计量，这里就不详细说了。<span class="math inline">\(\hat\theta_{MLE}=Y_{Max}=Y_{(n)}\)</span><br />
+<span class="math inline">\(E(\hat\theta_{MLE})=\frac{n}{n+1}\theta\)</span><br />
+<span class="math inline">\(lim_{n\rightarrow\infty}E(\hat\theta_{MLE})=\theta\)</span>，显然是渐进无偏的<br />
+<span class="math inline">\(P(|\hat\theta_{MLE}-\theta|&lt;\epsilon)=P(\theta-\epsilon&lt;y_{(n)}&lt;\theta+\epsilon,0\geq y_{(n)}\geq\theta)=P(\theta-\epsilon&lt;y_{(n)}&lt;\theta)=\int_{\theta-\epsilon}^{\theta}\frac{n\cdot y^{n-1}}{\theta^{n}}dy=1-(\frac{\theta-\epsilon}{\theta})^{n}\)</span><br />
+<span class="math inline">\(\therefore lim_{n\rightarrow\infty}P(|\hat\theta_{MLE}-\theta|&lt;\epsilon)=1\)</span><br />
+或者我们可以使用马尔科夫不等式来得到这个结果，因为这个概率式子是可以联系到马尔科夫不等式的，这里就不展开了。</p>
+</blockquote>
+<p><strong>Sufficient Estimators</strong></p>
+<p>Definition[sufficient statistic]:Let <span class="math inline">\(X^{n}\)</span> be a random sample from sufficient statistic for <span class="math inline">\(\theta\)</span> if the conditional distribution of the sample <span class="math inline">\(X^{n}=x^{n}\)</span> given that the value of the statistic T(X<sup>{n})=T(x</sup>{n}) does not depend on <span class="math inline">\(\theta\)</span>.That is <span class="math display">\[f_{X^{n}|T(X^{n})}[x^{n}|T(x^{n}),\theta]=h(x^{n})\textrm{ for all possible }\theta\]</span></p>
 </div>
+</div>
+<div id="chapter-6-hypothesis-testing" class="section level1">
+<h1>Chapter 6 Hypothesis testing</h1>
 </div>
 
 

@@ -759,7 +759,11 @@ Theorem:<span class="math inline">\(Z_{n}\xrightarrow{P}Z\)</span> implies <span
 <p><strong>Markov’s Inequality</strong></p>
 <p>Suppose X is a R.V. and g(x) is a nonnegative function.Then for any <span class="math inline">\(\epsilon&gt;0\)</span>,and <span class="math inline">\(p&gt;0\)</span>,we have <span class="math display">\[P[g(x)\geq\epsilon]\leq\frac{E[g(x)]^{p}}{\epsilon^{p}}\]</span></p>
 <blockquote>
-<p>马尔科不不等式给出了随机变量的函数大于等于某个正数的概率上界</p>
+<p>马尔科不不等式给出了随机变量的函数大于等于某个正数的概率上界<br />
+证明：因为计算P，所以就是要进行积分，在积分之前我们要弄清楚，g(X)的随机性内核仍然是X，所以被积函数仍然是f(x),而积分区域就是<span class="math inline">\(g(X)\geq\epsilon\)</span>的部分。<br />
+<span class="math inline">\(\Rightarrow P(g(X)\geq\epsilon)=\int_{x:g(X)\geq\epsilon}f(x)dx=\int_{-\infty}^{\infty}I[g(X)\geq\epsilon]f(x)dx\)</span><br />
+<span class="math inline">\(\Rightarrow P(g(X)\geq\epsilon)\geq\int_{-\infty}^{\infty}I[g(X)\geq\epsilon]f(x)(\frac{g(x)}{\epsilon})^{p}dx\geq\int_{-\infty}^{\infty}(\frac{g(x)}{\epsilon})^{p}f(x)dx=\frac{E(g(x)^{p})}{\epsilon^{p}}\)</span><br />
+关键就在于使用到了indicator function</p>
 </blockquote>
 <p><strong>Chebyshev’s inequality</strong></p>
 <p>If X is a R.V. with finite mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^{2}\)</span>,then for any value <span class="math inline">\(\epsilon&gt;0\)</span> <span class="math display">\[P(|X-\mu|\geq\epsilon)\leq\frac{\sigma^{2}}{\epsilon^{2}}\]</span></p>

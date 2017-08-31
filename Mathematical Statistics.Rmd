@@ -324,16 +324,67 @@ Theorem:Let $f_{Y}(y)$ be a continuous pdf with continuous first-order and secon
 $$Var(\hat\theta)\geq\frac{1}{nE[(\frac{\partial lnf(y,\theta)}{\partial\theta})^{2}]}=-\frac{1}{nE(\frac{\partial^{2}lnf(y,\theta)}{\partial^{2}\theta})}$$
 
 > 首先要主义这个定理的要求，就是随机变量的取值范围不可以和未知参数有关，这里唯一的例外就是Uniform Distribution。  
-> 然后这个定理是用来求一个无偏估计量的最小方差的界限的。
+> 然后这个定理是用来求一个无偏估计量的最小方差的界限的。  
+> 这个定理实际上的逻辑推导过程是这样的：$Var(\hat\theta)\geq\frac{1}{Var(S(\theta,Y^{n}))}=\frac{1}{E(S^{2}(\theta,Y^{n}))}=\frac{1}{nE((\frac{\partial lnf(Y,\theta)}{\partial \theta})^{2})}=-\frac{1}{nE(\frac{\partial^{2}lnf(Y,\theta)}{\partial^{2}\theta})}$
 
 证明的过程就不详细展开了，但是有一些定义以及知识点要说明。
 
 1. $Score\,\,function:S(Y^{n},\theta)=\frac{\partial log\,likelihood funtion}{\partial\theta}=\sum\limits_{i=1}^{n}\frac{\partial lnf(y_{i},\theta)}{\partial\theta}$并且还有一个性质，$E[S(Y^{n},\theta)]=0$。这个score function就是我们在求MLE的时候要使其为0的function
-2. Fisher Information实际上就是score function的二阶矩:$I(\theta)=E[S(Y^{n},\theta)^{2}]$。
-3. 我们发现：$Var(S(Y^{n},\theta))=E(S(Y^{n},\theta)^{2})-[E(S(Y^{n}),\theta)]^{2}=E(S(Y^{n},\theta)^{2})=I(\theta)$因此我们得到了Fisher information的第一个数学意义：*用来估计MLE方程的方差*。它的直观表示就是，随着收集的数据越来越多，这个方差由于是一个independent sum的形式，也就变得越来越大也就象征着得到的信息越来越多。
+2. Fisher Information实际上就是score function的二阶矩:$I(\theta)=E[S^{2}(Y^{n},\theta)]$。
+3. 我们发现：$Var(S(Y^{n},\theta))=E(S^{2}(Y^{n},\theta))-[E(S(Y^{n}),\theta)]^{2}=E(S^{2}(Y^{n},\theta))=I(\theta)$因此我们得到了Fisher information的第一个数学意义：*用来估计MLE方程的方差*。它的直观表示就是，随着收集的数据越来越多，这个方差由于是一个independent sum的形式，也就变得越来越大也就象征着得到的信息越来越多。
 4. 当log likelihood function二阶可导的情况下，一般来说(under some specific regularity conditions)很容易证明：$E[S(Y^{n},\theta)^{2}]=-E(\frac{\partial^{2}lnf(y^{n},\theta)}{\partial^{2}\theta})$，于是我们得到了Fisher information的第二个数学意义：*它是log likelihood function在参数真实值处的负二阶导数的期望*
 5. Fisher information的第三个数学意义的直观含义是：*它反映了我们对参数估计的准确度，它越大，对参数估计的准确度就越高，即代表了更多的信息*
-6. 从这个定理，我们知道Fisher information越大，得到的估计量的最小方差的界限就越小，也就意味着估计越准确。
+6. 从这个定理，我们知道Fisher information越大，得到的估计量的最小方差的界限就越小，也就意味着估计越准确。 
+7. 一定要注意，在定理中我们使用的并不是整个random sample，而是只用了一个pdf。但是在证明的过程中，我们是从整个random sample开始推导的。
+
+> eg1:$X^{n}=(X_{1},X_{2},X_{3},...,X_{n})\sim Possion(\lambda)$,$f(x)=e^{-\lambda}\frac{\lambda^{x}}{x!},x=0,1,2,...$。求出$\theta$的估计量，并判断是否是MVUE.  
+> $L(X,\lambda)=\prod\limits_{i=1}^{n}f(x_{i},\lambda)=\prod\limits_{i=1}^{n}e^{-\lambda}\frac{\lambda^{x_{i}}}{x_{i}!}$  
+> $\Rightarrow \rho(x,\lambda)=ln[\prod\limits_{i=1}^{n}e^{-\lambda}\frac{\lambda^{x_{i}}}{x_{i}!}]=\sum\limits_{i=1}^{n}e^{-\lambda}\frac{\lambda^{x_{i}}}{x_{i}!}=-n\lambda+ln\lambda\sum\limits_{i=1}^{n}x_{i}-\sum\limits_{i=1}^{n}lnx_{i}!$  
+> $\Rightarrow S(X,\lambda)=-n+\frac{1}{\lambda}\sum\limits_{i=1}^{n}x_{i}=0$  
+> $\therefore \hat\lambda=\bar{X_{n}}$ 且显然这是一个无偏估计量  
+> 接着我们求一下无偏估计量可以取到的最小方差  
+> $Var(\hat\theta)\geq \frac{1}{E[S(Y^{n},\theta)^{2}]}=-\frac{1}{E(\frac{\partial^{2}lnf(y^{n},\theta)}{\partial^{2}\theta})}=-\frac{1}{E(-\frac{1}{\lambda}\sum\limits_{i=1}^{n}X_{i})}=\frac{\lambda}{n}$  
+> $\frac{\lambda}{n}=Var(\bar{X_{n}})$,$\therefore \bar{X_{n}}\textrm{is the MVUE for }\lambda$
+
+> eg2:$X^{n}=(X_{1},X_{2},...,X_{n})\sim N(\mu,\sigma^{2})$。给出方差的估计量并判断是否是MVUE。  
+> 我们可以使用样本方差，也可以使用MLE的方法来估计方差，得到的是不同的。我们先给出这两个估计量的方差。  
+> $Var(S_{n}^{2})=\frac{2\sigma^{4}}{n-1}$,$Var(\hat\theta_{MLE})=Var(\frac{n-1}{n}S_{n}^{2})=\frac{2(n-1)\sigma^{4}}{n^{2}}$  
+> 接下来我们来计算一下无偏估计量的最小方差，这里我们使用的方法不同于第一个例子但是是等价的。第一个例子用的是score function，而这里我们只使用一个pdf而不使用random sample。  
+> $\frac{\partial^{2}lnf(x,\sigma^{2})}{\partial^{2}(\sigma^{2})}=\frac{1}{2(\sigma^{2})^{2}}-\frac{(x-\mu)^{2}}{(\sigma^{2})^{3}}$  
+> $\Rightarrow I(\sigma^{2})=-nE(\frac{\partial^{2}lnf(x,\sigma^{2})}{\partial^{2}(\sigma^{2})})=\frac{n}{2\sigma^{4}}$  
+> $Var(\hat\sigma^{2})\geq -\frac{1}{nE(\frac{\partial^{2}lnf(x,\sigma^{2})}{\partial^{2}(\sigma^{2})})}=\frac{2\sigma^{4}}{n}$  
+> 显然我们可以看到虽然样本方差是无偏估计量，但是它并不是MVUE。并且我们还发现，MLE虽然有偏但是它的方差比无偏估计量的最小方差还要小。
+
+
+**Consistency**
+
+1. asymptotically unbiased
+
+之前我们讨论的很多估计量都是对未知参数的有偏估计，但是其中大多数估计量的期望在n趋向于无穷的时候是无偏的，这就叫做*渐进无偏性*
+
+2. consistency
+
+Definition:An estimator $\hat\theta_{n}=h(W_{1},W_{2},...,W_{n})$ is said to be consistent for $\theta$ if it converges in probability to $\theta$---that is,if for all $\epsilon>0$
+$$lim_{n\rightarrow\infty}P(|\hat\theta_{n}-\theta|<\epsilon)=1$$
+
+> eg:$Y^{n}=(Y_{1},Y_{2},...,Y_{n})\sim Uniform distribution$,$f_{Y}(y,\theta)=\frac{1}{\theta},0\geq y\geq\theta$.Find the MLE;is it unbiased;is it asymptotically unbiased;is it consistent?  
+> 首先MLE我们需要使用到次序统计量，这里就不详细说了。$\hat\theta_{MLE}=Y_{Max}=Y_{(n)}$  
+> $E(\hat\theta_{MLE})=\frac{n}{n+1}\theta$  
+> $lim_{n\rightarrow\infty}E(\hat\theta_{MLE})=\theta$，显然是渐进无偏的  
+> $P(|\hat\theta_{MLE}-\theta|<\epsilon)=P(\theta-\epsilon<y_{(n)}<\theta+\epsilon,0\geq y_{(n)}\geq\theta)=P(\theta-\epsilon<y_{(n)}<\theta)=\int_{\theta-\epsilon}^{\theta}\frac{n\cdot y^{n-1}}{\theta^{n}}dy=1-(\frac{\theta-\epsilon}{\theta})^{n}$  
+> $\therefore lim_{n\rightarrow\infty}P(|\hat\theta_{MLE}-\theta|<\epsilon)=1$  
+> 或者我们可以使用马尔科夫不等式来得到这个结果，因为这个概率式子是可以联系到马尔科夫不等式的，这里就不展开了。
+
+**Sufficient Estimators**
+
+Definition[sufficient statistic]:Let $X^{n}$ be a random sample from sufficient statistic for $\theta$ if the conditional distribution of the sample $X^{n}=x^{n}$ given that the value of the statistic T(X^{n})=T(x^{n}) does not depend on $\theta$.That is 
+$$f_{X^{n}|T(X^{n})}[x^{n}|T(x^{n}),\theta]=h(x^{n})\textrm{ for all possible }\theta$$
+
+
+
+#Chapter 6 Hypothesis testing
+
+
 
 
 
