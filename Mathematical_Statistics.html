@@ -505,7 +505,16 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 <blockquote>
 <p>我之所以只写前两个是因为后三个只涉及到计算，并不是困难的地方。假设检验中最困难的是前两个步骤，但是我们使用的例子一直是均值，所以感觉不出难度。实际上，如果给出一个实际问题，那么我们首先就要找到我们所关心的参数、并做出适当的假设，然后我们必须得到在原假设正确的情况下检定统计量的分布！这十分重要！</p>
 </blockquote>
-<p>所以我们现在讨论一个更一般的情况，即<span class="math inline">\(\theta=\theta_{0}\)</span>，它既不是均值也不是什么p，而只是一个一般化的参数。</p>
+<p>所以我们现在讨论一个更一般的情况，即<span class="math inline">\(\theta=\theta_{0}\)</span>，它既不是均值也不是什么p，而只是一个一般化的参数。在检定均值的时候，我们得出检定统计量的过程很自然，首先我们用样本均值估计了均值，然后直接数理化地翻译了reject <span class="math inline">\(H_{0}\)</span>，也就是使用不等式，接着因为有原假设正确的条件，我们就通过CLT得到了标准正态分布，那么这个检定统计量就得到了。但是如果换成一个一般的参数，我们只能使用MLE或者MME来估计它，接着我们也直接的用不等式的方法，可是因为CLT是只针对样本均值的，这时候我们就构造不出检定统计量。</p>
+<p>所以我们更换一种方法。</p>
+<ul>
+<li>我们使用MLE作为估计量。</li>
+<li>当<span class="math inline">\(H_{0}\)</span>是正确的，也就是说<span class="math inline">\(\theta=\theta_{0}\)</span>,这时候我们认为<span class="math inline">\(L(\theta)_{max}=L(\theta_{0})=L(\hat\theta_{MLE})\)</span>。这里要注意的是，这不是严谨的写法，毕竟估计量是一个随机变量，而<span class="math inline">\(\theta_{0}\)</span>是一个值。但是我们所表示的意思是，它们俩带进去得到的likelihood应该差不多。</li>
+<li>当<span class="math inline">\(H_{1}\)</span>是正确的，我们就不知道<span class="math inline">\(\theta\)</span>是什么，但是至少<span class="math inline">\(\theta\neq\theta_{0}\)</span>,那么这个时候我们认为<span class="math inline">\(L(\theta)_{max}=L(\hat\theta_{MLE})&gt;L(\theta_{0})\)</span>,同样的这个不是一个严谨的写法，但是意思就是它们俩带进去得到的likelihood会有一定差距。</li>
+<li>令<span class="math inline">\(\lambda=\frac{L(\theta_{0})}{L(\hat\theta_{MLE})}\)</span>,则有<span class="math inline">\(\lambda\in(0,1]\)</span>。当<span class="math inline">\(\lambda\)</span>在1以及小于1一些的数值波动时，我们认为<span class="math inline">\(H_{0}\)</span>是正确的，而当<span class="math inline">\(\lambda\)</span>比1小比较多的时候我们认为<span class="math inline">\(H_{0}\)</span>不正确。</li>
+<li>我们这时候直接“翻译”reject <span class="math inline">\(H_{0}\)</span>为<span class="math inline">\(0&lt;\lambda&lt;\lambda^{\star}\)</span>，至此我们就只差找到<span class="math inline">\(\lambda\)</span>在原假设正确时的分布了。</li>
+<li>Theorem[Asymptotic Distribution of the GLRT]:For testing <span class="math inline">\(H_{0}:\theta=\theta_{0}\)</span> versus <span class="math inline">\(H_{1}:\theta\neq\theta_{0}\)</span>.Suppose <span class="math inline">\(X_{1},X_{2},...,X_{n}\)</span> are iid <span class="math inline">\(f(x,\theta)\)</span>,under some regularity conditions,we have,under <span class="math inline">\(H_{0}\)</span> is true,as <span class="math inline">\(n\rightarrow\infty\)</span>,<span class="math display">\[-2ln\lambda\xrightarrow{d}X_{1}^{2}\]</span></li>
+</ul>
 </div>
 </div>
 
