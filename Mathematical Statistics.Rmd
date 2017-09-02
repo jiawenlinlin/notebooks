@@ -482,6 +482,132 @@ $$P-value=\alpha_{0}=P(Z\,is\,as\,extrem\,as\,or\,more\,extrem\, than\,z_{obs}|H
 * Theorem[Asymptotic Distribution of the GLRT]:For testing $H_{0}:\theta=\theta_{0}$ versus $H_{1}:\theta\neq\theta_{0}$.Suppose $X_{1},X_{2},...,X_{n}$ are iid $f(x,\theta)$,under some regularity conditions,we have,under $H_{0}$ is true,as $n\rightarrow\infty$,$$-2ln\lambda\xrightarrow{d}X_{1}^{2}$$
 
 
+> eg1:$Y^{n}=(Y_{1},Y_{2},...,Y_{n})$是随机样本服从uniform distribution over the interval $[0,\theta]$,$\theta$为未知参数。  
+> $H_{0}:\theta=\theta_{0}$,$H_{1}:\theta<\theta_{0}$  
+> 我们首先得到$\lambda$的表达式：$L(\theta)=(\frac{1}{\theta})^{n}$,$L(\theta_{0})=(\frac{1}{\theta_{0}})^{n}$,$L(\hat\theta_{MLE})=(\frac{1}{Y_{max}})^{n}$,$$\lambda=\frac{L(\theta_{0})}{L(\hat\theta_{MLE})}=(\frac{Y_{max}}{\theta_{0}})^{n}$$  
+> 这时候我们发现，我们不需要使用渐进理论就能得到$\lambda$的分布，这不就是我们想要的吗！所以我们直接开始控制一类错误。  
+> $P(reject\,H_{0}|H_{0}\,is\,true)=\alpha$  
+> $\Rightarrow P(0<\lambda<\lambda^{\star}|H_{0}\,is\,true)=\alpha$  
+> $\Rightarrow P(Y_{max}<\theta_{0}\sqrt[n]{\lambda^{\star}}|H_{0}\,is\,true)=\alpha$  
+> $\Rightarrow \int_{0}^{\theta_{0}}\sqrt[n]{\lambda^{\star}}\frac{n\cdot y^{n-1}}{\theta_{0}^{n}}dy=\alpha$  
+> 得到最后的$\lambda^{\star}=\alpha$，之后就可以根据观测值计算出$lambda_{obs}$，就可以进行判断了
+
+> eg2:Let $X^{n}=(X_{1},X_{2},...,X_{n})$ be a random sample from a $N(\mu,\sigma^{2})$ populatioN assuming $\sigma^{2}$ is known.Find the GLRT for the testing $H_{0}:\mu=\mu_{0}$ versus $H_{1}:\mu\neq\mu_{0}$  
+> 要注意这是一个双边备择假设。我们还是从$\lambda$找起。  
+> $\lambda=\frac{L(\theta_{0})}{L(\hat\theta_{MLE})}=\frac{L(\mu_{0})}{L(\bar{X_{n}})}=exp\{-\frac{n(\bar{X_{n}}-\mu_{0})^{2}}{2\sigma^{2}}\}$  
+> $\Rightarrow P(0<\lambda<\lambda^{\star}|H_{0}\,is\,true)=\alpha$  
+> $\Rightarrow P(exp\{-\frac{n(\bar{X_{n}}-\mu_{0})}{2\sigma^{2}}\}\leq\lambda^{\star})=P((\frac{\bar{X_{n}}-\mu_{0}}{\sigma/\sqrt{n}})^{2}\geq -2ln\lambda^{\star})=\alpha$  
+> $\Leftrightarrow P(\frac{|\bar{X_{n}}-\mu_{0}|}{\sigma/\sqrt{n}}\geq C^{\star}) =\frac{\alpha}{2}$  
+> 所以我们会发现其实Z-test也是一个GLRT
+
+
+#Chapter 7 Inference Based on the Normal Distribution
+
+这一章首先是对上一章的扩展，另外就是我们明确是在正态分布的分布假设下进行的。
+
+1. 当方差未知时，如何进行均值检定。
+2. 对方差进行检定。
+
+##T test
+
+**Definition**:Let $U\sim N(0,1)$,$V\sim X_{v}^{2}$,and U and V are independent.Then the random variable
+$$T=\frac{U}{\sqrt{\frac{V}{v}}}\sim \frac{N(0,1)}{\sqrt{\frac{X_{v}^{2}}{v}}}$$
+follows a *Student's t distribution with v degrees of freedom*,denoted as
+$$T\sim t_{v}$$
+
+* $f_{T}(t)=\frac{\tau(\frac{v+1}{2})}{\tau(\frac{v}{2})}\cdot\frac{1}{(v\pi)^{\frac{1}{2}}}\cdot\frac{1}{(1+\frac{t^{2}}{v})^{\frac{v+1}{2}}},-\infty<t<\infty$  
+* t分布对称分布
+* t distribution has a heavier distribution tail than N(0,1)  
+* Only the first v-1 moments exist
+* 当v逐渐增长并趋向于无穷时，$t_{v}\rightarrow N(0,1)$  
+
+**Theorem**:Let $(Y_{1},Y_{2},...,Y_{n})$ be an IID random sample from a $N(\mu,\sigma^{2})$ distribution.Then for all $n>1$,the standardized sample mean
+$$\frac{\bar{Y_{n}}-\mu}{S_{n}/\sqrt{n}}=\frac{\frac{\bar{Y_{n}}-\mu}{\sigma/\sqrt{n}}}{\sqrt{\frac{(n-1)S_{n}^{2}}{(n-1)\sigma^{2}}}}\sim\frac{N(0,1)}{\sqrt{\frac{X_{n-1}^{2}}{n-1}}}\sim t_{n-1}$$
+where $t_{n-1}$ is the Student t-distribution with n-1 degrees of freedom and the sample variance $S_{n}^{2}=\frac{1}{n}\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}$
+
+> 这里需要注意，为什么我们需要正态分布？因为t分布的构造要求分子部分与分母部分是独立的，在正态分布假设下我们证明过样本均值和样本方差是独立的。  
+> 其实和方差已知没有很大的改变。也就是把未知的方差换成样本方差，另外就是自信区间的估计，也是换成样本方差即可。不过当自由度大于30或者是大于50就已经可以用标准正态来代替了。  
+> 自信区间：$[\bar{Y_{n}}-t_{\frac{\alpha}{2},n-1}\frac{S_{n}}{\sqrt{n}},\bar{Y_{n}}+t_{\frac{\alpha}{2},n-1}\frac{S_{n}}{\sqrt{n}}]$
+
+
+**Normality Assumption**
+
+如果取消了正态分布的假设，还能进行检定吗？答案是肯定的。
+
+稳健性：一个理论中改变某个假设，或是改变一些参数值时，对于得出或是可以使用的情况不会有太大的偏离（对假设的依赖度低）
+
+T-test具有稳健性，只要样本不要太少或者分布不要太偏就可以使用：我们使用Slutsky's Theorem即可。
+
+**GLRT**
+
+我们可以证明T-test也是一个GLRT
+
+> proof:$(Y_{1},Y_{2},...,Y_{n})\sim N(\mu,\sigma^{2})$, $H_{0}:\mu=\mu_{0}$ v.s. $H_{1}:\mu\neq\mu_{0}$  
+> 这里就会发现，还有一个参数需要估计，所以就必须分成两种情况来估计。  
+> 我们先得到MLE的式子，
+
+$$\left\{
+\begin{array}{1}
+\hat{\mu}=\frac{1}{n}\sum\limits_{i=1}^{n}y_{i}\\
+\hat{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(y_{i}-\mu)^{2}\\
+\end{array}
+\right.$$
+
+> 当原假设正确时，$\hat{\mu}=\mu_{0},\widetilde{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(y_{i}-\mu_{0})^{2}$，所以我们得到
+
+$$L(\mu_{0},\widetilde{\sigma^{2}})=(2\pi\widetilde{\sigma^{2}})^{-\frac{n}{2}}exp\{-\frac{1}{2}\cdot\frac{\sum\limits_{i=1}^{n}(y_{i}-\mu_{0})^{2}}{\frac{1}{n}\sum\limits_{i=1}^{n}(y_{i}-\mu_{0})^{2}}\}$$  
+
+> 当备择假设正确时，$\hat{\mu}=\bar{Y_{n}},\hat{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}$,所以我们得到
+
+$$L(\hat{\mu},\hat{\sigma^{2}})=(2\pi\hat{\sigma^{2}})^{-\frac{n}{2}}exp\{-\frac{1}{2}\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{\frac{1}{n}\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}\}$$  
+
+> $\therefore \lambda=\frac{L(\mu_{0},\widetilde{\sigma^{2}})}{L(\hat{\mu},\hat{\sigma^{2}})}=(\frac{\widetilde{\sigma^{2}}}{\hat{\sigma^{2}}})^{-\frac{n}{2}}=(\frac{\sum\limits_{i=1}^{n}(Y_{i}-\mu_{0})^{2}}{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}})^{-\frac{n}{2}}=[1+\frac{(\bar{Y_{n}}-\mu_{0})^{2}}{\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{n}}\cdot\frac{1}{n-1}]^{-\frac{n}{2}}=[1+\frac{T^{2}}{n-1}]^{-\frac{n}{2}}$  
+> 接下来就是“翻译”一下，然后就可以反解出cutoff value了。
+
+
+##Chi-square test
+
+我们介绍了关于均值检定的Z-test和T-test，现在我们要对正态分布下的$\sigma^{2}$进行假设检验。
+
+首先，我们当然是找到一个估计量来估计方差：样本方差。接着，我们仍然通过控制一类错误来做出选择，那么问题就来了，怎么能够“翻译”好“拒绝原假设”这句话呢？我们先会想到使用均值检定时使用的直接比大小，但是在均值检定中是构造了一个相减的式子，这里显然不行！但是除了相减，我们还可以做除法，并且这时候你要记起来在正态分布假设下，有一个关于样本方差的分布理论。
+
+$$\frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim\chi_{n-1}^{2}$$
+
+**GLRT**
+
+我们现在同样可以证明，它也是一个GLRT
+
+> proof:$(Y_{1},Y_{2},...,Y_{n})\sim N(\mu,\sigma^{2})$,$H_{0}:\sigma^{2}=\sigma_{0}^{2}$ v.s. $H_{1}:\sigma^{2}\neq\sigma_{0}^{2}$  
+> 我们同样使用MLE先得到参数的估计量。  
+
+$$\left\{
+\begin{array}{1}
+\hat{\mu}=\frac{1}{n}\sum\limits_{i=1}^{n}y_{i}\\
+\hat{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(y_{i}-\mu)^{2}\\
+\end{array}
+\right.$$
+
+> 当原假设正确的时候，$\sigma^{2}=\sigma_{0}^{2},\widetilde{\mu}=\bar{Y_{n}}$,所以我们得到
+
+$$L(\widetilde{\mu},\sigma^{2})=L(\widetilde{\mu},\sigma_{0}^{2})=(2\pi\sigma_{0}^{2})^{-\frac{n}{2}}exp\{-\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{2\sigma_{0}^{2}}\}$$
+
+> 当备择假设正确的时候，$\hat{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2},\hat{\mu}=\bar{Y_{n}}$,所以我们得到
+
+$$L(\hat{\mu},\hat{\sigma^{2}})=(\frac{2\pi}{n}\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2})^{-\frac{n}{2}}exp\{-\frac{n}{2}\}$$
+
+> $\therefore \lambda=\frac{L(\widetilde{\mu},\sigma_{0}^{2})}{L(\hat{\mu},\hat{\sigma^{2}})}=(\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{n\sigma_{0}^{2}})^{\frac{n}{2}}exp[-\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{2\sigma_{0}^{2}}]exp(-\frac{n}{2})$  
+> 因为我们要证明chi-square test实际上是GLRT,所以我们要凑出分布来。  
+> 令$T=\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{\sigma^{2}}$  
+> $\Rightarrow \lambda=(\frac{T}{n})^{\frac{n}{2}}e^{-\frac{T}{2}}e^{\frac{n}{2}}$  
+> 然后其实就只是求值的过程了，因为我们构造的T是一个已知分布。
+
+**Confidence Interval**
+
+$$P\{\chi_{\frac{\alpha}{2},n-1}^{2}\leq\frac{(n-1)S_{n}^{2}}{\sigma^{2}}\leq\chi_{1-\frac{\alpha}{2},n-1}^{2}\}=1-\alpha$$
+$$\textrm{Confidence interval:}[\frac{(n-1)S_{n}^{2}}{\chi_{1-\frac{\alpha}{2},n-1}^{2}},\frac{(n-1)S_{n}^{2}}{\chi_{\frac{\alpha}{2},n-1}^{2}}]$$
+
+
+#Chapter 9
 
 
 
