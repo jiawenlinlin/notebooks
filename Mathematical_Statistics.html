@@ -452,7 +452,7 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 <p>现在我们先穷举一下如果我们进行了选择，将有多少种可能：</p>
 <ol style="list-style-type: decimal">
 <li>在原假设正确的情况下接受原假设</li>
-<li>在原假设错误的情况下拒绝原假设</li>
+<li>在原假设正确的情况下拒绝原假设</li>
 <li>在备择假设正确的情况下接受原假设</li>
 <li>在备择假设正确的情况下拒绝原假设</li>
 </ol>
@@ -463,7 +463,7 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 <p>我们现在知道要控制发生错误的概率，但问题是这里有两种类型的错误，我们应该怎么控制呢？是单独控制一类错误还是单独控制二类错误，还是有一起控制的方法呢？</p>
 <ol style="list-style-type: decimal">
 <li>一类错误和二类错误的发生概率是相互矛盾的，如果降低一类错误的发生概率则必然会提高二类错误的发生概率。</li>
-<li>一类错误是绝对可控的，而二类错误则无法控制。这里的原因是由于原假设是一个精准的等式，而备择假设是一个宽泛的不等式，这就导致当我们求条件概率的时候，二类错误的发生概率没办法求出。因此我们会首先控制一类错误。</li>
+<li>一类错误是绝对可控的，而二类错误则无法控制。之所以这么说，是因为本质上我们通过控制一类错误的概率或者二类错误的概率来做出选择，那么当我们给定某个<span class="math inline">\(\alpha\)</span>，我们必须能够反解出一个特定值来作为基准。对于一类错误，它的条件是原假设成立，那么我们就可以获得未知参数的一个已知假设值，从而可以反解出这个特定值；而对于二类错误，它的条件是备择假设成立，这个假设太宽泛了，我们无法解出特定值。因此我们说一类错误可控，而二类错误无法控制。所以我们通过控制一类错误发生的概率来做出决策。</li>
 <li>因为我们首先控制一类错误，所以这就凸显除了原假设的重要性，所以我们在设立假设的时候应该把更重要的放在原假设。</li>
 </ol>
 <p><strong>Power function</strong></p>
@@ -486,11 +486,20 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 </blockquote>
 <p>导致发生一类错误的方向的一系列值就是critical region，而那个交界点就是critical value。当我们的估计量取值落入critical region的时候我们就要拒绝原假设。</p>
 <blockquote>
-<p>逻辑：我们控制一类错误在一个很小的概率下，也就是说估计量取这一部分的值的概率是很低的。但是当实际情况中确实发生了，它就相当于是小概率事件，或者说“事出反常必有妖”。这种时候我们认为实际上这个估计量不服从这个分布才出现了这样的情况，也就是说原假设是错误的。</p>
+<p>逻辑：我们控制一类错误在一个很小的概率下，也就是说估计量取这一部分的值的概率是很低的。但是当实际情况中确实发生了，它就相当于是小概率事件，或者说“事出反常必有妖”。这种时候我们不认为说是这个估计量真的取到了这样一个极端值，而认为实际上这个估计量不服从这个分布才出现了这样的情况，也就是说原假设是错误的。</p>
 </blockquote>
 <p><strong>P-value</strong></p>
 <p><span class="math display">\[P-value=\alpha_{0}=P(Z\,is\,as\,extrem\,as\,or\,more\,extrem\, than\,z_{obs}|H_{0}\,is\,true)\]</span></p>
 <p>这种方法的思路和上一个其实是一样的，只不过它更加直接。这种方法直接去计算在原假设成立的情况下估计量的观测值发生的极端性有多高，然后拿它和<span class="math inline">\(\alpha\)</span>进行比较，如果比<span class="math inline">\(\alpha\)</span>还要小，那就等同于发生了小概率事件，那么就认为原假设是错误的。</p>
+<blockquote>
+<p>在实际操作中，这种检定方法比计算出critical value更加方便和快速，所以我们一般都是通过计算p-value来进行决策。</p>
+</blockquote>
+<blockquote>
+<p>不论是第一种还是第二种方法，它都是一种反证法逻辑的体现。当出现某种极端情况时，我们认为是由于一个东西错误了导致的——原假设错误</p>
+</blockquote>
+<p><strong>Confidence Interval</strong></p>
+<p>为什么我们要加上这么一个东西呢？首先我必须说的是，使用自信区间来做检定并不是一个好的选择，因为在我看来它并没有直接地表现出控制一类概率的过程，但是从逻辑上看，它使用了前面两种方法都使用到的“反证”的思想。</p>
+<p>首先，自信区间的定义使得我们能够控制说真实的未知参数以某个概率落入这个区间内。那么当我们进行一次取值，得到了一个区间时我们认为真实参数几乎一定落在这个区间，这时候如果原假设并没有进入这个区间，我们认为出现了极端情况，有东西出现错误了，也就是原假设错误。</p>
 </div>
 <div id="generalized-likelihood-ratio-testglrt" class="section level2">
 <h2>Generalized likelihood Ratio Test(GLRT)</h2>
@@ -513,7 +522,9 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 <li>当<span class="math inline">\(H_{1}\)</span>是正确的，我们就不知道<span class="math inline">\(\theta\)</span>是什么，但是至少<span class="math inline">\(\theta\neq\theta_{0}\)</span>,那么这个时候我们认为<span class="math inline">\(L(\theta)_{max}=L(\hat\theta_{MLE})&gt;L(\theta_{0})\)</span>,同样的这个不是一个严谨的写法，但是意思就是它们俩带进去得到的likelihood会有一定差距。</li>
 <li>令<span class="math inline">\(\lambda=\frac{L(\theta_{0})}{L(\hat\theta_{MLE})}\)</span>,则有<span class="math inline">\(\lambda\in(0,1]\)</span>。当<span class="math inline">\(\lambda\)</span>在1以及小于1一些的数值波动时，我们认为<span class="math inline">\(H_{0}\)</span>是正确的，而当<span class="math inline">\(\lambda\)</span>比1小比较多的时候我们认为<span class="math inline">\(H_{0}\)</span>不正确。</li>
 <li>我们这时候直接“翻译”reject <span class="math inline">\(H_{0}\)</span>为<span class="math inline">\(0&lt;\lambda&lt;\lambda^{\star}\)</span>，至此我们就只差找到<span class="math inline">\(\lambda\)</span>在原假设正确时的分布了。</li>
-<li>Theorem[Asymptotic Distribution of the GLRT]:For testing <span class="math inline">\(H_{0}:\theta=\theta_{0}\)</span> versus <span class="math inline">\(H_{1}:\theta\neq\theta_{0}\)</span>.Suppose <span class="math inline">\(X_{1},X_{2},...,X_{n}\)</span> are iid <span class="math inline">\(f(x,\theta)\)</span>,under some regularity conditions,we have,under <span class="math inline">\(H_{0}\)</span> is true,as <span class="math inline">\(n\rightarrow\infty\)</span>,<span class="math display">\[-2ln\lambda\xrightarrow{d}X_{1}^{2}\]</span></li>
+<li>Theorem[Asymptotic Distribution of the GLRT]:For testing <span class="math inline">\(H_{0}:\theta=\theta_{0}\)</span> versus <span class="math inline">\(H_{1}:\theta\neq\theta_{0}\)</span>.Suppose <span class="math inline">\(X_{1},X_{2},...,X_{n}\)</span> are iid <span class="math inline">\(f(x,\theta)\)</span>,under some regularity conditions,we have,under <span class="math inline">\(H_{0}\)</span> is true,as <span class="math inline">\(n\rightarrow\infty\)</span>,<span class="math display">\[-2ln\lambda\xrightarrow{d}X_{1}^{2}\]</span><br />
+</li>
+<li>还要补充的一点是，上面我们说的是<span class="math inline">\(\theta=\theta_{0}\)</span>，但是在后面我们会发现它不仅仅只是单样本的情况，所以我们可能要把<span class="math inline">\(L(\theta_{0})\)</span>换成<span class="math inline">\(L(\hat{\theta}_{MLE}|H_{0})\)</span></li>
 </ul>
 <blockquote>
 <p>eg1:<span class="math inline">\(Y^{n}=(Y_{1},Y_{2},...,Y_{n})\)</span>是随机样本服从uniform distribution over the interval <span class="math inline">\([0,\theta]\)</span>,<span class="math inline">\(\theta\)</span>为未知参数。<br />
@@ -628,8 +639,89 @@ eg:<span class="math inline">\(\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}\)</span
 <p><span class="math display">\[P\{\chi_{\frac{\alpha}{2},n-1}^{2}\leq\frac{(n-1)S_{n}^{2}}{\sigma^{2}}\leq\chi_{1-\frac{\alpha}{2},n-1}^{2}\}=1-\alpha\]</span> <span class="math display">\[\textrm{Confidence interval:}[\frac{(n-1)S_{n}^{2}}{\chi_{1-\frac{\alpha}{2},n-1}^{2}},\frac{(n-1)S_{n}^{2}}{\chi_{\frac{\alpha}{2},n-1}^{2}}]\]</span></p>
 </div>
 </div>
-<div id="chapter-9" class="section level1">
-<h1>Chapter 9</h1>
+<div id="chapter-9-two-sample-inferencesunder-normal-distribution" class="section level1">
+<h1>Chapter 9 Two-sample Inferences(under normal distribution)</h1>
+<p>所谓两样本，就是说我们的假设不是只涉及一个样本，前一章我们不论是均值检定或者是方差检定都是针对一个样本来说的。现在我们针对两样本，因此我们的假设也就相应的发生比较大的变化。</p>
+<div id="hypothesis-testing-on-two-population-means" class="section level2">
+<h2>Hypothesis Testing on Two population Means</h2>
+<p><span class="math display">\[H_{0}:\mu_{1}=\mu_{2}\quad v.s.\quad H_{1}:\mu_{1}\neq\mu_{2}\]</span> <span class="math display">\[H_{0}:\mu_{1}=\mu_{2}\quad v.s.\quad H_{1}:\mu_{1}&gt;\mu_{2}\]</span> <span class="math display">\[H_{0}:\mu_{1}=\mu_{2}\quad v.s.\quad H_{1}:\mu_{1}&lt;\mu_{2}\]</span></p>
+<p>两样本均值检定的假设就是这三种，但是带来的检定过程中大差别并不大。问题是这个时候我们要控制一类错误的话，我们应该如果翻译“reject H0”呢？稍加观察我们发现，只要把参数移到一侧那么其实是相同的：<span class="math inline">\(H_{0}:\mu_{1}-\mu_{2}=0\quad v.s.\quad H_{1}:\mu_{1}-\mu_{2}\neq 0\)</span>。</p>
+<p>解决了这个问题，我们还有两个小问题，一个就是关于方差，正如我们在上一章所遇到的一样；另一个就是针对两个样本之间的关系，是否要进行不同的处理。接下来我们就针对这两个小问题分类讨论，我们以左单边备择假设为例。</p>
+<p><strong>两样本独立且方差均已知</strong></p>
+<p>我们还是一样的思路：先估计，估计之后考虑怎么翻译“reject H0”，之后就正常了。我们做一个展示，在之后的情况就不再详细解释。</p>
+<p><span class="math display">\[P(reject \,\,H_{0}|H_{0}\,is\,true)=P(\bar{X_{1}}-\bar{X_{2}}&lt;\lambda^{\star}|H_{0}\,is\,true)=P(\frac{(\bar{X_{1}}-\bar{X_{2}})-(\mu_{1}-\mu_{2})}{\sqrt{\frac{\sigma_{1}^{2}}{n_{1}}+\frac{\sigma_{2}^{2}}{n_{2}}}}&lt;\frac{\lambda^{\star}-(\mu_{1}-\mu_{2})}{\sqrt{\frac{\sigma_{1}^{2}}{n_{1}}+\frac{\sigma_{2}^{2}}{n_{2}}}}|H_{0}\,is\,true)=\alpha\]</span> <span class="math display">\[\Rightarrow P(Z:Z^{\star}&lt;\frac{\lambda^{\star}-(\mu_{1}-\mu_{2})}{\sqrt{\frac{\sigma_{1}^{2}}{n_{1}}+\frac{\sigma_{2}^{2}}{n_{2}}}}|H_{0}\,is\,true)=P(Z:Z^{\star}&lt;\frac{\lambda^{\star}}{\sqrt{\frac{\sigma_{1}^{2}}{n_{1}}+\frac{\sigma_{2}^{2}}{n_{2}}}})=\alpha\]</span> <span class="math display">\[\therefore\quad-Z_{\alpha}=\frac{\lambda^{\star}}{\sqrt{\frac{\sigma_{1}^{2}}{n_{1}}+\frac{\sigma_{2}^{2}}{n_{2}}}}\]</span></p>
+<blockquote>
+<p>这里是因为样本是正态分布且两个样本独立，因此我们可以得到两个样本均值的差也服从正态分布。</p>
+</blockquote>
+<p><strong>两样本独立但方差未知，但方差相同</strong></p>
+<p>方差未知，我们和单样本方差未知时的解决方法一样，都是用样本方差去替代并构造t分布。但是现在的问题是，我们有两个样本方差我们应该如何使用呢？</p>
+<p><span class="math display">\[\frac{(n_{1}-1)S_{1}^{2}}{\sigma^{2}}+\frac{(n_{2}-1)S_{2}^{2}}{\sigma^{2}}=\frac{(n_{1}-1)S_{1}^{2}+(n_{2}-1)S_{2}^{2}}{\sigma^{2}}\sim\chi_{n_{1}+n_{2}-2}^{2}\]</span> <span class="math display">\[令\quad S_{p}^{2}=\frac{(n_{1}-1)S_{1}^{2}+(n_{2}-1)S_{2}^{2}}{n_{1}+n_{2}-2}\]</span></p>
+<p>我们会使用加权平均的方法得到一个pooled sample variance。那么为了凑出一个t分布，我们就可以用和单样本时相同的方法：</p>
+<p><span class="math display">\[\frac{\frac{(\bar{X_{1}}-\bar{X_{2}})-(\mu_{1}-\mu_{2})}{\sigma\sqrt{1/n_{1}+1/n_{2}}}}{\sqrt{\frac{S_{p}^{2}}{\sigma^{2}}}}=\frac{(\bar{X_{1}}-\bar{X_{2}})-(\mu_{1}-\mu_{2})}{S_{p}\sqrt{\frac{1}{n_{1}}+\frac{1}{n_{2}}}}\sim t_{n_{1}+n_{2}-2}\]</span></p>
+<p>所以分布我们找到了，对于如何翻译“reject H0”的问题，其实是类似的我们就不详细说了。但是有一个问题就是说，<span class="math inline">\(S_{p}\)</span>是一个随机变量，它也出现在了反解的过程中，这应该如何理解呢？简单地理解为观测值当然是可以解的，但是这样说得通吗？因为</p>
+<blockquote>
+<p>我们现在用GLRT的方法证明一下这种情况实际上也是一种GLRT。<br />
+回忆一下GLRT的方法，我们实际上是将<span class="math inline">\(L(\hat{\theta}_{MLE})\)</span>作为标准，然后将原假设域下求出的似然函数的最大值来和它比较。<br />
+<span class="math inline">\(L(\mu_{x},\mu_{y},\sigma^{2})=\prod\limits_{i=1}^{n}f(x_{i})\prod\limits_{i=1}^{n}f(y_{i})=(2\pi\sigma^{2})^{-\frac{n+m}{2}}exp\{-\frac{1}{2\sigma^{2}}[\sum\limits_{i=1}^{n}(x_{i}-\mu_{x})^{2}+\sum\limits_{i=1}^{m}(y_{i}-\mu_{y})^{2}]\}\)</span><br />
+当原假设成立时，<span class="math inline">\(\mu_{x}=\mu_{y}=\mu\)</span>,<span class="math inline">\(L(\mu_{x},\mu_{y},\sigma^{2})=L(\mu,\sigma^{2})=(2\pi\sigma^{2})^{-\frac{n+m}{2}}exp\{-\frac{1}{2\sigma^{2}}[\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}+\sum\limits_{i=1}^{m}(y_{i}-\mu)^{2}]\}\)</span><br />
+我们可以解得<span class="math display">\[\widetilde{\mu}=\frac{\sum\limits_{i=1}^{n}x_{i}+\sum\limits_{i=1}^{n}y_{i}}{n+m},\widetilde{\sigma^{2}}=\frac{1}{n+m}[\sum\limits_{i=1}^{n}(x_{i}-\widetilde{\mu})^{2}+\sum\limits_{i=1}^{m}(y_{i}-\widetilde{\mu})^{2}]\]</span><br />
+当备择假设成立时，我们求<span class="math inline">\(L(\hat{\theta}_{MLE})\)</span>,这时候有三个未知参数。<br />
+我们可以解得<span class="math display">\[\hat{\mu}_{x}=\bar{X_{n}},\hat{\mu}_{y}=\bar{Y_{n}},\hat{\sigma^{2}}=\frac{1}{n+m}[\sum\limits_{i=1}^{n}(x_{i}-\hat{\mu}_{x})^{2}+\sum\limits_{i=1}^{m}(y_{i}-\hat{\mu}_{y})^{2}]\]</span><br />
+<span class="math display">\[\lambda=\frac{L(\widetilde{\mu},\widetilde{\sigma^{2}})}{L(\hat{\mu_{x}},\hat{\mu_{y}},\hat{\sigma^{2}})}=(\frac{\hat{\sigma^{2}}}{\widetilde{\sigma^{2}}})^{\frac{n+m}{2}}=[\frac{\sum\limits_{i=1}^{n}(x_{i}-\bar{X_{n}})^{2}+\sum\limits_{i=1}^{m}(y_{i}-\bar{Y_{n}})^{2}}{\sum\limits_{i=1}^{n}(x_{i}-\frac{n\bar{X_{n}}+m\bar{Y_{m}}}{n+m})^{2}+\sum\limits_{i=1}^{m}(y_{i}-\frac{n\bar{X_{n}}+m\bar{Y_{m}}}{n+m})^{2}}]^{\frac{n+m}{2}}\]</span><br />
+但是我们要凑出t分布才可以，所以我们对<span class="math inline">\(\lambda\)</span>继续进行变形，得到<span class="math display">\[\lambda=(\frac{n+m-2}{(n+m-2)+T^{2}})^{\frac{n+m}{2}}\]</span><br />
+我们进行决策的标准是找到一个<span class="math inline">\(\lambda^{\star}\)</span>比1小比较多，并且我们发现<span class="math inline">\(\lambda\)</span>随着<span class="math inline">\(T^{2}\)</span>递减，所以就得出当<span class="math inline">\(T^{2}\)</span>大于某个值就拒绝<span class="math inline">\(H_{0}\)</span><br />
+剩下的就是控制一类错误了，没有什么好说的。但是需要注意的是，GLRT应该只能适用于双边检定，不然就有问题。</p>
+</blockquote>
+<p><strong>两样本独立但方差未知，且方差互不相同</strong></p>
+<p>我们同样是用样本方差去替代方差，但是这时候我们找不到它的分布。</p>
+<p><span class="math display">\[\frac{(\bar{X_{1}}-\bar{X_{2}})-(\mu_{1}-\mu_{2})}{\sqrt{\frac{S_{1}^{2}}{n_{1}}+\frac{S_{2}^{2}}{n_{2}}}}\sim ?\]</span></p>
+<p><em>Welch-Satterthuaites Approximation</em></p>
+<p>一种渐近的方法，<span class="math inline">\(X_{1},X_{2},...,X_{n}\)</span> be a random sample of size n from a normal distribution with mean <span class="math inline">\(\mu_{x}\)</span> and standard deviation <span class="math inline">\(\sigma_{x}\)</span> and let <span class="math inline">\(Y_{1},Y_{2},...,Y_{n}\)</span> be a random sample of size m from a normal distribution with mean <span class="math inline">\(\mu_{y}\)</span> and <span class="math inline">\(\sigma_{y}\)</span>.Two random samples are independent.</p>
+<p><span class="math display">\[T=\frac{\bar{X}-\bar{Y}-(\mu_{x}-\mu_{y})}{\sqrt{\frac{S_{1}^{2}}{n_{1}}+\frac{S_{2}^{2}}{n_{2}}}}\]</span> Then T has approximately a Student t distribution with v degrees of freedom,where v is the nearest integer of the following expression</p>
+<p><span class="math display">\[\frac{(S_{x}^{2}/n+S_{y}^{2}/m)^{2}}{(S_{x}^{2}/n)^{2}/(n-1)+(S_{y}/m)^{2}/(m-1)}\]</span></p>
+<p>通过这一个渐近理论，我们就找到了在原假设成立下的test statistics和对应的分布。</p>
+<p><strong>两样本匹配且方差未知</strong></p>
+<p>我们这里的匹配针对的是“实验前”“实验后”这种单个观测体的两次观测的情况，因此两个样本组高度相关。我们的做法是将其转化为单样本问题</p>
+<p><span class="math display">\[D=X-Y,D\sim N(\mu_{d},\sigma^{2}_{d})\]</span></p>
+<p>从而我们的假设检验就变为，</p>
+<p><span class="math display">\[H_{0}:\mu_{d}=0\quad v.s.\quad H_{1}:\mu_{d}\neq 0\quad\textrm{方差未知,正态分布}\]</span></p>
+</div>
+<div id="hypothesis-testing-on-two-population-variance" class="section level2">
+<h2>Hypothesis testing on Two population variance</h2>
+<p><span class="math display">\[H_{0}:\sigma_{X}^{2}=\sigma_{Y}^{2}\quad v.s.\quad H_{1}:\sigma_{X}^{2}\neq\sigma_{Y}^{2}\]</span> <span class="math display">\[H_{0}:\sigma_{X}^{2}=\sigma_{Y}^{2}\quad v.s.\quad H_{1}:\sigma_{X}^{2}&lt;\sigma_{Y}^{2}\]</span> <span class="math display">\[H_{0}:\sigma_{X}^{2}=\sigma_{Y}^{2}\quad v.s.\quad H_{1}:\sigma_{X}^{2}&gt;\sigma_{Y}^{2}\]</span></p>
+<p>同样的思路，我们先寻找估计量进行估计。自然地我们会选择样本方差作为估计量，但是接下来我们应该怎么翻译“reject H0”呢？是不是还能够像两样本均值检定一样使用相减的方法来翻译呢？</p>
+<p>我们一定要借助一些已知的分布，当提到样本方差我们就会想到卡方分布（正态分布假设下）。所以如果我们直接转换成<span class="math inline">\(S_{X}^{2}-S_{Y}^{2}\)</span>的话，好像没办法构造出什么分布。</p>
+<p><em>F distribution</em></p>
+<p>Let U and V be two independent Chi-square random Variables with p and q degrees of freedom respectively.Then the R.V. <span class="math display">\[F=\frac{\frac{U}{p}}{\frac{V}{q}}\]</span> follows a F distribution with p and q degrees of freedom,denoted by <span class="math display">\[F_{p,q}\]</span></p>
+<ul>
+<li>If <span class="math inline">\(X\sim F_{p,q},then X^{-1}\sim F_{q,p}\)</span></li>
+<li>If <span class="math inline">\(X\sim t_{q},then X^{2}\sim F_{1,q}\)</span></li>
+<li>If <span class="math inline">\(q\rightarrow\infty\)</span>,then <span class="math inline">\(p\cdot F_{p,q}\rightarrow\chi_{p}^{2}\)</span></li>
+</ul>
+<p>现在我们就可以进行翻译了(左单边为例)，</p>
+<p><span class="math display">\[P(reject\,H_{0}|H_{0}\,is\,true)=P(\frac{S_{X}^{2}}{S_{Y}^{2}}&lt;\lambda^{\star}|H_{0}\,is\,true)=P(\frac{\frac{(n-1)S_{X}^{2}}{\sigma_{X}^{2}}}{\frac{(m-1)S_{Y}^{2}}{\sigma_{Y}^{2}}}&lt;\frac{n-1}{m-1}\cdot\frac{\sigma_{Y}^{2}}{\sigma_{X}^{2}}\cdot\lambda^{\star}|H_{0}\,is\,true)\]</span> <span class="math display">\[\Rightarrow P(F:F^{\star}&lt;\frac{n-1}{m-1}\cdot\frac{\sigma_{Y}^{2}}{\sigma_{X}^{2}}\cdot\lambda^{\star}|H_{0}\,is\,true)=P(F:F^{\star}&lt;\frac{n-1}{m-1}\cdot\lambda^{\star})=\alpha\]</span> <span class="math display">\[\therefore F_{n-1,m-1,\alpha}=\frac{n-1}{m-1}\cdot\lambda^{\star}\]</span></p>
+<p>这样就可以反解我们需要的critical value了，对于p-value而言也差不多。</p>
+</div>
+<div class="section level2">
+<h2>本章结尾</h2>
+<p>我们不介绍二项分布的概率p有关检定，因为它也是用样本均值，本质上和均值检定时一样的。</p>
+<p>两样本的自信区间我们也不写了，重点就是枢轴量找到就好了。</p>
+<blockquote>
+<p>在这一章的最后我想要提的是，我们做检定的核心是找到一个分布，同时在一类错误的计算式子中能够反解出那个“决策标准”。<br />
+举一个很简单的例子，就像两样本方差检定时，我们当然也可以这样翻译“reject H0”:<span class="math display">\[P(S_{X}^{2}-S_{Y}^{2}&lt;\lambda^{\star}|H_{0}\,is\,true)\]</span> 但是这里的问题是，我们得不到一个已知分布，那我们就无法反解出<span class="math inline">\(\lambda^{\star}\)</span></p>
+</blockquote>
+<ul>
+<li>运用histogram(直方图),去画出大概的pdf</li>
+<li>运用asymptotic theory(渐近理论)</li>
+<li>运用bootstrap(自助法)</li>
+</ul>
+<blockquote>
+<p>除了现在给出的各种构造已知分布的方法，我们还提供上述三种方法去近似的找到分布。</p>
+</blockquote>
+</div>
+</div>
+<div id="chapter-10-goodness-of-fit-tests" class="section level1">
+<h1>Chapter 10 Goodness of Fit Tests</h1>
 </div>
 
 
