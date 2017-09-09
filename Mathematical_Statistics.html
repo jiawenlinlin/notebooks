@@ -746,7 +746,9 @@ plot(x,y,main = &quot;二项分布pdf&quot;)</code></pre>
 <p>Theorem:Let <span class="math inline">\(r_{1},r_{2},...,r_{t}\)</span> be the set of possible outcomes associated with each of n independent trials,where <span class="math inline">\(P(r_{i})=p_{i}&gt;0\)</span> is known,<span class="math inline">\(i=1,2,3,...,t\)</span>.Let <span class="math inline">\(X_{i}\)</span> be the number of times <span class="math inline">\(r_{i}\)</span> occours,then the random variable <span class="math display">\[D=\sum\limits_{i=1}^{t}\frac{(obs_{i}-E_{i})^{2}}{E_{i}}=\sum\limits_{i=1}^{n}\frac{(X_{i}-n\cdot p_{i})^{2}}{n\cdot p_{i}}\]</span> has approximately a <span class="math inline">\(\chi^{2}\)</span> distribution with <span class="math inline">\(t-1\)</span> degrees of freedom.For the approximation to be adequate,the t classes should be defined so that <span class="math inline">\(n\cdot p_{i}&gt;5\)</span>,for all <span class="math inline">\(i\)</span>.</p>
 <p>If <span class="math inline">\(P(r_{i})=p_{i}&gt;0\)</span> is unknown,then we have to estimate them,then the D has approximately a <span class="math inline">\(\chi^{2}\)</span> distribution with t-1-s degrees of freedom,where s is the number of unknown parameters.For the approximation to be adequate,the t classes should be defined so that <span class="math inline">\(n\cdot\hat{p_{i}}&gt;5\)</span>,for all <span class="math inline">\(i\)</span>.</p>
 <blockquote>
-<p>这样的话我们其实已经把最难的第一第二步完成了。</p>
+<p>这样的话我们其实已经把最难的第一第二步完成了。<br />
+需要注意的如果我们要用critical value来做，则使用的方法是令<span class="math inline">\(P(D_{n}&gt;\lambda^{\star})=\alpha\)</span>然后反解出<span class="math inline">\(\lambda^{\star}\)</span>。然后我们再计算<span class="math inline">\(D_{n}\)</span>的实现值<span class="math inline">\(d_{n}\)</span>，这时候我们就得带入估计出来的p或者是已知的p。<br />
+如果我们使用的是pvalue的方法，则我们实际上是计算<span class="math inline">\(P(D_{n}&gt;d_{n}|H_{0}\,is\,true)\)</span></p>
 </blockquote>
 <div id="discrete-case" class="section level3">
 <h3>Discrete Case</h3>
@@ -789,10 +791,49 @@ plot(x,y,main = &quot;二项分布pdf&quot;)</code></pre>
 <p>其实我们忘记了一个最自然的逻辑：类似于检定参数，我们如果要检定<span class="math inline">\(f(x)\)</span>，那我们就可以对<span class="math inline">\(f(x)\)</span>进行估计，然后拿它和<span class="math inline">\(f_{0}(x)\)</span>来比较。重点是我们应该如何翻译“reject H0”，并得到已知分布。</p>
 <p>现在我们就实现这个逻辑。</p>
 <div id="ecdf" class="section level3">
-<h3>ECDF</h3>
+<h3>ECDF(经验累积分布函数)</h3>
 <p>Definition:Let <span class="math inline">\((X_{1},X_{2},...,X_{n})\)</span> be an i.i.d. random sample from a distribution with CDF <span class="math inline">\(F(x)\)</span>.Then,the <em>empirical cumulative distribution function(ECDF)</em> is defined as <span class="math display">\[F_{n}(x)=\frac{\textrm{number of elements}\leq x}{n}=\frac{1}{n}I(X_{i}\leq x)\]</span> where <span class="math inline">\(I(A)\)</span> is the indicator function of event A.</p>
 <blockquote>
-<p>对于<span class="math inline">\(I(X_{i}\leq x)\)</span>,</p>
+<p>对于<span class="math inline">\(I(X_{i}\leq x)\)</span>,给定一个固定的x，则ECDF是一个Bernoulli random variable，因为<span class="math inline">\(P(I=1)=P(X_{i}\leq x)=F(x)\)</span>。所以<span class="math inline">\(\sum\limits_{i=1}^{n}I(X_{i}\leq x)=nF_{n}(x)\)</span>就是一个二项分布。<br />
+<span class="math display">\[E(nF_{n}(x))=n\cdot E(F_{n}(x))=n\cdot F(x)\]</span><br />
+也就是说<span class="math inline">\(F_{n}(x)\)</span>是对<span class="math inline">\(F(x)\)</span>的无偏估计<br />
+另外，<span class="math inline">\(F_{n}(x)\)</span>是一个step function(阶跃函数)</p>
+</blockquote>
+<p>因此我们已经找到了对于CDF的分布了。接下来就是看怎么翻译“reject H0”了。</p>
+</div>
+<div id="kolmogorov-smirnov-test" class="section level3">
+<h3>Kolmogorov-Smirnov Test</h3>
+<p>我们主要使用到了这么一个判别的方法</p>
+<p><span class="math display">\[D_{n}=\sqrt{n}\cdot sup_{x\in R}|F_{n}(x)-F_{0}(x)|\]</span></p>
+<p>其思路就是说我们找估计量和理论量的最大差距，如果过大的话我们就认为原假设是错误的。具体的检定方式我们给Wikipedia的介绍，大家可以仔细阅读</p>
+<p><a href="https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test" title="Wikipedia">Kolmogorov-Smirnov</a></p>
+</div>
+</div>
+<div id="using-goodness-of-fit-test-test-independence" class="section level2">
+<h2>Using Goodness-of-Fit Test test independence</h2>
+<p>一般来说，如果我们想要证明两个变量独立，我们是通过<span class="math inline">\(f_{X,Y}(x,y)=f_{X}(x)\cdot f_{Y}(y)\)</span>来证明的。但是很多时候我们不知道分布，这就有必要发展出一种test可以检验两个变量是不是独立的。</p>
+<p>因为使用的仍然是这个test，所以我们可以才想到还是利用观测值和期望值的差别进行检定。</p>
+<div id="contigency-table" class="section level3">
+<h3>contigency table(列联表)</h3>
+<pre class="r"><code>ct&lt;-data.frame(Jane=factor(c(&quot;Yes&quot;,&quot;Yes&quot;,&quot;No&quot;,&quot;No&quot;,&quot;Yes&quot;,&quot;Not Sure&quot;),levels = c(&quot;Yes&quot;,&quot;No&quot;,&quot;Not Sure&quot;)),Helen=factor(c(&quot;Yes&quot;,&quot;No&quot;,&quot;No&quot;,&quot;Yes&quot;,&quot;No&quot;,&quot;Yes&quot;),levels =c(&quot;Yes&quot;,&quot;No&quot;)))
+table(ct)</code></pre>
+<pre><code>##           Helen
+## Jane       Yes No
+##   Yes        1  2
+##   No         1  1
+##   Not Sure   1  0</code></pre>
+<p>列联表是这样一个表格，我们现在介绍二维情况：横向来加总表示的是左侧的这个随机变量取各个取值的观测个数，记为<span class="math inline">\(R_{1},R_{2},...,R_{k}\)</span>;纵向来加总表示的是上侧的这个随机变量取各个取值的观测个数,记为<span class="math inline">\(C_{1},C_{2},...,C_{t}\)</span>。并且有<span class="math inline">\(\sum\limits_{i=1}^{k}R_{i}=\sum\limits_{i=1}^{t}C_{i}=n\)</span>,n为总的观测数。</p>
+<p>在列联表中我们把每一个格中的观测个数用<span class="math inline">\(n_{ij}\)</span>表示，意思是它是第i行第j列的。而这个就是我们的观测值。</p>
+</div>
+<div class="section level3">
+<h3>检定过程</h3>
+<p>我们还是使用<span class="math inline">\(D_{n}\)</span>来翻译“reject H0”,但是我们没办法找到相应的<span class="math inline">\(p_{i}\)</span>,所以我们就要使用原假设成立的条件来估计<span class="math inline">\(p_{i}\)</span>。</p>
+<p>当原假设成立的时候，也就是两个随机变量独立时，我们有 <span class="math display">\[P(R_{i}C_{j})=P(R_{i})P(C_{j})\]</span></p>
+<p>而这个<span class="math inline">\(P(R_{i}C_{j})\)</span>就是我们要找的对应于观测值的<span class="math inline">\(p_{i}\)</span>,因此我们想要估计它。估计它就可以通过估计<span class="math inline">\(P(R_{i})\)</span>、<span class="math inline">\(P(C_{j})\)</span>来实现。</p>
+<p>那么如何估计<span class="math inline">\(P(R_{i})\)</span>、<span class="math inline">\(P(C_{j})\)</span>呢？这个很容易，直接通过比例来估计就好： <span class="math display">\[\hat{P(R_{i})}=\frac{R_{i}}{n},\hat{P(C_{j}}=\frac{C_{j}}{n}\]</span></p>
+<p>接下来就很容易了，因为我们已经得到了和本章最开始的参数方法所要求得到的所有东西，唯一要注意的就是因为我们进行了估计所以 <span class="math display">\[D_{n}\sim \chi^{2}_{k\cdot t-1-s},\textrm{s 是估计的未知参数的个数}\]</span></p>
+<blockquote>
+<p>但凡使用到了goodness-of-fit test,就必须保证每个划分区域的期望大于5，才能使得<span class="math inline">\(D_{n}\)</span>近似服从于卡方分布。</p>
 </blockquote>
 </div>
 </div>
