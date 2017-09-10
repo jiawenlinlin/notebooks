@@ -107,7 +107,7 @@ $$\therefore Var(S_{n}^{2})=\frac{2\sigma^{4}}{n-1}$$
 
 前面我们讲的样本均值和样本方差实际上也可以作为均值和方差的估计量，但是它们是我们从直觉中找到的统计量，而不是通过某种方法找到的。现在我们要介绍两种最主要的参数估计方法。
 
-**Maximum likelihood estimation**
+###Maximum likelihood estimation
 
 *本质：观察到已经发生的事件，求得使这件事发生概率最大的参数的值。*
 
@@ -165,7 +165,7 @@ $$
 > $\therefore \hat{\theta}=y_{(1)}$
 
 
-**Moments Estimation**
+###Moments Estimation
 
 首先我们要回忆一下关于矩的一些知识：
 
@@ -246,7 +246,7 @@ We say that $[L(X_{1},X_{2},...,X_{n}),U(X_{1},X_{2},...,X_{n})]$ is the confide
 
 之所以我们想要了解估计量的性质，是因为我们想知道：哪一个估计量更好？因为估计量实际上就是统计量，因此它是一个随机变量，也就会有期望、方差、分布这些性质，这也是我们用来判断的标准。
 
-**Unbiasedness**
+###Unbiasedness
 
 Definition:Suppose $Y^{n}=(Y_{1},Y_{2},...,Y_{n})$ is a random sample with pdf $f_{Y}(y,\theta)$,$\theta$ is an unknown parameter.Then $\hat{\theta}=h(Y_{1},Y_{2},...,Y_{n})$ is called unbiased estimator if
 $$E(\hat{\theta})=\theta$$
@@ -276,7 +276,7 @@ Find an unbiased estimator for some parameter
 > $\bar{X_{n}}^{2}-\frac{1}{n}S_{n}^{2}$就是我们找的无偏估计量
 
 
-**Efficiency**
+###Efficiency
 
 对于一个未知参数，它可以有不止一个统计量，那么它当然也有可能有不止一个无偏统计量，那么对于多个无偏统计量，哪一个更好呢？
 
@@ -294,7 +294,7 @@ $$\frac{Var(\hat\theta_{1})}{Var(\hat\theta_{2})}$$
 > 这里要说明一下。$Var\rightarrow\textrm{precision 准度/准确度}$，$Bias\rightarrow\textrm{accuracy 精度/精确度}$
 
 
-**Mean Squared Error**
+###Mean Squared Error
 
 我们从unbiasedness开始比较两个estimator的好坏，然后在都是无偏的情况下时我们用efficiency来进行比较。那么进一步我们就想问一个问题：*如果一个估计量是有偏但方差小一些，另一个是无偏但方差大一些，这两个估计量哪个更优？*
 
@@ -356,7 +356,7 @@ $$Var(\hat\theta)\geq\frac{1}{nE[(\frac{\partial lnf(y,\theta)}{\partial\theta})
 > 显然我们可以看到虽然样本方差是无偏估计量，但是它并不是MVUE。并且我们还发现，MLE虽然有偏但是它的方差比无偏估计量的最小方差还要小。
 
 
-**Consistency**
+###Consistency
 
 1. asymptotically unbiased
 
@@ -375,7 +375,7 @@ $$lim_{n\rightarrow\infty}P(|\hat\theta_{n}-\theta|<\epsilon)=1$$
 > $\therefore lim_{n\rightarrow\infty}P(|\hat\theta_{MLE}-\theta|<\epsilon)=1$  
 > 或者我们可以使用马尔科夫不等式来得到这个结果，因为这个概率式子是可以联系到马尔科夫不等式的，这里就不展开了。
 
-**Sufficient Estimators**
+###Sufficient Estimators
 
 Definition[sufficient statistic]:Let $X^{n}$ be a random sample from sufficient statistic for $\theta$ if the conditional distribution of the sample $X^{n}=x^{n}$ given that the value of the statistic T(X^{n})=T(x^{n}) does not depend on $\theta$.That is 
 $$f_{X^{n}|T(X^{n})}[x^{n}|T(x^{n}),\theta]=h(x^{n})\textrm{ for all possible }\theta$$
@@ -438,7 +438,7 @@ $$power function=f(\mu_{1}),\alpha为外生变量$$
 
 ##几种检验的方法
 
-**Critical value**
+###Critical value
 
 In practice,in order to find an appropriate cutoff value so that we can make a choice,we control the probability of making Type I error under some *prespecified* level $\alpha$:
 $$P(reject\,\,H_{0}|H_{0}\,is\,true)=\alpha$$
@@ -451,7 +451,7 @@ $\alpha$ is called the level of significance of the test.
 
 > 逻辑：我们控制一类错误在一个很小的概率下，也就是说估计量取这一部分的值的概率是很低的。但是当实际情况中确实发生了，它就相当于是小概率事件，或者说“事出反常必有妖”。这种时候我们不认为说是这个估计量真的取到了这样一个极端值，而认为实际上这个估计量不服从这个分布才出现了这样的情况，也就是说原假设是错误的。
 
-**P-value**
+###P-value
 
 $$P-value=\alpha_{0}=P(Z\,is\,as\,extrem\,as\,or\,more\,extrem\, than\,z_{obs}|H_{0}\,is\,true)$$
 
@@ -461,7 +461,7 @@ $$P-value=\alpha_{0}=P(Z\,is\,as\,extrem\,as\,or\,more\,extrem\, than\,z_{obs}|H
 
 > 不论是第一种还是第二种方法，它都是一种反证法逻辑的体现。当出现某种极端情况时，我们认为是由于一个东西错误了导致的——原假设错误
 
-**Confidence Interval**
+###Confidence Interval
 
 为什么我们要加上这么一个东西呢？首先我必须说的是，使用自信区间来做检定并不是一个好的选择，因为在我看来它并没有直接地表现出控制一类概率的过程，但是从逻辑上看，它使用了前面两种方法都使用到的“反证”的思想。
 
@@ -633,7 +633,7 @@ $$H_{0}:\mu_{1}=\mu_{2}\quad v.s.\quad H_{1}:\mu_{1}<\mu_{2}$$
 
 解决了这个问题，我们还有两个小问题，一个就是关于方差，正如我们在上一章所遇到的一样；另一个就是针对两个样本之间的关系，是否要进行不同的处理。接下来我们就针对这两个小问题分类讨论，我们以左单边备择假设为例。
 
-**两样本独立且方差均已知**
+###两样本独立且方差均已知
 
 我们还是一样的思路：先估计，估计之后考虑怎么翻译“reject H0”，之后就正常了。我们做一个展示，在之后的情况就不再详细解释。
 
@@ -643,7 +643,7 @@ $$\therefore\quad-Z_{\alpha}=\frac{\lambda^{\star}}{\sqrt{\frac{\sigma_{1}^{2}}{
 
 > 这里是因为样本是正态分布且两个样本独立，因此我们可以得到两个样本均值的差也服从正态分布。
 
-**两样本独立但方差未知，但方差相同**
+###两样本独立但方差未知，但方差相同
 
 方差未知，我们和单样本方差未知时的解决方法一样，都是用样本方差去替代并构造t分布。但是现在的问题是，我们有两个样本方差我们应该如何使用呢？
 
@@ -670,7 +670,7 @@ $$\frac{\frac{(\bar{X_{1}}-\bar{X_{2}})-(\mu_{1}-\mu_{2})}{\sigma\sqrt{1/n_{1}+1
 > 剩下的就是控制一类错误了，没有什么好说的。但是需要注意的是，GLRT应该只能适用于双边检定，不然就有问题。
 
 
-**两样本独立但方差未知，且方差互不相同**
+###两样本独立但方差未知，且方差互不相同
 
 我们同样是用样本方差去替代方差，但是这时候我们找不到它的分布。
 
@@ -690,7 +690,7 @@ $$\frac{(S_{x}^{2}/n+S_{y}^{2}/m)^{2}}{(S_{x}^{2}/n)^{2}/(n-1)+(S_{y}/m)^{2}/(m-
 
 
 
-**两样本匹配且方差未知**
+###两样本匹配且方差未知
 
 我们这里的匹配针对的是“实验前”“实验后”这种单个观测体的两次观测的情况，因此两个样本组高度相关。我们的做法是将其转化为单样本问题
 
@@ -924,3 +924,183 @@ $$\hat{P(R_{i})}=\frac{R_{i}}{n},\hat{P(C_{j}}=\frac{C_{j}}{n}$$
 $$D_{n}\sim \chi^{2}_{k\cdot t-1-s},\textrm{s 是估计的未知参数的个数}$$
 
 > 但凡使用到了goodness-of-fit test,就必须保证每个划分区域的期望大于5，才能使得$D_{n}$近似服从于卡方分布。
+
+
+
+#Chapter 12 Analysis of Variance(ANOVA)
+
+
+这里我们介绍的是*one-factor analysis of variance*，我们稍后会给出模型。现在我先讲一下为什么会发展出这样一个东西：我们在前面的章节中已经讲过了*one sample test*、*two samples test*，自然地我们会想如果有multiple samples应该怎么处理呢？one-factor analysis of variance就是因此而产生的。而ANOVA还有很多的扩展，可以应用到更多的情况，比如multiple-factor analysis of variance以及非参数统计中会讲到的其他检验。
+
+
+##模型及假定
+
+$$Y_{ij}=\mu_{j}+\sigma_{ij},j=1,2,3,...,k$$
+$$\sigma_{ij}\sim i.i.d. N(0,\sigma^{2})$$
+$$Y_{ij}\sim i.i.d. N(\mu_{j},\sigma^{2})$$
+
+> 对应于multiple samples,每一个sample的样本数为$n_{j},j=1,2,3,...,k$,$\sum\limits_{j=1}^{k}n_{j}=n$
+
+$$H_{0}:\mu_{1}=\mu_{2}=\cdots=\mu_{k}\quad v.s.\quad H_{1}:\textrm{not all the }\mu_{j}\textrm{ are equal}$$
+
+
+##推导检定过程
+
+$$T_{.j}=\sum\limits_{i}^{n_{j}}Y_{ij},\quad\bar{Y_{.j}}=\frac{1}{n_{j}}\sum\limits_{i}^{n_{j}}Y_{ij}=\frac{T_{.j}}{n_{j}}$$
+$$T_{..}=\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}Y_{ij},\quad \bar{Y_{..}}=\frac{1}{n}\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}Y_{ij}=\frac{T_{..}}{n}$$
+
+
+我们现在想要检定多个均值是否相等，第一步当然是估计这些均值。显然我们会使用$Y_{.j}$进行估计，但是问题是现在怎么翻译“reject H0”呢？我们没有办法像单样本或者多样本那样来处理，所以我们运用另一种思路。
+
+$$H_{0}:\mu_{1}=\mu_{2}=\cdots=\mu_{k}\quad\Leftrightarrow\quad H_{0}:\mu_{1}=\mu_{2}=\cdots=\mu_{k}=\mu$$
+
+因此我们通过衡量各个样本组均值和总体均值的差异进行判断，类似于goodness-of-fit test中加总所有差值。
+
+
+**SSTR**
+
+$$\textrm{treatment sum of squares}:SSTR=\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}(Y_{.j}-Y_{..})^{2}$$
+$$SSTR=\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}[(Y_{.j}-\mu)-(Y_{..}-\mu)]^{2}=\sum\limits_{j=1}^{k}n_{j}(Y_{.j}-\mu)^{2}-n(Y_{..}-\mu)^{2}$$
+$$E(SSTR)=(k-1)\sigma^{2}+\sum\limits_{j=1}^{k}n_{j}(\mu-\mu_{j})^{2}$$
+
+
+因为SSTR很好地衡量了各个样本组均值和总体均值的差距，所以很自然地我们认为当SSTR很大的时候我们要拒绝原假设。现在我们就需要找到有关于SSTR的分布才能计算控制一类错误。
+
+*Theorem*:When $H_{0}$ is true,
+$$\frac{SSTR}{\sigma^{2}}\sim\chi_{k-1}^{2}$$
+
+
+> 虽然我们现在不进行证明，但是我们可以看到我们求出的SSTR的期望中，当原假设成立时后一项就被抵消了，只剩下$(k-1)\sigma^{2}$,又$E(\sigma^{2}\chi_{k-1}^{2})=(k-1)\sigma^{2}$
+
+当方差已知的情况下，我们就可以翻译“reject H0”了，可以得到critical value为$\chi_{k-1,1-\alpha}^{2}$。所以当$\frac{SSTR}{\sigma^{2}}>\chi_{k-1,1-\alpha}^{2}$时我们拒绝原假设。
+
+但是大多数时候方差是未知的，所以我们还需要估计方差。
+
+**SSE**
+
+和两样本一样，我们使用pooled sample variance来估计方差。
+
+$$S_{p}^{2}=\frac{\sum\limits_{j=1}^{k}(n_{j}-1)S_{j}^{2}}{\sum\limits_{j=1}^{k}(n_{j}-1)}=\frac{\sum\limits_{j=1}^{k}(n_{j}-1)S_{j}^{2}}{n-k}$$
+
+$$\textrm{error sum of squares}:SSE=\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}(Y_{ij}-Y_{.j})^{2}=\sum\limits_{j=1}^{k}(n_{j}-1)S_{j}^{2}$$
+$$\therefore\quad S_{p}^{2}=\frac{SSE}{n-k}$$
+
+
+$$E(SSE)=(n-k)\sigma^{2}$$
+
+*Theorem*:Regardless of whether $H_{0}$ is true,we have the following results:
+
+1. $\frac{SSE}{\sigma^{2}}\sim\chi_{n-k}^{2}$
+2. SSE and SSTR are independent
+
+
+现在如果我们用pooled sample variance替换方差，那么我们就需要重新寻找在原假设成立条件下的分布。这时候我们发现不管是SSTR还是SSE都和卡方分布有关，因此我们就有
+
+$$F=\frac{\frac{SSTR}{\sigma^{2}}/(k-1)}{\frac{SSE}{\sigma^{2}}/(n-k)}=\frac{\frac{SSTR}{k-1}}{\frac{SSE}{n-k}}=\frac{MSTR}{MSE}\sim F_{k-1,n-k}\quad\textrm{,under }H_{0}\textrm{ is true}$$
+
+
+**F test**
+
+*Theorem*:Suppose we have k random samples of sizes $n_{1},n_{2},...,n_{k}$,respectively,and each ovservation in the random sample is normally distributed with the same unknown variance $\sigma^{2}$.Let $\mu_{1},\mu_{2},...,\mu_{k}$ be the true means associated with the k samples.Then
+
+1. If $H_{0}$ is true,$F=\frac{MSTR}{MSE}\sim F_{k-1,n-k}$f
+2. At significance level $\alpha$,$H_{0}$ is rejected when F>F_{1-\alpha,k-1,n-k}(这里其实就是控制一类错误)
+
+> MSTR和MSE分别表示mean sum of squares of treatment和mean sum of squares of error  
+> 要构成F分布，要求SSTR和SSE独立。在正态分布的假设下，我们已经证明了样本均值的函数和样本方差是独立的。对于原假设成立下，$\frac{SSTR}{\sigma^{2}}$服从卡方分布，我们可以通过矩母函数来证明。
+
+
+> 我们想探究一下two-sample t test和ANOVA的关系。因为它们除了样本组数目不同，其他的模型设定都是一样的，我们有理由相信它们是等价的。  
+> 当k=2，$SSTR=n(\bar{X}-\bar{Y_{..}})^{2}+m(\bar{Y}-\bar{Y_{..}})^{2}$  
+> 又因为$\bar{Y_{..}}=\frac{\sum\limits_{i=1}^{n}X_{i}+\sum\limits_{j=1}^{m}Y_{j}}{n+m}=\frac{n\bar{X}+m\bar{Y}}{n+m}$  
+> $\Rightarrow SSTR=\frac{(\bar{X}-\bar{Y})^{2}}{\frac{1}{n}+\frac{1}{m}}$  
+> $SSE=(n+m-2)S_{p}^{2}$  
+> $\therefore F=\frac{MSTR}{MSE}=\frac{SSTR}{SSE/(n+m-2)}=\frac{(\bar{X}-\bar{Y})^{2}}{S_{p}^{2}(\frac{1}{n}+\frac{1}{m})}=T^{2}$  
+> 即证
+
+
+**SSTOT**
+
+$$\textrm{total sum of squares}:SSTOT=\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}(Y_{ij}-Y_{..})^{2}$$
+
+*Theorem[Decompositions of SSTOT]*：Suppose we have k samples of sizes $n_{1},n_{2},...,n_{k}$,then
+$$SSTOT=SSTR+SSE$$
+
+
+##ANOVA Table
+
+
+
+##Multiple Comparison
+
+在one factor ANOVA之后，如果$H_{0}$被拒绝了，我们想知道到底是哪些组的均值的差异造成的原假设被拒绝。
+
+###两两比较
+
+最自然的一种想法就是在多样本检定被拒绝之后，我们再进行多个两样本t检定。对于每一个两样本t检定，我们控制一类错误发生概率为$\alpha$。
+
+$$P(\textrm{type I error of ANOVA})=P(\textrm{at lease one type I error occours among all those T test})=1-P(\textrm{no type I error occours among all those T test})=1-(1-\alpha)^{k}$$
+
+> $P(\textrm{at lease one type I error occours among all those T test})$ is called the probability of *familywise type I error*  
+> 当$\alpha=0.05,k=10$时，$P(\textrm{type I error of ANOVA})=0.4>0.05$  
+> 我们之所以要这样做是因为我们进行多个两样本t检定，其实也就是在做multiple comparison，那么我们肯定想保证总的检定的一类错误发生率控制在$\alpha$以内。但是这里出现的问题就是一类错误发生概率被放大了。  
+> This is so-called *multiple comparison problem*
+
+
+**Bonferroni Correction**
+
+It is considered the simplest and most conservative method to control the familywise error.
+
+这种方法的思路就是既然一类错误会被放大，那么我们就控制每一次t检定的$\alpha$在一个很小的值。
+
+对于每一个t test，我们选择$\alpha$作为significance level,$p_{1},p_{2},...,p_{m}$表示m个假定检验的p-value:
+$$P(\textrm{at least one type I error occours among those t test})=P(\cup_{m}\{p_{i}<\frac{\alpha}{m}\})\leq\sum\limits_{m}P(p_{i}<\frac{\alpha}{m})\leq m\cdot \frac{\alpha}{m}=\alpha$$
+
+> 假设有10个样本组，那么m=45。很显然这样的后果就是，对于每一个两样本检定都太过于保守了，无法得出究竟是哪些均值偏离导致ANOVA被拒绝。
+
+
+**Tukey's method**
+
+Definition:Let $W_{1},W_{2},...,W_{k}$ be a set of k independent normally distributed random variable with mean $\mu$ and variance $\sigma^{2}$.And let R denote their range:
+$$R=max_{i}W_{i}-min_{i}W_{i}$$
+Suppose $S^{2}$ is associated with a $\chi^{2}$ random variable with $v$ defrees of freedom,independent of the $W_{i}'s$,where $E(S^{2})=\sigma^{2}$.Then the *studentized range*,$Q_{k,v}$,is the ratio
+$$Q_{k,v}=\frac{R}{S}$$
+ 
+ 
+ > studentize range distribution的定义域为正值 
+  
+  
+ *Theorem*:Let $\bar{Y_{.j}},j=1,2,...,k$ be the k sample means in a completely randomized one-factor design.Let $n_{j}=r$ be the sommon sample size,and let $\mu_{j}$ be the true means,j=1,2,...,k.THe probability is $1-\alpha$ that all $C_{k}^{2}$ differences $\mu_{i}-\mu_{j}$ will simultaneaslysatisfy the following inequalities:
+$$\bar{Y_{.i}}-\bar{Y_{.j}}-D\sqrt{MSE}<\mu_{i}-\mu_{j}<\bar{Y_{.i}}-\bar{Y_{.j}}+D\sqrt{MSE}$$
+where $D=Q_{\alpha,k,\frac{rk-k}{\sqrt{r}}}$.If for any given i and j,the point zero is not contained in the preceding inequality,then $H_{0}$ can be rejected at the significance level of $\alpha$.
+
+
+> proof:Let $W_{t}=\bar{Y_{.t}}-\mu_{t}$,then $W_{t}\sim N(0,\frac{\sigma^{2}}{r})$  
+> 又$\because E(MSE)=\sigma^{2}$,$\therefore E(\frac{MSE}{r})=\frac{\sigma^{2}}{r}$  
+> $$\frac{maxW_{t}-minW_{t}}{\sqrt{\frac{MSE}{r}}}\sim Q_{k,rk-k}$$  
+> $P(\frac{maxW_{t}-minW_{t}}{\sqrt{\frac{MSE}{r}}}<Q_{\alpha,k,rk-k})=1-\alpha$  
+> $\Rightarrow P(maxW_{t}-minW_{t}<Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}})=1-\alpha$  
+> $\Leftrightarrow P(|W_{i}-W_{j}|<Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}})=1-\alpha\quad\textrm{for all i and j}$  
+> $P(-Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}}<W_{i}-W_{j}<Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}})=1-\alpha\quad\textrm{for all i and j}$ e 
+> $\because W_{t}=Y_{.t}-\mu_{t}$,$$\therefore P(Y_{.i}-Y_{.j}-Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}}<\mu_{i}-\mu_{j}<Y_{.i}-Y_{.j}+Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}})=1-\alpha\quad\textrm{for all i and j}$$  
+> 这样我们就找到了对于所有i和j的自信区间。我们可以通过自信区间进行检定，当0不在自信区间的取值中时我们认为原假设错误。
+
+
+> 这里我们使用的最重要的一个点是将极差转换为了对于任意i,j均成立，这样我们就能够做到对两两进行检定。  
+> 不仅如此，这个方法首先用$P(\frac{maxW_{t}-minW_{t}}{\sqrt{\frac{MSE}{r}}}<Q_{\alpha,k,rk-k})=1-\alpha$作为等价于ANOVA的检定，因为我们当然可以在样本均值差距过大的时候拒绝原假设——$H_{0}:\mu_{1}=\mu_{2}=\cdots=\mu_{k}$，只不过这里是求自信区间来检定。然后再讲极差等价转化为对于任意i，j均成立来达到两两检定的目的。
+> 那么我们进一步可以说，当我们进行subhypothesis时，如果有拒绝其中的某个原假设，那么我们肯定会拒绝更大的原假设。
+
+
+
+###部分和比较(test subhypothesis with contrasts)
+
+$$H_{0}:\sum\limits_{j=1}^{k}c_{j}\mu_{j}=0\quad v.s.\quad H_{1}:\sum\limits_{j=1}^{k}c_{j}\mu_{j}\neq 0\quad\quad\textrm{provided that}\sum_{j=1}^{k}c_{j}=0$$
+
+
+Definition:Let $\mu_{1},\mu_{2},...,\mu_{k}$ denote the true means of k factor levels being sampled.A linear combination,C,of the $\mu_{j}'s$ is said to be a contrast if the sum of its coefficients is 0.That is,C is a contrast if $\sum\limits_{j=1}^{k}c_{j}\mu_{j}$,where the $c_{j}'s$ are constants such that $\sum\limits_{j=1}^{k}c_{j}=0$
+
+> 和两两比较类似，用contrast的目的是在原假设不成立的时候寻找是哪个地方不成立，但不同于两两比较的地方在于我们想看一下是哪一部分和哪一部分差异大。  
+> 这里解释一下为什么一定要contrast。是因为这确保了当原假设成立时，这里的检定也肯定成立。如果研究不是contrast的情况没有什么意义。  
+> 两两比较也就可以看作是特殊的contrast了
+
+> 这里因为是一次检定，我们就估计好均值之后还是得到样本均值的函数，所以还是有正态分布来用，比较简单。如果方差未知那就估计就好了。不展开讲了。
