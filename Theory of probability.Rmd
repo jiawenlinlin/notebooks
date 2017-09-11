@@ -838,7 +838,11 @@ $$\textrm{for every }\epsilon>0,lim_{n\rightarrow\infty}P(|Z_{n}-Z|>\epsilon)=0$
 Suppose X is a R.V. and g(x) is a nonnegative function.Then for any $\epsilon>0$,and $p>0$,we have
 $$P[g(x)\geq\epsilon]\leq\frac{E[g(x)]^{p}}{\epsilon^{p}}$$
 
-> 马尔科不不等式给出了随机变量的函数大于等于某个正数的概率上界
+> 马尔科不不等式给出了随机变量的函数大于等于某个正数的概率上界  
+> 证明：因为计算P，所以就是要进行积分，在积分之前我们要弄清楚，g(X)的随机性内核仍然是X，所以被积函数仍然是f(x),而积分区域就是$g(X)\geq\epsilon$的部分。  
+> $\Rightarrow P(g(X)\geq\epsilon)=\int_{x:g(X)\geq\epsilon}f(x)dx=\int_{-\infty}^{\infty}I[g(X)\geq\epsilon]f(x)dx$  
+> $\Rightarrow P(g(X)\geq\epsilon)\geq\int_{-\infty}^{\infty}I[g(X)\geq\epsilon]f(x)(\frac{g(x)}{\epsilon})^{p}dx\geq\int_{-\infty}^{\infty}(\frac{g(x)}{\epsilon})^{p}f(x)dx=\frac{E(g(x)^{p})}{\epsilon^{p}}$  
+> 关键就在于使用到了indicator function
 
 **Chebyshev's inequality**
 

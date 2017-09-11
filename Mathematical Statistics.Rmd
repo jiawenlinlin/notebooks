@@ -1,0 +1,1106 @@
+---
+title: "Mathematical Statistics"
+author: "林嘉文"
+date: "2017年8月26日"
+output: html_document
+---
+首先我们明确我们所学的是参数统计，与之相对应的是非参数统计。它们都会涉及到*参数估计*和*假定检验*，这也是数理统计要做的两件最主要的事情。参数统计与非参数统计的区别就在于，参数统计对于随机变量的分布是有假设的，而非参数统计则相对来说缺少对于分布的假设,相对更robust。
+
+但是我们肯定想问，到底我们是在干什么呢？统计所在做的分为描述性统计和推断性统计(describetive statistics and inference statistics),我们现在说的是推断性统计到底在做什么。推断性统计其实都是为了研究“某个事情的规律”，这里的“某个事情”泛指某个随机变量，“规律”指的就是随机变量的分布。这世间很多东西可以简化为随机变量的各种取值，因此我们最想知道的就是这个随机变量的分布，而推断性统计就是为了将这个随机变量的分布找出来。对于随机变量而言，得到分布就得到了一切。
+
+但是我们永远无法确切知道分布到底是什么样子的，因此我们只能*估计*，而估计是*检定*的第一步。
+
+
+
+#Chapter 5 Parameter Estimation
+
+* 样本必须iid，并具有代表性。
+* 从大量数据中得出分布，有两种方法，一种是参数估计方法，一种是非参数估计方法，分别对应于参数统计和非参数统计。
+
+##参数估计基本介绍
+
+参数估计方法就是我们假设随机变量服从某个分布$f_{X}(x)=f(x,\theta)$,其中$f_{X}()$是已知函数而参数$\theta$是未知的，从而我们的任务从估计其分布变成估计参数，这里的$\theta$是一个概括，它可以是一个或者多个未知参数。
+
+> 如果$f_{X}(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}}$,则$\theta=(\mu,\sigma)$  
+> 从这里我们就要记住我们现在的任务是估计一个*固定的*、*未知的*值。
+
+##Statistics
+
+定义：$X^{n}=(X_{1},X_{2},X_{3},...,X_{n})$是从总体中取出的n个iid随机变量。$T(X^{n})=T(X_{1},X_{2},X_{3},...,X_{n})$则称为一个*统计量(statistic)*
+
+> 统计量也是一个随机变量，因为它实际上是对$X^{n}$加了一个法则。因此统计量也具有概率分布，也有期望、方差这些性质。  
+> 统计量中不能出现未知参数，不然不叫统计量。统计量的分布有可能已知有可能未知。与之相对应的一个东西叫做*枢轴量*，枢轴量是含有未知参数的随机变量，但是它的分布是已知的。  
+> 为什么要弄这么一个统计量呢？在我看来，其实统计量就是用来估计参数的。它也符合我们的一个逻辑：我们只拥有许多数据，这些数据是iid样本$X^{n}$的一次（或多次）取值，那么我们构造的统计量也能得到相应的取值，如果这些统计量被证明是一些参数的好的估计，那么我们就可以用它们来估计参数了。  
+> eg:$\bar{X_{n}}=\frac{\sum_{i=1}^{n}X_{i}}{n}$,$S_{n}^{2}=\frac{\sum_{i=1}^{n}(X_{i}-\bar{X_{n}})^{2}}{n-1}$,它们分别是样本均值和样本方差，但是实际上它们就是统计量。它们是由iii样本$X^{n}$构成的函数，它们是随机变量。
+
+
+**样本均值$\bar{X_{n}}$**
+
+样本均值，就是对样本取平均。
+$$\bar{X_{n}}=\frac{1}{n}\sum\limits_{i=1}^{n}X_{i}$$
+那么我们就会自然想知道它的期望、方差以及分布是什么，
+$$E(\bar{X_{n}})=E(\frac{1}{n}\sum\limits_{i=1}^{n}X_{i})=\frac{1}{n}\sum\limits_{i=1}^{n}E(X_{i})=\frac{1}{n}\sum\limits_{i=1}^{n}\mu=\mu$$
+
+> 因为$X_{i}$是iid的，所以得到这个结果。可以看到样本均值的期望就是$X_{i}$的期望$\mu$。因此我们把样本均值称为是总体均值$\mu$的无偏估计。
+
+$$Var(\bar{X_{n}})=Var(\frac{1}{n}\sum\limits_{i=1}^{n}X_{i})=\frac{1}{n^{2}}Var(\sum\limits_{i=1}^{n}X_{i})=\frac{1}{n^{2}}\sum\limits_{i=1}^{n}Var(X_{i})=\frac{\sigma^{2}}{n}$$
+
+> 求解过程中，因为$X_{i}$是独立同分布的，因此所有的协方差均为0。可以看到最后样本均值的方差和$X_{i}$的方差不同，它衡量的是$\bar{X_{n}}$这一随机变量的波动程度。  
+> 当n越大，$Var(\bar{X_{n}})$越小。当$n\rightarrow\infty$，$Var(\bar{X_{n}})\rightarrow 0$,换句话说就是当n趋向无穷时，样本均值就是总体均值。
+
+
+Theorem:suppose $X^{n}=(X_{1},X_{2},...X_{n})$是iid正态分布的随机样本，均值为$\mu$，方差为$\sigma^{2}$，那么就有
+$$\bar{X_{n}}\sim N(\mu,\frac{\sigma^{2}}{n})$$
+
+> 这个其实都不能算是一个theorem，因为这个实际上就是我们在概率论中说的sum of independent R.V.的结论的使用。
+
+Central Limit Theorem:$X^{n}=(X_{1},X_{x},...,X_{n})$是iid的随机样本，均值为$\mu$，方差为$\sigma^{2}$，$\bar{X_{n}}=\frac{1}{b}\sum\limits_{i=1}^{n}X_{i}$,则
+$$Z_{n}=\frac{\bar{X_{n}}-\mu}{\frac{\sigma}{\sqrt{n}}}\xrightarrow{d}N(0,1)$$
+
+> 中心极限定理并不要求$X_{i}$的任何分布信息，只需要n足够大。
+
+**样本方差$S_{n}^{2}=\frac{1}{n-1}\sum\limits_{i=1}^{n}(X_{i}-\bar{X_{n}})^{2}$**
+
+我们的第一反应其实是仿照样本均值，分母似乎是n而不是(n-1)，但是我们可以证明分母是(n-1)才能使其是总体方差的无偏估计。
+
+$$S_{n}^{2}=\frac{1}{n-1}\sum\limits_{i=1}^{n}(X_{i}-\bar{X_{n}})^{2}=\frac{1}{n-1}\sum\limits_{i=1}^{n}[(X_{i}-\mu)-(\bar{X_{n}}-\mu)]^{2}=\frac{1}{n-1}\sum\limits_{i=1}^{n}[(X_{i}-\mu)^{2}-2(X_{i}-\mu)(\bar{X_{n}}-\mu)+(\bar{X_{n}}-\mu)^{2}]$$
+$$\Rightarrow S_{n}^{2}=\frac{1}{n-1}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-2\sum\limits_{i=1}^{n}(X_{i}-\mu)(\bar{X_{n}}-\mu)+\sum\limits_{i=1}^{n}(\bar{X_{n}}-\mu)^{2}]=\frac{1}{n-1}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-2(\bar{X_{n}}-\mu)\sum\limits_{i=1}^{n}(X_{i}-\mu)+n\cdot(\bar{X_{n}}-\mu)^{2}]$$
+$$\Rightarrow S_{n}^{2}=\frac{1}{n-1}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-2(\bar{X_{n}}-\mu)(\sum\limits_{i=1}^{n}X_{i}-n\cdot\mu)+n\cdot(\bar{X_{n}}-\mu)^{2}]=\frac{1}{n-1}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-2(\bar{X_{n}}-\mu)\cdot n\cdot(\bar{X_{n}}-\mu)+n\cdot(\bar{X_{n}}-\mu)^{2}]$$
+$$\Rightarrow S_{n}^{2}=\frac{1}{n-1}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-n\cdot(\bar{X_{n}}-\mu)^{2}]$$
+$$\therefore E(S_{n}^{2})=\frac{1}{n-1}E[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-n\cdot(\bar{X_{n}}-\mu)^{2}]=\frac{1}{n-1}(n\cdot\sigma^{2}-n\cdot\frac{\sigma^{2}}{n})=\sigma^{2}$$
+
+> 显然我们可以看到，如果分母不是(n-1)，那么样本方差的期望就不是$\sigma^{2}$啦！
+
+为了推出样本方差的方差和分布，我们需要证明：
+$$\textrm{Suppose }X^{n}\textrm{ is a iid }N(\mu,\sigma^{2})\textrm{ random sample.Then for any n>1},S_{n}^{2}\,\,and\,\,\bar{X_{n}}\textrm{ are mutually independent.That is }S_{n}^{2}\bot\bar{X_{n}}$$
+
+> 这个我们就不详细证了，我们说一下大致的思路。等价于要证明$(X_{1}-\bar{X_{n}},X_{2}-\bar{X_{n}},...,X_{n}-\bar{X_{n}})\bot X_{n}$,则我们进行一次换元，以简化字符，然后通过$f_{X,Y}(x,y)=h(x)\cdot g(y)$这个推论来证明独立。  
+> 我们会用到雅可比矩阵的知识，因为我们需要在换元之后得到新的联合分布。  
+> 这个理论要求X必须来自正态分布，在证明中要用到。所以一定要注意这个前提。
+
+Theorem:$\frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim \chi_{n-1}^{2}$
+
+需要说明的是，首先要求X来自一个正态分布，那么这个随机样本的样本方差有这样一个结论，其中$X_{n-1}^{2}$是自由度为(n-1)的卡方分布。
+
+$$\frac{(n-1)S_{n}^{2}}{\sigma^{2}}=\sum\limits_{i=1}^{n}\frac{(X_{i}-\bar{X_{n}})^{2}}{\sigma^{2}}=\sum\limits_{i=1}^{n}\frac{[(X_{i}-\mu)-(\bar{X_{n}}-\mu)]^{2}}{\sigma^{2}}=\frac{1}{\sigma^{2}}[\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}-n\cdot(\bar{X_{n}}-\mu)^{2}]$$
+$$\Rightarrow \frac{(n-1)S_{n}^{2}}{\sigma^{2}}=\sum\limits_{i=1}^{n}(\frac{X_{i}-\mu}{\sigma})^{2}-n\cdot (\frac{\bar{X_{n}}-\mu}{\sigma})^{2}=\sum\limits_{i=1}^{n}(\frac{X_{i}-\mu}{\sigma})^{2}-(\frac{\bar{X_{n}}-\mu}{\frac{\sigma}{\sqrt{n}}})^{2}$$
+$$\Rightarrow \textrm{令 }U=\sum\limits_{i=1}^{n}(\frac{X_{i}-\mu}{\sigma})^{2},Z=(\frac{\bar{X_{n}}-\mu}{\frac{\sigma}{\sqrt{n}}})^{2},W=\frac{(n-1)S_{n}^{2}}{\sigma^{2}}$$
+$$\therefore U=Z+W$$
+$$M_{U}(t)=M_{Z+W}(t)=E[e^{(z+w)t}]=E(e^{zt+wt})=\int\int e^{zt+wt}f_{Z,W}(z,w)dzdw=\int e^{zt}f(z)dz\int e^{wt}f(w)dw=(1-2t)^{-\frac{1}{2}}M_{W}(t)$$
+$$\because M_{U}(t)=(1-2t)^{-\frac{n}{2}}\quad\therefore M_{W}(t)=(1-2t)^{-\frac{n-1}{2}}$$
+$$\therefore \frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim \chi_{n-1}^{2}$$
+
+> 在我们使用矩母函数的时候，我们把联合分布拆开就用到了样本均值和样本方差独立的条件。  
+> $If\,\,X\sim N(0,1),then\,\,X^{2}\sim \chi_{1}^{2}$  
+> $If\,\,X_{i}\sim N(0,1),iid,then\,\,\sum_{i=1}^{n}X_{i}^{2}\sim \chi_{n}^{2}$  
+> 为什么这里自由度是(n-1)呢，其实也是有讲究的。假设有$W_{n}^{2}=\frac{1}{n-1}\sum\limits_{i=1}^{n}(X_{i}-\mu)^{2}$,则有$\frac{(n-1)W_{n}^{2}}{\sigma^{2}}=\sum\limits_{i=1}^{n}(\frac{X_{i}-\mu}{\sigma})^{2}\sim \chi_{n}^{2}$。但是因为我们在$S_{n}^{2}$里面把均值换成了样本均值，就会丢失了一个信息，所以自由度减少1.
+
+有了分布之后，方差就很好计算了。因为
+
+$$E(\chi_{n-1}^{2})=n-1,Var(\chi_{n-1}^{2})=2(n-1)$$
+$$\Rightarrow Var(\frac{(n-1)S_{n}^{2}}{\sigma^{2}})=2(n-1)$$
+$$\Rightarrow \frac{(n-1)^{2}}{\sigma^{4}}Var(S_{n}^{2})=2(n-1)$$
+$$\therefore Var(S_{n}^{2})=\frac{2\sigma^{4}}{n-1}$$
+
+
+##Two classical estimation methods
+
+前面我们讲的样本均值和样本方差实际上也可以作为均值和方差的估计量，但是它们是我们从直觉中找到的统计量，而不是通过某种方法找到的。现在我们要介绍两种最主要的参数估计方法。
+
+###Maximum likelihood estimation
+
+*本质：观察到已经发生的事件，求得使这件事发生概率最大的参数的值。*
+
+> 这种方法有一个很本质的想法，比如说一个池塘有A,B两种鱼，你随便捞10条鱼，其中8条是A，2条是B，从而你估计池塘中80%是A鱼;又比如说拿一枚硬币投掷30次，结果是20次为字朝上，10次花朝上，从而你估计字朝上的概率是$\frac{2}{3}$。  
+> 概率论是已知参数求概率，而数理统计是由观察到的数据估计参数。
+
+The procedure to find a maximum likelihood estimator for $\theta$
+
+1. 得到$L(\theta)$,$L(\theta)=\prod\limits_{i=1}^{n}f_{Y}(yi,\theta)$.
+2. 对$L(\theta)$取对数,$\rho(\theta)=ln(L(\theta))$（方便运算，尤其对于指数类的概率分布函数。并且ln是单调递增的，不会影响到$L(\theta)$的极值点）
+3. 解等式$\frac{d\rho(\theta)}{d\theta}=0$，求得极值点
+4. 验证二阶导是否小于0，保证极值点为极大值点。（这一步一般来说不需要）
+
+> $L(\theta)被称为似然函数(likelihood function),要得到这个东西，前提就是我们已知Y的分布，所以最大似然估计很显然就是参数估计的方法。$  
+> 实际上我们在求的东西是，$\hat{\theta}=arg\,max_{\theta}L(\theta|Y_{1},Y_{2},...Y_{n})$。在随机样本没有取值之前，这个表达式是一个随机变量，也就是一个estimator，但是当随机样本取值之后，这个estimator也会取一个值，也就是estimate。
+
+> eg1:我们以掷硬币为例子，我们想要估计的很显然就是伯努利分布中的那个p。  
+> 对于伯努利分布，$f_{X}(x)=p^{x}(1-p)^{1-x},x\in\{0,1\}$  
+> $\Rightarrow L(p)=f_{X}(x_{1})f_{X}(x_{1})\cdots f_{X}(x_{n})=p^{\sum\limits_{i=1}^{n}x_{i}}(1-p)^{n-\sum\limits_{i=1}^{n}x_{i}}$  
+> $\Rightarrow\rho(p)=ln(L(p))=\sum\limits_{i=1}^{n}x_{i}ln(p)+(n-\sum\limits_{i=1}^{n}x_{i})ln(1-p)$  
+> $\Rightarrow\frac{d\rho(p)}{dp}=\sum\limits_{i=1}^{n}x_{i}\frac{1}{p}-(n-\sum\limits_{i=1}^{n}x_{i})\frac{1}{1-p}=\frac{(1-p)\sum\limits_{i=1}^{n}x_{i}-p(n-\sum\limits_{i=1}^{n}x_{i})}{p(1-p)}=0$  
+> $\therefore\quad \hat{p}=\frac{1}{n}\sum\limits_{i=1}^{n}x_{i}$  
+> 这个就是p的估计量，它首先是一个随机变量，其实就是样本均值。当我们进行实验得到数据之后，就可以得到一个具体的估计值。
+
+> eg2:当未知参数不止一个的时候，例如有两个参数则要对两个参数求偏导并联立求解。$X_{i}\sim N(\mu,\sigma),X^{n}=(X_{1},X_{2},...,X_{n})$。求均值和方差的最大似然估计量。  
+> $f_{X}(X)=\frac{1}{\sqrt{2\pi\sigma^{2}}}e^{-frac{(x-\mu)^{2}}{2\sigma^{2}}}$  
+> $\Rightarrow L(\mu,\sigma^{2})=\prod\limits_{i=1}^{n}f_{X}(x_{i},\mu,\sigma^{2})=\frac{1}{(2\pi\sigma^{2})^{\frac{n}{2}}}e^{-\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}}{2\sigma^{2}}}$  
+> $\Rightarrow \rho(\mu,\sigma^{2})=ln(L(\mu,\sigma^{2}))=-\frac{n}{2}ln(2\pi\sigma^{2})-\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}}{2\sigma^{2}}$  
+
+$$\left\{
+\begin{array}{1}
+\frac{d\rho(\mu,\sigma^{2})}{d\mu}=\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)}{\sigma^{2}}=0\\ \frac{d\rho(\mu,\sigma^{2})}{d\sigma^{2}}=-\frac{n}{2}\cdot\frac{1}{\sigma^{2}}+\frac{\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}}{2}\cdot\frac{1}{\sigma^{4}}=0\\
+\end{array}
+\right.$$
+
+$$
+\left\{
+\begin{array}{1}
+\hat{\mu}=\bar{X_{n}}\\
+\hat{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(X_{i}-\bar{X_{n}})^{2}\\
+\end{array}
+\right.$$  
+
+> P.S.一定要注意，如果是对$\sigma^{2}$进行估计，那么求偏导的时候就要把整个当做一个整体。  
+> 可以看到，用MLE来估计的方差的分母是n而不是样本方差中的(n-1)。所以显然它是一个有偏的估计量。
+
+当无法使用求导来求极大值时，就应该使用其他方法来求。
+
+> eg3:$f_{Y}(y)=e^{-(y-\theta)},y\geq\theta,\theta>0,Y^{n}=(Y_{1},Y_{2},...,Y_{n}).$  
+> $L(\theta)=\prod\limits_{i=1}^{n}e^{-(y_{i}-\theta)}$  
+> $\Rightarrow \rho(\theta)=ln(L(\theta))=\sum\limits_{i=1}^{n}\theta-y_{i}$  
+> $\frac{d\rho(\theta)}{d\theta}=n>0$  
+> 显然这里就没法说令其等于0，因为这个是一个递增函数没有极值点。但是因为它是递增的，如果我们在其定义域中取最大值就可以使函数最大化了。    
+> $\because \theta\leq y,\quad \therefore \theta\leq min(y_{i})=y_{(1)}$  
+> $\therefore \hat{\theta}=y_{(1)}$
+
+
+###Moments Estimation
+
+首先我们要回忆一下关于矩的一些知识：
+
+$$E(X^{k})=
+\left\{
+\begin{array}{11}
+\sum_{x}x^{k}f(x) & discrete R.V.\\
+\int x^{k}f(x)dx & continuous R.V.\\
+\end{array}
+\right.$$
+
+矩估计的使用方法：
+
+1. 首先，你先要判断一共要估计多少个未知参数。如果呀估计s个未知参数，就要用到s阶矩。分别计算s阶矩的表达式，它们由着s个未知参数的代数式表示。
+2. 我们所要做的仅仅是用样本矩去替代总体矩,作为总体矩的估计，然后反解出各个参数的估计表达式即可（解方程组）
+
+*j阶样本矩*：
+$$\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}^{j}$$
+
+> eg1:Suppose that $Y^{n}=(Y_{1},Y_{2},...,Y_{n})$ is a random sample of size n from a normal distribution with mean $\mu$ and variance $\sigma^{2}$.Estimate these two parameters.  
+> $\mu=E(Y),\sigma^{2}=E(Y^{2})-(E(Y))^{2}$  
+> $\Rightarrow \hat{\mu}=\hat{E(Y)}=\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i},\hat{\sigma^{2}}=\hat{E(Y^{2})}-(\hat{E(Y)})^{2}=\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}^{2}-(\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i})^{2}$  
+> 这就是矩估计量
+
+> eg2:Suppose that $Y^{n}=(Y_{1},Y_{2},...,Y_{n})$ is a random sample of size n from a general gamma distribution with the pdf $f_{Y}(y,\alpha,\beta)=\frac{1}{\tau(\alpha)\beta^{\alpha}}y^{\alpha-1}e^{-\frac{y}{\beta}},for\,\,y>0$,where $\alpha,\beta>0$ and $\tau(\alpha)=\int_{0}^{\infty}t^{\alpha-1}e^{-t}dt$.Estimate $\alpha,\beta$  
+> $E(Y)=\alpha\beta,Var(Y)=\alpha\beta^{2}$  
+> $\Rightarrow \beta=\frac{E(Y^{2})-(E(Y))^{2}}{E(Y)},\alpha=\frac{(E(Y))^{2}}{E(Y^{2})-(E(Y))^{2}}$  
+> $\therefore \hat{\beta}=\frac{\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}^{2}-(\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i})^{2}}{\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}},\hat{\alpha}=\frac{(\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i})^{2}}{\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i}^{2}-(\frac{1}{n}\sum\limits_{i=1}^{n}Y_{i})^{2}}$
+
+*所以你会发现MME非常方便，因为它的过程非常简单不想MLE那样需要求极值之类的，同时MME没有直接用到分布的信息。但是我们可以看到，因为它的简便性，它的精确度就没有MLE那么高，毕竟它只使用了矩的信息，而没有使用整个分布的信息。*
+
+
+
+##Interval Estimation
+
+之前我们所做的都是point estimation(点估计),也就是说我们每次我们进行一次估计，因为估计量是一个随机变量，它就会得到一次取值，是一个点。但是这样就存在一个问题：好比说有一个无偏的估计量，它的期望就是这个未知的参数值，这时候如果只进行一次观察得到估计量的一个实现值，我们就无法知道这个实现值到底离它的均值是近还是远，尽管按理来说大部分的实现值会在期望附近出现。那我们可能又会问了，那就多观察几次呗？但是一般来说我们只会对随机样本进行一次取值。
+
+To this end,we usually construct a confidence interval to quantify the amount of uncertainty in an estimator.By looking at the width of a confidence interval,we can get a good sense of the estimators precision.
+
+> 说白了，区间估计从估计的角度来说是对点估计的改进。它的改进在于减少了点估计的不确定性，这个不确定性就体现在我刚刚说的在一次取值中无法知道它离期望是远是近。但是用区间估计的话，就会控制住这个不确定性。
+
+Given a confidence level $1-\alpha\in[0,1]$,we have two statistics
+$$\textrm{lower bound: }L(X_{1},X_{2},...,X_{n})\textrm{ and upper bound: }U(X_{1},X_{2},...,X_{n})$$
+such that
+$$P_{\theta_{0}}\{L(X_{1},X_{2},...,X_{n})\leq\theta_{0}\leq U(X_{1},X_{2},...,X_{n})\}=1-\alpha$$
+We say that $[L(X_{1},X_{2},...,X_{n}),U(X_{1},X_{2},...,X_{n})]$ is the confidence interval of the unknown parameter $\theta_{0}$ with confidence level $1-\alpha$
+
+> 注意了，L和U其实都是随机变量，都是统计量。相较于点估计只用了一个随机变量，现在我们用两个随机变量去框住一个范围。
+
+问题在于我们如何能够构造出confidence interval呢？我们必须回到自信区间的定义去寻找方法。可以看到我们只要能够实现这样的一个概率等式，那么我们就算找到了L和U。关键点有两个：
+
+1. 区间估计是点估计的升级改进，所以会和点估计有一定的联系
+2. 枢轴量
+
+> eg1:$X_{i}\sim N(\mu,\sigma^{2})$,其中方差已知，我们想要求得均值的区间估计。那么我们首先想到的当然是  
+> $$\frac{\bar{X_{n]}}-\mu}{\frac{\sigma}{\sqrt{n}}}\sim N(0,1)$$  
+> $$\Rightarrow P(-Z_{\frac{\alpha}{2}}\leq\frac{\bar{X_{n}}-\mu}{\frac{\sigma}{\sqrt{n}}}\leq Z_{\frac{\alpha}{2}})=1-\alpha$$  
+> $$\Rightarrow P(\bar{X_{n}}-Z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}\leq\mu\leq\bar{X_{n}}+Z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}})=1-\alpha$$  
+> $$\therefore [\bar{X_{n}}-Z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}},\bar{X_{n}}+Z_{\frac{\alpha}{2}}\cdot\frac{\sigma}{\sqrt{n}}]\textrm{就是我们要找的自信度为}(1-\alpha)\textrm{的自信区间}$$  
+> 可以看到，首先我们会先找均值的点估计量，但是最关键的是概率等式中的那个枢轴量，它含有未知参数$\mu$，但是我们知道它的分布，知道它的分布就可以求概率了！！！然后再把未知参数放在中间就好了。
+
+> eg2:如果X不服从正态分布且方差已知，我们仍然想估计它的均值。那么由中心极限定理我们还是有  
+> $$\frac{\bar{X_{n}}-\mu}{\frac{\sigma}{\sqrt{n}}}\xrightarrow{d}N(0,1)$$  
+> 后面的过程和第一个例子是相同的，关键点还是我们用CLT得到了一个类似于枢轴量的东西。也就是我们必须得到一个已知的分布。
+
+> eg3:在前两个例子中，方差总是已知的。如果方差未知我们可以用样本方差替代总体方差。当X是正态分布时，那个枢轴量将服从T分布；当X是未知分布时，通过中心极限定理以及Slutsky's Theorem可以得到那个枢轴量仍然依概率收敛于标准正态分布。
+
+> eg4:Let $X\sim Bin(n,p)$.We are interested in the confidence interval of p.Note that $X=\sum\limits_{i=1}^{n}Y_{i}$ with $Y_{i}$ iid from Bernoulli(p).  
+> $$\textrm{由CLT }，\frac{\frac{X}{n}-p}{\sqrt{\frac{p(1-p)}{n}}}\xrightarrow{d}N(0,1)$$  
+> $$\Rightarrow P(-Z_{\frac{\alpha}{2}}\leq\frac{\frac{X}{N}-p}{\sqrt{\frac{p(1-p)}{n}}}\leq Z_{\frac{\alpha}{2}})=1-\alpha$$  
+> 这时候你发现没有办法把p单独分离出来，无法得到自信区间的定义式。但是我们可以通过Slutsky's Theorem再构造一个依概率收敛于标准正态分布的枢轴量。具体就不展开了。
+
+
+最后，我们还要说一下对于区间估计的理解。所有的理解都是基于自信区间的定义式展开的，因为它是一个概率等式，那么这个自信度$(1-\alpha)$的意思就是概率的意思。比如说自信度为95%，那意思就是如果我*能够*重复观察10000次，那么其中9500次均值会落在这个区间内，如果我*能够*重复观察100000次，那么其中95000次均值会落在这个区间内。但是，还是之前的那句话，*一般来说我们只进行一次观察*，对于这一次观察这个均值到底落不落进这一次的实现范围，只有两种情况：要么落进去，要么不落进去。而这个自信度越高，说明落进去的概率越大，那么对应于某一次来说我们*更加相信*它是落进去的。至于到底落进去没有，只有上帝知道了。
+
+
+##Properties of Estimators
+
+之所以我们想要了解估计量的性质，是因为我们想知道：哪一个估计量更好？因为估计量实际上就是统计量，因此它是一个随机变量，也就会有期望、方差、分布这些性质，这也是我们用来判断的标准。
+
+###Unbiasedness
+
+Definition:Suppose $Y^{n}=(Y_{1},Y_{2},...,Y_{n})$ is a random sample with pdf $f_{Y}(y,\theta)$,$\theta$ is an unknown parameter.Then $\hat{\theta}=h(Y_{1},Y_{2},...,Y_{n})$ is called unbiased estimator if
+$$E(\hat{\theta})=\theta$$
+and the bias of $\hat{\theta}$ is defined by
+$$Bias(\hat{\theta})=E(\hat{\theta})-\theta$$
+
+> eg:$Y_{1},Y_{2},...,Y_{n}\sim f_{Y}(y,\theta)=\frac{2y}{\theta^{2}},0\leq y\leq\theta$.Give the MLE and MME of $\theta$ and distinguish their unbiasedness.  
+> 我们直接给出两种估计量，  
+> $$\hat{\theta_{MLE}}=Y_{Max}=Y_{(n)},\hat{\theta_{MME}}=\frac{3}{2}\cdot\bar{Y_{n}}$$  
+> $$E(\hat{\theta_{MME}})=\frac{3}{2n}E(\sum\limits_{i=1}^{n}Y_{i})=\frac{3}{2}E(Y_{i}),E(Y_{i})=\int_{0}^{\theta}Y\cdot f_{Y}(y,\theta)dy=\frac{2}{3}\theta$$  
+> $$\therefore E(\hat{\theta_{MME}})=\theta\quad \textrm{MME为无偏估计量}$$
+> $$E(\hat{\theta_{MLE}})=E(Y_{(n)})=\frac{2n}{2n+1}\theta$$  
+> $$\therefore \textrm{MLE是有偏估计量且 } Bias(\hat{\theta_{MLE}})=E(\hat(\theta_{MLE}))-\theta=-\frac{1}{2n+1}\theta$$
+
+Find an unbiased estimator for some parameter
+
+方法：一般来说我们一开始找到的估计量它的期望会带有这个未知参数的一部分或者除了这个未知参数以外还多了一些东西。如果一开始找到的这个估计量的期望就是未知参数，那就刚刚好，但大多数之后是有偏的——可能是多了一个系数，也可能是多了一些代数式子。那么我们就反向处理即可。
+
+> eg1:$X^{n}$ is an iid random sample from some population with $\mu$ and $\sigma$.Find an unbiased estimator for $Var_{\theta}(\bar{X_{n}})$  
+> 首先我们知道我们要估的是$\frac{\sigma^{2}}{n}$，那么我们就要找一个估计量它的期望里面能包含方差$\sigma^{2}$，所以就找到了样本方差。但是还少一个系数，所以就有  
+> $$E(\frac{1}{n}S_{n}^{2})=\frac{1}{n}\sigma^{2}=\frac{\sigma^{2}}{n}$$
+
+> eg2:$X^{n}$ is an iid random sample from some population with $\mu$ and $\sigma$.Find an unbiased estimator for $\mu^{2}$  
+> 我们知道样本均值的期望是$\mu$，所以我们想到样本均值的平方可能可行。  
+> $E(\bar{X_{n}}^{2})=Var(\bar{X_{n}})+[E(\bar{X_{n}})]^{2}=\frac{\sigma^{2}}{n}+\mu^{2}$,多了一个部分我们就反向处理！  
+> $\because E(\frac{1}{n}S_{n}^{2})=\frac{\sigma^{2}}{n}\quad\therefore E(\bar{X_{n}}^{2}-\frac{1}{n}S_{n}^{2})=\mu^{2}$  
+> $\bar{X_{n}}^{2}-\frac{1}{n}S_{n}^{2}$就是我们找的无偏估计量
+
+
+###Efficiency
+
+对于一个未知参数，它可以有不止一个统计量，那么它当然也有可能有不止一个无偏统计量，那么对于多个无偏统计量，哪一个更好呢？
+
+我们在考察估计量的时候，除了看其无偏性以外，还会看它的精确度(precision)。可以这样想，无偏就是这个估计量取很多次值但是它们平均来说会不会和真实的参数相等；精确度则是说这个估计量会不会大范围波动。
+
+Definition:Relative Efficiency
+
+Let $\hat\theta_{1}$ and $\hat\theta_{2}$ be two unbiased estimators for $\theta$.If
+$$Var(\hat\theta_{2})<Var(\hat\theta_{1})$$
+we say that $\hat\theta_{2}$ is more efficient than $\hat\theta_{1}$,also the relative efficiency of $\hat\theta_{2}$ with respect to $\hat\theta_{1}$ is the ratio
+$$\frac{Var(\hat\theta_{1})}{Var(\hat\theta_{2})}$$
+
+> 因为这个是2对于1的有效性，如果2对于1更加有效说明2的方差更小，所以这个ratio中分子是1的方差，分母是2的方差。
+
+> 这里要说明一下。$Var\rightarrow\textrm{precision 准度/准确度}$，$Bias\rightarrow\textrm{accuracy 精度/精确度}$
+
+
+###Mean Squared Error
+
+我们从unbiasedness开始比较两个estimator的好坏，然后在都是无偏的情况下时我们用efficiency来进行比较。那么进一步我们就想问一个问题：*如果一个估计量是有偏但方差小一些，另一个是无偏但方差大一些，这两个估计量哪个更优？*
+
+$$MSE=E[(\hat\theta-\theta)^{2}]$$
+
+> MSE的想法是：我们使用$\hat\theta$的目的是为了顾及$\theta$，所以两者当然越接近越好，那么就转变为我们怎么去度量这个接近程度。如果这样想的话，好像$E(\hat\theta-\theta)$也可以，但是问题在于它度量的是difference,它是可以正负相抵消的！因此我们进行改进就有了考虑distance的两种衡量方法  
+> $$E(|\hat\theta-\theta|)\quad\textrm{or}\quad E[(\hat\theta-\theta)^{2}]$$  
+> 现在我们只考虑使用平方的方法，因为从数理角度看，平方比绝对值更好处理。  
+> 还要注意的一点是，这里的$\theta$并不是天然就是$\hat\theta$的期望啊!
+
+$$MSE(\hat\theta)=E[(\hat\theta-\theta)^{2}]=E[(\hat\theta-E(\hat\theta)+E(\hat\theta)-\theta)^{2}]=E[(\hat\theta-E(\hat\theta))^{2}]+2E[(\hat\theta-E(\hat\theta))(E(\hat\theta)-\theta)]+E[(E(\hat\theta)-\theta)^{2}]$$
+$$\Rightarrow MSE(\hat\theta)=Var(\hat\theta)+2(E(\hat\theta)-\theta)E[\hat\theta-E(\hat\theta)]+(E(\hat\theta)-\theta)^{2}$$
+$$\therefore MSE(\hat\theta)=Var(\hat\theta)+[Bias(\hat\theta)]^{2}$$
+
+> 可以发现，我们找到了连接*无偏性*和*有效性*去判断估计量好坏的一种方法，并且有效性其实就是当偏差为0的特例。
+
+
+**Best Unbiased Estimators**
+
+在有了MSE这个判断标准之后，如果我们想找一系列估计量中最好的那个，只要找到那个有最小均方误差的估计量即可。但是我们几乎无法一一比较每一个估计量尤其是当估计量很多的时候，因此我们做出必要的简化。我们去寻找*最优无偏估计量*
+
+在一系列的$\hat\theta$中，称$\hat\theta_{\star}$为minimum variance unbiased estimator(MVUE) if $\hat\theta_{\star}\in\theta$ and $Var(\hat\theta_{\star})\leq Var(\hat\theta)\,for\,\hat\theta\in\theta$
+
+**The Cramer-Rao Lower Bound**
+
+Theorem:Let $f_{Y}(y)$ be a continuous pdf with continuous first-order and second-order derivatives.Also,suppose that the set of y values,where $f_{Y}(y)\neq0$,does not depend on $\theta$.$Y^{n}=(Y_{1},Y_{2},...,Y_{n})$ is a random sample with $f_{Y}(y,\theta)$ and let $\hat\theta=h(Y_{1},Y_{2},...,Y_{n})$ be any unbiased estimator of $\theta$.
+$$Var(\hat\theta)\geq\frac{1}{nE[(\frac{\partial lnf(y,\theta)}{\partial\theta})^{2}]}=-\frac{1}{nE(\frac{\partial^{2}lnf(y,\theta)}{\partial^{2}\theta})}$$
+
+> 首先要主义这个定理的要求，就是随机变量的取值范围不可以和未知参数有关，这里唯一的例外就是Uniform Distribution。  
+> 然后这个定理是用来求一个无偏估计量的最小方差的界限的。  
+> 这个定理实际上的逻辑推导过程是这样的：$Var(\hat\theta)\geq\frac{1}{Var(S(\theta,Y^{n}))}=\frac{1}{E(S^{2}(\theta,Y^{n}))}=\frac{1}{nE((\frac{\partial lnf(Y,\theta)}{\partial \theta})^{2})}=-\frac{1}{nE(\frac{\partial^{2}lnf(Y,\theta)}{\partial^{2}\theta})}$
+
+证明的过程就不详细展开了，但是有一些定义以及知识点要说明。
+
+1. $Score\,\,function:S(Y^{n},\theta)=\frac{\partial log\,likelihood funtion}{\partial\theta}=\sum\limits_{i=1}^{n}\frac{\partial lnf(y_{i},\theta)}{\partial\theta}$并且还有一个性质，$E[S(Y^{n},\theta)]=0$。这个score function就是我们在求MLE的时候要使其为0的function
+2. Fisher Information实际上就是score function的二阶矩:$I(\theta)=E[S^{2}(Y^{n},\theta)]$。
+3. 我们发现：$Var(S(Y^{n},\theta))=E(S^{2}(Y^{n},\theta))-[E(S(Y^{n}),\theta)]^{2}=E(S^{2}(Y^{n},\theta))=I(\theta)$因此我们得到了Fisher information的第一个数学意义：*用来估计MLE方程的方差*。它的直观表示就是，随着收集的数据越来越多，这个方差由于是一个independent sum的形式，也就变得越来越大也就象征着得到的信息越来越多。
+4. 当log likelihood function二阶可导的情况下，一般来说(under some specific regularity conditions)很容易证明：$E[S(Y^{n},\theta)^{2}]=-E(\frac{\partial^{2}lnf(y^{n},\theta)}{\partial^{2}\theta})$，于是我们得到了Fisher information的第二个数学意义：*它是log likelihood function在参数真实值处的负二阶导数的期望*
+5. Fisher information的第三个数学意义的直观含义是：*它反映了我们对参数估计的准确度，它越大，对参数估计的准确度就越高，即代表了更多的信息*
+6. 从这个定理，我们知道Fisher information越大，得到的估计量的最小方差的界限就越小，也就意味着估计越准确。 
+7. 一定要注意，在定理中我们使用的并不是整个random sample，而是只用了一个pdf。但是在证明的过程中，我们是从整个random sample开始推导的。
+
+> eg1:$X^{n}=(X_{1},X_{2},X_{3},...,X_{n})\sim Possion(\lambda)$,$f(x)=e^{-\lambda}\frac{\lambda^{x}}{x!},x=0,1,2,...$。求出$\theta$的估计量，并判断是否是MVUE.  
+> $L(X,\lambda)=\prod\limits_{i=1}^{n}f(x_{i},\lambda)=\prod\limits_{i=1}^{n}e^{-\lambda}\frac{\lambda^{x_{i}}}{x_{i}!}$  
+> $\Rightarrow \rho(x,\lambda)=ln[\prod\limits_{i=1}^{n}e^{-\lambda}\frac{\lambda^{x_{i}}}{x_{i}!}]=\sum\limits_{i=1}^{n}e^{-\lambda}\frac{\lambda^{x_{i}}}{x_{i}!}=-n\lambda+ln\lambda\sum\limits_{i=1}^{n}x_{i}-\sum\limits_{i=1}^{n}lnx_{i}!$  
+> $\Rightarrow S(X,\lambda)=-n+\frac{1}{\lambda}\sum\limits_{i=1}^{n}x_{i}=0$  
+> $\therefore \hat\lambda=\bar{X_{n}}$ 且显然这是一个无偏估计量  
+> 接着我们求一下无偏估计量可以取到的最小方差  
+> $Var(\hat\theta)\geq \frac{1}{E[S(Y^{n},\theta)^{2}]}=-\frac{1}{E(\frac{\partial^{2}lnf(y^{n},\theta)}{\partial^{2}\theta})}=-\frac{1}{E(-\frac{1}{\lambda}\sum\limits_{i=1}^{n}X_{i})}=\frac{\lambda}{n}$  
+> $\frac{\lambda}{n}=Var(\bar{X_{n}})$,$\therefore \bar{X_{n}}\textrm{is the MVUE for }\lambda$
+
+> eg2:$X^{n}=(X_{1},X_{2},...,X_{n})\sim N(\mu,\sigma^{2})$。给出方差的估计量并判断是否是MVUE。  
+> 我们可以使用样本方差，也可以使用MLE的方法来估计方差，得到的是不同的。我们先给出这两个估计量的方差。  
+> $Var(S_{n}^{2})=\frac{2\sigma^{4}}{n-1}$,$Var(\hat\theta_{MLE})=Var(\frac{n-1}{n}S_{n}^{2})=\frac{2(n-1)\sigma^{4}}{n^{2}}$  
+> 接下来我们来计算一下无偏估计量的最小方差，这里我们使用的方法不同于第一个例子但是是等价的。第一个例子用的是score function，而这里我们只使用一个pdf而不使用random sample。  
+> $\frac{\partial^{2}lnf(x,\sigma^{2})}{\partial^{2}(\sigma^{2})}=\frac{1}{2(\sigma^{2})^{2}}-\frac{(x-\mu)^{2}}{(\sigma^{2})^{3}}$  
+> $\Rightarrow I(\sigma^{2})=-nE(\frac{\partial^{2}lnf(x,\sigma^{2})}{\partial^{2}(\sigma^{2})})=\frac{n}{2\sigma^{4}}$  
+> $Var(\hat\sigma^{2})\geq -\frac{1}{nE(\frac{\partial^{2}lnf(x,\sigma^{2})}{\partial^{2}(\sigma^{2})})}=\frac{2\sigma^{4}}{n}$  
+> 显然我们可以看到虽然样本方差是无偏估计量，但是它并不是MVUE。并且我们还发现，MLE虽然有偏但是它的方差比无偏估计量的最小方差还要小。
+
+
+###Consistency
+
+1. asymptotically unbiased
+
+之前我们讨论的很多估计量都是对未知参数的有偏估计，但是其中大多数估计量的期望在n趋向于无穷的时候是无偏的，这就叫做*渐进无偏性*
+
+2. consistency
+
+Definition:An estimator $\hat\theta_{n}=h(W_{1},W_{2},...,W_{n})$ is said to be consistent for $\theta$ if it converges in probability to $\theta$---that is,if for all $\epsilon>0$
+$$lim_{n\rightarrow\infty}P(|\hat\theta_{n}-\theta|<\epsilon)=1$$
+
+> eg:$Y^{n}=(Y_{1},Y_{2},...,Y_{n})\sim Uniform distribution$,$f_{Y}(y,\theta)=\frac{1}{\theta},0\geq y\geq\theta$.Find the MLE;is it unbiased;is it asymptotically unbiased;is it consistent?  
+> 首先MLE我们需要使用到次序统计量，这里就不详细说了。$\hat\theta_{MLE}=Y_{Max}=Y_{(n)}$  
+> $E(\hat\theta_{MLE})=\frac{n}{n+1}\theta$  
+> $lim_{n\rightarrow\infty}E(\hat\theta_{MLE})=\theta$，显然是渐进无偏的  
+> $P(|\hat\theta_{MLE}-\theta|<\epsilon)=P(\theta-\epsilon<y_{(n)}<\theta+\epsilon,0\geq y_{(n)}\geq\theta)=P(\theta-\epsilon<y_{(n)}<\theta)=\int_{\theta-\epsilon}^{\theta}\frac{n\cdot y^{n-1}}{\theta^{n}}dy=1-(\frac{\theta-\epsilon}{\theta})^{n}$  
+> $\therefore lim_{n\rightarrow\infty}P(|\hat\theta_{MLE}-\theta|<\epsilon)=1$  
+> 或者我们可以使用马尔科夫不等式来得到这个结果，因为这个概率式子是可以联系到马尔科夫不等式的，这里就不展开了。
+
+###Sufficient Estimators
+
+Definition[sufficient statistic]:Let $X^{n}$ be a random sample from sufficient statistic for $\theta$ if the conditional distribution of the sample $X^{n}=x^{n}$ given that the value of the statistic T(X^{n})=T(x^{n}) does not depend on $\theta$.That is 
+$$f_{X^{n}|T(X^{n})}[x^{n}|T(x^{n}),\theta]=h(x^{n})\textrm{ for all possible }\theta$$
+
+
+
+#Chapter 6 Hypothesis Testing
+
+##Null hypothesis and alternative hypothesis
+
+首先要弄明白“假设”是什么，在这里假设指的其实就是*两个相互冲突的针对于某个分布、针对某个参数的描述*。因此“假设检验”要做的就是我们要从两个描述中选择一个我们认为正确的。
+
+现实中其实我们都在进行假设检验的过程。比如，我们想要知道某个汽车品牌的添加剂是否对于某型号汽车节油有功效，那么这个节省油vs不节省油就是一对相互冲突的描述。并且如果我们抽象一下，其实这个节油不节油就是想看看耗油的均值是不是比这个车型给出的初始数据要低：
+$$H_{0}:\mu=\mu_{0}\quad\textrm{原假设(null hypothesis)}$$
+$$v.s.\quad H_{1}:\mu<\mu_{0}\quad\textrm{备择假设(alternative hypothesis)}$$
+
+> 一般来说，原假设是一个比较精确的等式，而备择假设则是一个不等式，比较宽泛。  
+> 单边备择假设和双边备择假设：单边备择假设就是备择假设中是用小于或者大于的，而双边备择假设就是用不等于符号的。它们在检验中会稍微有一点区别。
+
+那么下一步我们应该怎么做呢？很自然地，我们肯定想先估计一下这个均值是多少，然后再做决定。这个时候就会用到我们之前学的参数估计的知识了！可是估计完之后呢？还是很自然地我们就想，如果这个估计值比$\mu_{0}$小很多，我们就会觉得“嗯，看来是省油的”；如果这个估计值离$\mu_{0}$很近，那我们就会觉得“看来是没什么省油的效果嘛”。
+
+那么问题就来了：这个估计值小到多少我们可以觉得它是省油的（认为备择假设正确），这个估计值在哪个范围我们可以觉得它是没有省油效果的（认为原假设正确）呢？
+
+##Two kinds of error
+
+现在我们先穷举一下如果我们进行了选择，将有多少种可能：
+
+1. 在原假设正确的情况下接受原假设
+2. 在原假设正确的情况下拒绝原假设
+3. 在备择假设正确的情况下接受原假设
+4. 在备择假设正确的情况下拒绝原假设
+
+这四种情况中，有两种错误，即我们所要定义的*[第一类错误：拒真]*和*[第二类错误：受假]*
+
+$$\textrm{Type I error:reject }H_{0}\textrm{ when }H_{0}\textrm{ is true}$$
+$$\textrm{Type II error:fail to reject }H_{0}\textrm{ when }H_{1}\textrm{ is true}$$
+
+既然有可能出现这样的错误，我们当然会想要避免它们。如何能够做到避免呢？这时候你可以观察这四种情况，其实它们都是*事件*。之所以说它们是事件，是因为我们在最开始先估计了均值，然后我们使用样本均值在某次取值能否小于某个值来完成*拒绝*或者*不拒绝*的选择。而样本均值是一个估计量，也就是一个随机变量，那么就带有了随机性，因此这四种情况就是*事件*了，这时候避免的方法就很显然了，通过控制犯错误的**概率**来避免错误发生。
+
+如果扩展到任意的一次假设检验过程中，我们永远要先进行估计，所以永远存在着这样四种情况，估计量总是带有随机性的，所以这种控制犯错概率的方法就是一种一般的方法了。
+
+我们现在知道要控制发生错误的概率，但问题是这里有两种类型的错误，我们应该怎么控制呢？是单独控制一类错误还是单独控制二类错误，还是有一起控制的方法呢？
+
+1. 一类错误和二类错误的发生概率是相互矛盾的，如果降低一类错误的发生概率则必然会提高二类错误的发生概率。
+2. 一类错误是绝对可控的，而二类错误则无法控制。之所以这么说，是因为本质上我们通过控制一类错误的概率或者二类错误的概率来做出选择，那么当我们给定某个$\alpha$，我们必须能够反解出一个特定值来作为基准。对于一类错误，它的条件是原假设成立，那么我们就可以获得未知参数的一个已知假设值，从而可以反解出这个特定值；而对于二类错误，它的条件是备择假设成立，这个假设太宽泛了，我们无法解出特定值。因此我们说一类错误可控，而二类错误无法控制。所以我们通过控制一类错误发生的概率来做出决策。
+3. 因为我们首先控制一类错误，所以这就凸显除了原假设的重要性，所以我们在设立假设的时候应该把更重要的放在原假设。
+
+**Power function**
+
+$$P(fail\,to\,reject\,H_{0}|H_{1}\,is\,ture)=\beta$$
+
+> 我们知道了检验是通过控制一类错误的发生概率来进行的，但是二类错误我们也不能忽略。因此我们也要来谈一谈二类错误。一个重要的点是，我们控制一类错误来找到critical value，二类错误是基于这个critical value来计算的。
+
+$$power\,function=1-\beta$$
+如果我们拿均值检定作为例子的话，容易发现：
+$$power function=f(\mu_{1}),\alpha为外生变量$$
+
+> power function有两个作用，首先它能够展示在不同的$H_{1}$的情况下的二类错误发生的概率，其次它还有一个很重要的作用就是对不同的检定统计量(估计量)进行比较。假设我们有两个检定统计量它们都可以做检定，那么我们通过控制一类错误的发生概率，可以得到critical value，但是这两个检定统计量在相同的$\alpha$下，二类错误发生的概率是不同的。我们当然希望一类、二类错误的发生概率都较低的，因此我们会选择这两个检定统计量中power function更小的。
+
+
+##几种检验的方法
+
+###Critical value
+
+In practice,in order to find an appropriate cutoff value so that we can make a choice,we control the probability of making Type I error under some *prespecified* level $\alpha$:
+$$P(reject\,\,H_{0}|H_{0}\,is\,true)=\alpha$$
+$\alpha$ is called the level of significance of the test.
+
+> 这里的$\alpha$就是我们在上一节说到的要控制的犯错误的概率，如果我们设置这个$\alpha$越小说明我们越不能容忍一类错误的发生，那么相应的二类错误的发生概率就会增加。  
+> 不同的$\alpha$将会反解得到不同的critical value
+
+导致发生一类错误的方向的一系列值就是critical region，而那个交界点就是critical value。当我们的估计量取值落入critical region的时候我们就要拒绝原假设。
+
+> 逻辑：我们控制一类错误在一个很小的概率下，也就是说估计量取这一部分的值的概率是很低的。但是当实际情况中确实发生了，它就相当于是小概率事件，或者说“事出反常必有妖”。这种时候我们不认为说是这个估计量真的取到了这样一个极端值，而认为实际上这个估计量不服从这个分布才出现了这样的情况，也就是说原假设是错误的。
+
+###P-value
+
+$$P-value=\alpha_{0}=P(Z\,is\,as\,extrem\,as\,or\,more\,extrem\, than\,z_{obs}|H_{0}\,is\,true)$$
+
+这种方法的思路和上一个其实是一样的，只不过它更加直接。这种方法直接去计算在原假设成立的情况下估计量的观测值发生的极端性有多高，然后拿它和$\alpha$进行比较，如果比$\alpha$还要小，那就等同于发生了小概率事件，那么就认为原假设是错误的。
+
+> 在实际操作中，这种检定方法比计算出critical value更加方便和快速，所以我们一般都是通过计算p-value来进行决策。
+
+> 不论是第一种还是第二种方法，它都是一种反证法逻辑的体现。当出现某种极端情况时，我们认为是由于一个东西错误了导致的——原假设错误
+
+###Confidence Interval
+
+为什么我们要加上这么一个东西呢？首先我必须说的是，使用自信区间来做检定并不是一个好的选择，因为在我看来它并没有直接地表现出控制一类概率的过程，但是从逻辑上看，它使用了前面两种方法都使用到的“反证”的思想。
+
+首先，自信区间的定义使得我们能够控制说真实的未知参数以某个概率落入这个区间内。那么当我们进行一次取值，得到了一个区间时我们认为真实参数几乎一定落在这个区间，这时候如果原假设并没有进入这个区间，我们认为出现了极端情况，有东西出现错误了，也就是原假设错误。
+
+
+
+##Generalized likelihood Ratio Test(GLRT)
+
+我们在讲这个test之前先给出假设检验的一个步骤总结：
+
+1. parameter of interest and the associated hpyothesis testing.
+2. Test statistic and its distribution under $H_{0}$ is true
+3. 
+4. 
+5. 
+
+> 我之所以只写前两个是因为后三个只涉及到计算，并不是困难的地方。假设检验中最困难的是前两个步骤，但是我们使用的例子一直是均值，所以感觉不出难度。实际上，如果给出一个实际问题，那么我们首先就要找到我们所关心的参数、并做出适当的假设，然后我们必须得到在原假设正确的情况下检定统计量的分布！这十分重要！
+
+所以我们现在讨论一个更一般的情况，即$\theta=\theta_{0}$，它既不是均值也不是什么p，而只是一个一般化的参数。在检定均值的时候，我们得出检定统计量的过程很自然，首先我们用样本均值估计了均值，然后直接数理化地翻译了reject $H_{0}$，也就是使用不等式，接着因为有原假设正确的条件，我们就通过CLT得到了标准正态分布，那么这个检定统计量就得到了。但是如果换成一个一般的参数，我们只能使用MLE或者MME来估计它，接着我们也直接的用不等式的方法，可是因为CLT是只针对样本均值的，这时候我们就构造不出检定统计量。
+
+所以我们更换一种方法。
+
+* 我们使用MLE作为估计量。
+* 当$H_{0}$是正确的，也就是说$\theta=\theta_{0}$,这时候我们认为$L(\theta)_{max}=L(\theta_{0})=L(\hat\theta_{MLE})$。这里要注意的是，这不是严谨的写法，毕竟估计量是一个随机变量，而$\theta_{0}$是一个值。但是我们所表示的意思是，它们俩带进去得到的likelihood应该差不多。
+* 当$H_{1}$是正确的，我们就不知道$\theta$是什么，但是至少$\theta\neq\theta_{0}$,那么这个时候我们认为$L(\theta)_{max}=L(\hat\theta_{MLE})>L(\theta_{0})$,同样的这个不是一个严谨的写法，但是意思就是它们俩带进去得到的likelihood会有一定差距。
+* 令$\lambda=\frac{L(\theta_{0})}{L(\hat\theta_{MLE})}$,则有$\lambda\in(0,1]$。当$\lambda$在1以及小于1一些的数值波动时，我们认为$H_{0}$是正确的，而当$\lambda$比1小比较多的时候我们认为$H_{0}$不正确。
+* 我们这时候直接“翻译”reject $H_{0}$为$0<\lambda<\lambda^{\star}$，至此我们就只差找到$\lambda$在原假设正确时的分布了。
+* Theorem[Asymptotic Distribution of the GLRT]:For testing $H_{0}:\theta=\theta_{0}$ versus $H_{1}:\theta\neq\theta_{0}$.Suppose $X_{1},X_{2},...,X_{n}$ are iid $f(x,\theta)$,under some regularity conditions,we have,under $H_{0}$ is true,as $n\rightarrow\infty$,$$-2ln\lambda\xrightarrow{d}X_{1}^{2}$$  
+* 还要补充的一点是，上面我们说的是$\theta=\theta_{0}$，但是在后面我们会发现它不仅仅只是单样本的情况，所以我们可能要把$L(\theta_{0})$换成$L(\hat{\theta}_{MLE}|H_{0})$
+
+
+> eg1:$Y^{n}=(Y_{1},Y_{2},...,Y_{n})$是随机样本服从uniform distribution over the interval $[0,\theta]$,$\theta$为未知参数。  
+> $H_{0}:\theta=\theta_{0}$,$H_{1}:\theta<\theta_{0}$  
+> 我们首先得到$\lambda$的表达式：$L(\theta)=(\frac{1}{\theta})^{n}$,$L(\theta_{0})=(\frac{1}{\theta_{0}})^{n}$,$L(\hat\theta_{MLE})=(\frac{1}{Y_{max}})^{n}$,$$\lambda=\frac{L(\theta_{0})}{L(\hat\theta_{MLE})}=(\frac{Y_{max}}{\theta_{0}})^{n}$$  
+> 这时候我们发现，我们不需要使用渐进理论就能得到$\lambda$的分布，这不就是我们想要的吗！所以我们直接开始控制一类错误。  
+> $P(reject\,H_{0}|H_{0}\,is\,true)=\alpha$  
+> $\Rightarrow P(0<\lambda<\lambda^{\star}|H_{0}\,is\,true)=\alpha$  
+> $\Rightarrow P(Y_{max}<\theta_{0}\sqrt[n]{\lambda^{\star}}|H_{0}\,is\,true)=\alpha$  
+> $\Rightarrow \int_{0}^{\theta_{0}}\sqrt[n]{\lambda^{\star}}\frac{n\cdot y^{n-1}}{\theta_{0}^{n}}dy=\alpha$  
+> 得到最后的$\lambda^{\star}=\alpha$，之后就可以根据观测值计算出$lambda_{obs}$，就可以进行判断了
+
+> eg2:Let $X^{n}=(X_{1},X_{2},...,X_{n})$ be a random sample from a $N(\mu,\sigma^{2})$ populatioN assuming $\sigma^{2}$ is known.Find the GLRT for the testing $H_{0}:\mu=\mu_{0}$ versus $H_{1}:\mu\neq\mu_{0}$  
+> 要注意这是一个双边备择假设。我们还是从$\lambda$找起。  
+> $\lambda=\frac{L(\theta_{0})}{L(\hat\theta_{MLE})}=\frac{L(\mu_{0})}{L(\bar{X_{n}})}=exp\{-\frac{n(\bar{X_{n}}-\mu_{0})^{2}}{2\sigma^{2}}\}$  
+> $\Rightarrow P(0<\lambda<\lambda^{\star}|H_{0}\,is\,true)=\alpha$  
+> $\Rightarrow P(exp\{-\frac{n(\bar{X_{n}}-\mu_{0})}{2\sigma^{2}}\}\leq\lambda^{\star})=P((\frac{\bar{X_{n}}-\mu_{0}}{\sigma/\sqrt{n}})^{2}\geq -2ln\lambda^{\star})=\alpha$  
+> $\Leftrightarrow P(\frac{|\bar{X_{n}}-\mu_{0}|}{\sigma/\sqrt{n}}\geq C^{\star}) =\frac{\alpha}{2}$  
+> 所以我们会发现其实Z-test也是一个GLRT
+
+
+#Chapter 7 Inference Based on the Normal Distribution
+
+这一章首先是对上一章的扩展，另外就是我们明确是在正态分布的分布假设下进行的。
+
+1. 当方差未知时，如何进行均值检定。
+2. 对方差进行检定。
+
+##T test
+
+**Definition**:Let $U\sim N(0,1)$,$V\sim X_{v}^{2}$,and U and V are independent.Then the random variable
+$$T=\frac{U}{\sqrt{\frac{V}{v}}}\sim \frac{N(0,1)}{\sqrt{\frac{X_{v}^{2}}{v}}}$$
+follows a *Student's t distribution with v degrees of freedom*,denoted as
+$$T\sim t_{v}$$
+
+* $f_{T}(t)=\frac{\tau(\frac{v+1}{2})}{\tau(\frac{v}{2})}\cdot\frac{1}{(v\pi)^{\frac{1}{2}}}\cdot\frac{1}{(1+\frac{t^{2}}{v})^{\frac{v+1}{2}}},-\infty<t<\infty$  
+* t分布对称分布
+* t distribution has a heavier distribution tail than N(0,1)  
+* Only the first v-1 moments exist
+* 当v逐渐增长并趋向于无穷时，$t_{v}\rightarrow N(0,1)$  
+
+**Theorem**:Let $(Y_{1},Y_{2},...,Y_{n})$ be an IID random sample from a $N(\mu,\sigma^{2})$ distribution.Then for all $n>1$,the standardized sample mean
+$$\frac{\bar{Y_{n}}-\mu}{S_{n}/\sqrt{n}}=\frac{\frac{\bar{Y_{n}}-\mu}{\sigma/\sqrt{n}}}{\sqrt{\frac{(n-1)S_{n}^{2}}{(n-1)\sigma^{2}}}}\sim\frac{N(0,1)}{\sqrt{\frac{X_{n-1}^{2}}{n-1}}}\sim t_{n-1}$$
+where $t_{n-1}$ is the Student t-distribution with n-1 degrees of freedom and the sample variance $S_{n}^{2}=\frac{1}{n}\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}$
+
+> 这里需要注意，为什么我们需要正态分布？因为t分布的构造要求分子部分与分母部分是独立的，在正态分布假设下我们证明过样本均值和样本方差是独立的。  
+> 其实和方差已知没有很大的改变。也就是把未知的方差换成样本方差，另外就是自信区间的估计，也是换成样本方差即可。不过当自由度大于30或者是大于50就已经可以用标准正态来代替了。  
+> 自信区间：$[\bar{Y_{n}}-t_{\frac{\alpha}{2},n-1}\frac{S_{n}}{\sqrt{n}},\bar{Y_{n}}+t_{\frac{\alpha}{2},n-1}\frac{S_{n}}{\sqrt{n}}]$
+
+
+**Normality Assumption**
+
+如果取消了正态分布的假设，还能进行检定吗？答案是肯定的。
+
+稳健性：一个理论中改变某个假设，或是改变一些参数值时，对于得出或是可以使用的情况不会有太大的偏离（对假设的依赖度低）
+
+T-test具有稳健性，只要样本不要太少或者分布不要太偏就可以使用：我们使用Slutsky's Theorem即可。
+
+**GLRT**
+
+我们可以证明T-test也是一个GLRT
+
+> proof:$(Y_{1},Y_{2},...,Y_{n})\sim N(\mu,\sigma^{2})$, $H_{0}:\mu=\mu_{0}$ v.s. $H_{1}:\mu\neq\mu_{0}$  
+> 这里就会发现，还有一个参数需要估计，所以就必须分成两种情况来估计。  
+> 我们先得到MLE的式子，
+
+$$\left\{
+\begin{array}{1}
+\hat{\mu}=\frac{1}{n}\sum\limits_{i=1}^{n}y_{i}\\
+\hat{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(y_{i}-\mu)^{2}\\
+\end{array}
+\right.$$
+
+> 当原假设正确时，$\hat{\mu}=\mu_{0},\widetilde{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(y_{i}-\mu_{0})^{2}$，所以我们得到
+
+$$L(\mu_{0},\widetilde{\sigma^{2}})=(2\pi\widetilde{\sigma^{2}})^{-\frac{n}{2}}exp\{-\frac{1}{2}\cdot\frac{\sum\limits_{i=1}^{n}(y_{i}-\mu_{0})^{2}}{\frac{1}{n}\sum\limits_{i=1}^{n}(y_{i}-\mu_{0})^{2}}\}$$  
+
+> 当备择假设正确时，$\hat{\mu}=\bar{Y_{n}},\hat{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}$,所以我们得到
+
+$$L(\hat{\mu},\hat{\sigma^{2}})=(2\pi\hat{\sigma^{2}})^{-\frac{n}{2}}exp\{-\frac{1}{2}\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{\frac{1}{n}\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}\}$$  
+
+> $\therefore \lambda=\frac{L(\mu_{0},\widetilde{\sigma^{2}})}{L(\hat{\mu},\hat{\sigma^{2}})}=(\frac{\widetilde{\sigma^{2}}}{\hat{\sigma^{2}}})^{-\frac{n}{2}}=(\frac{\sum\limits_{i=1}^{n}(Y_{i}-\mu_{0})^{2}}{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}})^{-\frac{n}{2}}=[1+\frac{(\bar{Y_{n}}-\mu_{0})^{2}}{\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{n}}\cdot\frac{1}{n-1}]^{-\frac{n}{2}}=[1+\frac{T^{2}}{n-1}]^{-\frac{n}{2}}$  
+> 接下来就是“翻译”一下，然后就可以反解出cutoff value了。
+
+
+##Chi-square test
+
+我们介绍了关于均值检定的Z-test和T-test，现在我们要对正态分布下的$\sigma^{2}$进行假设检验。
+
+首先，我们当然是找到一个估计量来估计方差：样本方差。接着，我们仍然通过控制一类错误来做出选择，那么问题就来了，怎么能够“翻译”好“拒绝原假设”这句话呢？我们先会想到使用均值检定时使用的直接比大小，但是在均值检定中是构造了一个相减的式子，这里显然不行！但是除了相减，我们还可以做除法，并且这时候你要记起来在正态分布假设下，有一个关于样本方差的分布理论。
+
+$$\frac{(n-1)S_{n}^{2}}{\sigma^{2}}\sim\chi_{n-1}^{2}$$
+
+**GLRT**
+
+我们现在同样可以证明，它也是一个GLRT
+
+> proof:$(Y_{1},Y_{2},...,Y_{n})\sim N(\mu,\sigma^{2})$,$H_{0}:\sigma^{2}=\sigma_{0}^{2}$ v.s. $H_{1}:\sigma^{2}\neq\sigma_{0}^{2}$  
+> 我们同样使用MLE先得到参数的估计量。  
+
+$$\left\{
+\begin{array}{1}
+\hat{\mu}=\frac{1}{n}\sum\limits_{i=1}^{n}y_{i}\\
+\hat{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(y_{i}-\mu)^{2}\\
+\end{array}
+\right.$$
+
+> 当原假设正确的时候，$\sigma^{2}=\sigma_{0}^{2},\widetilde{\mu}=\bar{Y_{n}}$,所以我们得到
+
+$$L(\widetilde{\mu},\sigma^{2})=L(\widetilde{\mu},\sigma_{0}^{2})=(2\pi\sigma_{0}^{2})^{-\frac{n}{2}}exp\{-\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{2\sigma_{0}^{2}}\}$$
+
+> 当备择假设正确的时候，$\hat{\sigma^{2}}=\frac{1}{n}\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2},\hat{\mu}=\bar{Y_{n}}$,所以我们得到
+
+$$L(\hat{\mu},\hat{\sigma^{2}})=(\frac{2\pi}{n}\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2})^{-\frac{n}{2}}exp\{-\frac{n}{2}\}$$
+
+> $\therefore \lambda=\frac{L(\widetilde{\mu},\sigma_{0}^{2})}{L(\hat{\mu},\hat{\sigma^{2}})}=(\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{n\sigma_{0}^{2}})^{\frac{n}{2}}exp[-\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{2\sigma_{0}^{2}}]exp(-\frac{n}{2})$  
+> 因为我们要证明chi-square test实际上是GLRT,所以我们要凑出分布来。  
+> 令$T=\frac{\sum\limits_{i=1}^{n}(Y_{i}-\bar{Y_{n}})^{2}}{\sigma^{2}}$  
+> $\Rightarrow \lambda=(\frac{T}{n})^{\frac{n}{2}}e^{-\frac{T}{2}}e^{\frac{n}{2}}$  
+> 然后其实就只是求值的过程了，因为我们构造的T是一个已知分布。
+
+**Confidence Interval**
+
+$$P\{\chi_{\frac{\alpha}{2},n-1}^{2}\leq\frac{(n-1)S_{n}^{2}}{\sigma^{2}}\leq\chi_{1-\frac{\alpha}{2},n-1}^{2}\}=1-\alpha$$
+$$\textrm{Confidence interval:}[\frac{(n-1)S_{n}^{2}}{\chi_{1-\frac{\alpha}{2},n-1}^{2}},\frac{(n-1)S_{n}^{2}}{\chi_{\frac{\alpha}{2},n-1}^{2}}]$$
+
+
+#Chapter 9 Two-sample Inferences(under normal distribution)
+
+所谓两样本，就是说我们的假设不是只涉及一个样本，前一章我们不论是均值检定或者是方差检定都是针对一个样本来说的。现在我们针对两样本，因此我们的假设也就相应的发生比较大的变化。
+
+##Hypothesis Testing on Two population Means
+
+$$H_{0}:\mu_{1}=\mu_{2}\quad v.s.\quad H_{1}:\mu_{1}\neq\mu_{2}$$
+$$H_{0}:\mu_{1}=\mu_{2}\quad v.s.\quad H_{1}:\mu_{1}>\mu_{2}$$
+$$H_{0}:\mu_{1}=\mu_{2}\quad v.s.\quad H_{1}:\mu_{1}<\mu_{2}$$
+
+两样本均值检定的假设就是这三种，但是带来的检定过程中大差别并不大。问题是这个时候我们要控制一类错误的话，我们应该如果翻译“reject H0”呢？稍加观察我们发现，只要把参数移到一侧那么其实是相同的：$H_{0}:\mu_{1}-\mu_{2}=0\quad v.s.\quad H_{1}:\mu_{1}-\mu_{2}\neq 0$。
+
+解决了这个问题，我们还有两个小问题，一个就是关于方差，正如我们在上一章所遇到的一样；另一个就是针对两个样本之间的关系，是否要进行不同的处理。接下来我们就针对这两个小问题分类讨论，我们以左单边备择假设为例。
+
+###两样本独立且方差均已知
+
+我们还是一样的思路：先估计，估计之后考虑怎么翻译“reject H0”，之后就正常了。我们做一个展示，在之后的情况就不再详细解释。
+
+$$P(reject \,\,H_{0}|H_{0}\,is\,true)=P(\bar{X_{1}}-\bar{X_{2}}<\lambda^{\star}|H_{0}\,is\,true)=P(\frac{(\bar{X_{1}}-\bar{X_{2}})-(\mu_{1}-\mu_{2})}{\sqrt{\frac{\sigma_{1}^{2}}{n_{1}}+\frac{\sigma_{2}^{2}}{n_{2}}}}<\frac{\lambda^{\star}-(\mu_{1}-\mu_{2})}{\sqrt{\frac{\sigma_{1}^{2}}{n_{1}}+\frac{\sigma_{2}^{2}}{n_{2}}}}|H_{0}\,is\,true)=\alpha$$
+$$\Rightarrow P(Z:Z^{\star}<\frac{\lambda^{\star}-(\mu_{1}-\mu_{2})}{\sqrt{\frac{\sigma_{1}^{2}}{n_{1}}+\frac{\sigma_{2}^{2}}{n_{2}}}}|H_{0}\,is\,true)=P(Z:Z^{\star}<\frac{\lambda^{\star}}{\sqrt{\frac{\sigma_{1}^{2}}{n_{1}}+\frac{\sigma_{2}^{2}}{n_{2}}}})=\alpha$$
+$$\therefore\quad-Z_{\alpha}=\frac{\lambda^{\star}}{\sqrt{\frac{\sigma_{1}^{2}}{n_{1}}+\frac{\sigma_{2}^{2}}{n_{2}}}}$$
+
+> 这里是因为样本是正态分布且两个样本独立，因此我们可以得到两个样本均值的差也服从正态分布。
+
+###两样本独立但方差未知，但方差相同
+
+方差未知，我们和单样本方差未知时的解决方法一样，都是用样本方差去替代并构造t分布。但是现在的问题是，我们有两个样本方差我们应该如何使用呢？
+
+$$\frac{(n_{1}-1)S_{1}^{2}}{\sigma^{2}}+\frac{(n_{2}-1)S_{2}^{2}}{\sigma^{2}}=\frac{(n_{1}-1)S_{1}^{2}+(n_{2}-1)S_{2}^{2}}{\sigma^{2}}\sim\chi_{n_{1}+n_{2}-2}^{2}$$
+$$令\quad S_{p}^{2}=\frac{(n_{1}-1)S_{1}^{2}+(n_{2}-1)S_{2}^{2}}{n_{1}+n_{2}-2}$$
+
+我们会使用加权平均的方法得到一个pooled sample variance。那么为了凑出一个t分布，我们就可以用和单样本时相同的方法：
+
+$$\frac{\frac{(\bar{X_{1}}-\bar{X_{2}})-(\mu_{1}-\mu_{2})}{\sigma\sqrt{1/n_{1}+1/n_{2}}}}{\sqrt{\frac{S_{p}^{2}}{\sigma^{2}}}}=\frac{(\bar{X_{1}}-\bar{X_{2}})-(\mu_{1}-\mu_{2})}{S_{p}\sqrt{\frac{1}{n_{1}}+\frac{1}{n_{2}}}}\sim t_{n_{1}+n_{2}-2}$$
+
+所以分布我们找到了，对于如何翻译“reject H0”的问题，其实是类似的我们就不详细说了。但是有一个问题就是说，$S_{p}$是一个随机变量，它也出现在了反解的过程中，这应该如何理解呢？简单地理解为观测值当然是可以解的，但是这样说得通吗？因为
+
+
+> 我们现在用GLRT的方法证明一下这种情况实际上也是一种GLRT。  
+> 回忆一下GLRT的方法，我们实际上是将$L(\hat{\theta}_{MLE})$作为标准，然后将原假设域下求出的似然函数的最大值来和它比较。  
+> $L(\mu_{x},\mu_{y},\sigma^{2})=\prod\limits_{i=1}^{n}f(x_{i})\prod\limits_{i=1}^{n}f(y_{i})=(2\pi\sigma^{2})^{-\frac{n+m}{2}}exp\{-\frac{1}{2\sigma^{2}}[\sum\limits_{i=1}^{n}(x_{i}-\mu_{x})^{2}+\sum\limits_{i=1}^{m}(y_{i}-\mu_{y})^{2}]\}$  
+> 当原假设成立时，$\mu_{x}=\mu_{y}=\mu$,$L(\mu_{x},\mu_{y},\sigma^{2})=L(\mu,\sigma^{2})=(2\pi\sigma^{2})^{-\frac{n+m}{2}}exp\{-\frac{1}{2\sigma^{2}}[\sum\limits_{i=1}^{n}(x_{i}-\mu)^{2}+\sum\limits_{i=1}^{m}(y_{i}-\mu)^{2}]\}$   
+> 我们可以解得$$\widetilde{\mu}=\frac{\sum\limits_{i=1}^{n}x_{i}+\sum\limits_{i=1}^{n}y_{i}}{n+m},\widetilde{\sigma^{2}}=\frac{1}{n+m}[\sum\limits_{i=1}^{n}(x_{i}-\widetilde{\mu})^{2}+\sum\limits_{i=1}^{m}(y_{i}-\widetilde{\mu})^{2}]$$  
+> 当备择假设成立时，我们求$L(\hat{\theta}_{MLE})$,这时候有三个未知参数。  
+> 我们可以解得$$\hat{\mu}_{x}=\bar{X_{n}},\hat{\mu}_{y}=\bar{Y_{n}},\hat{\sigma^{2}}=\frac{1}{n+m}[\sum\limits_{i=1}^{n}(x_{i}-\hat{\mu}_{x})^{2}+\sum\limits_{i=1}^{m}(y_{i}-\hat{\mu}_{y})^{2}]$$  
+> $$\lambda=\frac{L(\widetilde{\mu},\widetilde{\sigma^{2}})}{L(\hat{\mu_{x}},\hat{\mu_{y}},\hat{\sigma^{2}})}=(\frac{\hat{\sigma^{2}}}{\widetilde{\sigma^{2}}})^{\frac{n+m}{2}}=[\frac{\sum\limits_{i=1}^{n}(x_{i}-\bar{X_{n}})^{2}+\sum\limits_{i=1}^{m}(y_{i}-\bar{Y_{n}})^{2}}{\sum\limits_{i=1}^{n}(x_{i}-\frac{n\bar{X_{n}}+m\bar{Y_{m}}}{n+m})^{2}+\sum\limits_{i=1}^{m}(y_{i}-\frac{n\bar{X_{n}}+m\bar{Y_{m}}}{n+m})^{2}}]^{\frac{n+m}{2}}$$  
+> 但是我们要凑出t分布才可以，所以我们对$\lambda$继续进行变形，得到$$\lambda=(\frac{n+m-2}{(n+m-2)+T^{2}})^{\frac{n+m}{2}}$$  
+> 我们进行决策的标准是找到一个$\lambda^{\star}$比1小比较多，并且我们发现$\lambda$随着$T^{2}$递减，所以就得出当$T^{2}$大于某个值就拒绝$H_{0}$  
+> 剩下的就是控制一类错误了，没有什么好说的。但是需要注意的是，GLRT应该只能适用于双边检定，不然就有问题。
+
+
+###两样本独立但方差未知，且方差互不相同
+
+我们同样是用样本方差去替代方差，但是这时候我们找不到它的分布。
+
+$$\frac{(\bar{X_{1}}-\bar{X_{2}})-(\mu_{1}-\mu_{2})}{\sqrt{\frac{S_{1}^{2}}{n_{1}}+\frac{S_{2}^{2}}{n_{2}}}}\sim ?$$
+
+*Welch-Satterthuaites Approximation*
+
+一种渐近的方法，$X_{1},X_{2},...,X_{n}$ be a random sample of size n from a normal distribution with mean $\mu_{x}$ and standard deviation $\sigma_{x}$ and let $Y_{1},Y_{2},...,Y_{n}$ be a random sample of size m from a normal distribution with mean $\mu_{y}$ and $\sigma_{y}$.Two random samples are independent.
+
+$$T=\frac{\bar{X}-\bar{Y}-(\mu_{x}-\mu_{y})}{\sqrt{\frac{S_{1}^{2}}{n_{1}}+\frac{S_{2}^{2}}{n_{2}}}}$$
+Then T has approximately a Student t distribution with v degrees of freedom,where v is the nearest integer of the following expression
+
+$$\frac{(S_{x}^{2}/n+S_{y}^{2}/m)^{2}}{(S_{x}^{2}/n)^{2}/(n-1)+(S_{y}/m)^{2}/(m-1)}$$
+
+通过这一个渐近理论，我们就找到了在原假设成立下的test statistics和对应的分布。
+
+
+
+
+###两样本匹配且方差未知
+
+我们这里的匹配针对的是“实验前”“实验后”这种单个观测体的两次观测的情况，因此两个样本组高度相关。我们的做法是将其转化为单样本问题
+
+$$D=X-Y,D\sim N(\mu_{d},\sigma^{2}_{d})$$
+
+从而我们的假设检验就变为，
+
+$$H_{0}:\mu_{d}=0\quad v.s.\quad H_{1}:\mu_{d}\neq 0\quad\textrm{方差未知,正态分布}$$
+
+
+
+##Hypothesis testing on Two population variance
+
+$$H_{0}:\sigma_{X}^{2}=\sigma_{Y}^{2}\quad v.s.\quad H_{1}:\sigma_{X}^{2}\neq\sigma_{Y}^{2}$$
+$$H_{0}:\sigma_{X}^{2}=\sigma_{Y}^{2}\quad v.s.\quad H_{1}:\sigma_{X}^{2}<\sigma_{Y}^{2}$$
+$$H_{0}:\sigma_{X}^{2}=\sigma_{Y}^{2}\quad v.s.\quad H_{1}:\sigma_{X}^{2}>\sigma_{Y}^{2}$$
+
+同样的思路，我们先寻找估计量进行估计。自然地我们会选择样本方差作为估计量，但是接下来我们应该怎么翻译“reject H0”呢？是不是还能够像两样本均值检定一样使用相减的方法来翻译呢？
+
+我们一定要借助一些已知的分布，当提到样本方差我们就会想到卡方分布（正态分布假设下）。所以如果我们直接转换成$S_{X}^{2}-S_{Y}^{2}$的话，好像没办法构造出什么分布。
+
+*F distribution*
+
+Let U and V be two independent Chi-square random Variables with p and q degrees of freedom respectively.Then the R.V.
+$$F=\frac{\frac{U}{p}}{\frac{V}{q}}$$
+follows a F distribution with p and q degrees of freedom,denoted by
+$$F_{p,q}$$
+
+* If $X\sim F_{p,q},then X^{-1}\sim F_{q,p}$
+* If $X\sim t_{q},then X^{2}\sim F_{1,q}$
+* If $q\rightarrow\infty$,then $p\cdot F_{p,q}\rightarrow\chi_{p}^{2}$
+
+
+现在我们就可以进行翻译了(左单边为例)，
+
+$$P(reject\,H_{0}|H_{0}\,is\,true)=P(\frac{S_{X}^{2}}{S_{Y}^{2}}<\lambda^{\star}|H_{0}\,is\,true)=P(\frac{\frac{(n-1)S_{X}^{2}}{\sigma_{X}^{2}}}{\frac{(m-1)S_{Y}^{2}}{\sigma_{Y}^{2}}}<\frac{n-1}{m-1}\cdot\frac{\sigma_{Y}^{2}}{\sigma_{X}^{2}}\cdot\lambda^{\star}|H_{0}\,is\,true)$$
+$$\Rightarrow P(F:F^{\star}<\frac{n-1}{m-1}\cdot\frac{\sigma_{Y}^{2}}{\sigma_{X}^{2}}\cdot\lambda^{\star}|H_{0}\,is\,true)=P(F:F^{\star}<\frac{n-1}{m-1}\cdot\lambda^{\star})=\alpha$$
+$$\therefore F_{n-1,m-1,\alpha}=\frac{n-1}{m-1}\cdot\lambda^{\star}$$
+
+
+这样就可以反解我们需要的critical value了，对于p-value而言也差不多。
+
+
+##本章结尾
+
+我们不介绍二项分布的概率p有关检定，因为它也是用样本均值，本质上和均值检定时一样的。
+
+两样本的自信区间我们也不写了，重点就是枢轴量找到就好了。
+
+
+> 在这一章的最后我想要提的是，我们做检定的核心是找到一个分布，同时在一类错误的计算式子中能够反解出那个“决策标准”。  
+> 举一个很简单的例子，就像两样本方差检定时，我们当然也可以这样翻译“reject H0”:$$P(S_{X}^{2}-S_{Y}^{2}<\lambda^{\star}|H_{0}\,is\,true)$$
+> 但是这里的问题是，我们得不到一个已知分布，那我们就无法反解出$\lambda^{\star}$  
+
+* 运用histogram(直方图),去画出大概的pdf
+* 运用asymptotic theory(渐近理论)
+* 运用bootstrap(自助法)
+
+> 除了现在给出的各种构造已知分布的方法，我们还提供上述三种方法去近似的找到分布。
+
+
+
+#Chapter 10 Goodness-of-Fit Test
+
+
+在第七章和第九章我们所做的都是对于参数的假定进行检验，在这一章中我们则要对一个分布假定进行检验。
+
+In general,any tests that seeks to determine whether a random sample is generated from some given probability distribution is called a *goodness-of-fit test*.
+
+
+##参数方法
+
+
+我们在这本书的最开始就已经提过关于“参数”和“非参数”的区别了，那么在这里我们要检定一个样本是不是服从某个给定的分布，我们使用了另外一个分布假设并认为这个分布假设是正确的。
+
+**MultinoMial distribution**
+
+对于n次相同且独立的实验，每一次实验中有t种outcomes，它们在一次实验中分别以$p_{1},p_{2},...,p_{t}$的概率出现。如果以$X_{1},X_{2},...,X_{t}$表示每一种结果在n次实验中出现的个数，则有
+$$\sum\limits_{i=1}^{t}X_{i}=n$$
+$$\sum\limits_{i=1}^{t}p_{i}=1$$
+$$P_{X_{1},X_{2},...,X_{t}}(k_{1},k_{2},...,k_{t})=\frac{n!}{k_{1}!k_{2}!\cdots k_{t}!}p_{1}^{k_{1}}p_{2}^{k_{2}}\cdots p_{t}^{k_{t}}$$
+
+
+Theorem:Suppose the vector $(X_{1},X_{2},...,X_{t})$ is a multinomial random variable with parameters $n,p_{1},p_{2},...,p_{t}$.Then the marginal distribution of $X_{i},i=1,2,3,...,t$ is the binomial distribution with parameters n and $p_{i}$.That is ,$X_{i}\sim Bin(n,p_{i})$
+
+> 之所以单个随机变量是服从二项分布很好理解，因为对于某个$X_{i}$而言只有“出现”和“不出现”两种结果，而出现一次的概率是$p_{i}$
+
+
+**逻辑**
+
+
+有了多项分布的介绍之后，我们就可以解释goodness-of-fit test的逻辑了：这个逻辑并没有使用先估计再检定的逻辑，因为它不同于检定参数可以估计参数（我们之后会介绍用估计分布的方法来检定的逻辑）。不论我们是想检定离散变量的分布还是连续分布的分布，我们首先做的就是划分为不同的区域，这里不同的区域指的是值域的不同范围。*然后我们假设这n个样本点就以多项分布的pdf分布在不同的区域，每个区域的样本点数是一个随机变量，服从p值不同的二项分布。*在这样的“参数方法”下，我们认为如果原假设成立，则每个区域的样本点数的观测值和对应区域的期望值应该不差太多。所以我们找到了翻译“reject H0”的方法，就是构造一个衡量观测值和期望值的统计量，当它大于某个值我们就认为要拒绝原假设。
+
+
+接下来我先解释一下为什么用观测值和期望值的差距比较合理。首先这里我们已经得到的是二项分布。
+
+```{r}
+x<-0:100
+y<-dbinom(x,100,0.5)
+plot(x,y,main = "二项分布pdf")
+```
+
+这要归结于二项分布或者说对称分布的特性，也就是它们的期望两侧是发生概率最大的取值。在上面的图中我们可以看到在[40,60]之外的取值发生的概率低得不行，所以我们认为观测值在很大概率上都会出现在期望附近。
+
+最后我要解释的是，如果我们控制一类错误，到底在哪里使用了原假设成立的条件：因为二项分布的期望值为$n\cdot p$,所以这个p我们需要知道，这就需要用到原假设成立的条件。
+
+
+因此我们就给出用来“reject H0”的式子：
+$$D=\sum\limits_{i=1}^{t}\frac{(obs_{i}-E_{i})^{2}}{E_{i}}=\sum\limits_{i=1}^{n}\frac{(X_{i}-n\cdot p_{i})^{2}}{n\cdot p_{i}}$$
+
+
+Theorem:Let $r_{1},r_{2},...,r_{t}$ be the set of possible outcomes associated with each of n independent trials,where $P(r_{i})=p_{i}>0$ is known,$i=1,2,3,...,t$.Let $X_{i}$ be the number of times $r_{i}$ occours,then the random variable
+$$D=\sum\limits_{i=1}^{t}\frac{(obs_{i}-E_{i})^{2}}{E_{i}}=\sum\limits_{i=1}^{n}\frac{(X_{i}-n\cdot p_{i})^{2}}{n\cdot p_{i}}$$
+has approximately a $\chi^{2}$ distribution with $t-1$ degrees of freedom.For the approximation to be adequate,the t classes should be defined so that $n\cdot p_{i}>5$,for all $i$.
+
+If $P(r_{i})=p_{i}>0$ is unknown,then we have to estimate them,then the D has approximately a $\chi^{2}$ distribution with t-1-s degrees of freedom,where s is the number of unknown parameters.For the approximation to be adequate,the t classes should be defined so that $n\cdot\hat{p_{i}}>5$,for all $i$.
+
+
+> 这样的话我们其实已经把最难的第一第二步完成了。  
+> 需要注意的如果我们要用critical value来做，则使用的方法是令$P(D_{n}>\lambda^{\star})=\alpha$然后反解出$\lambda^{\star}$。然后我们再计算$D_{n}$的实现值$d_{n}$，这时候我们就得带入估计出来的p或者是已知的p。  
+> 如果我们使用的是pvalue的方法，则我们实际上是计算$P(D_{n}>d_{n}|H_{0}\,is\,true)$
+
+
+###Discrete Case
+
+我们直接举两个例子来说明*参数已知*和*参数未知*两种情况。
+
+> eg1:M&M糖果公司发言人说他们有六种颜色糖果，其每一袋的占比情况为：30%是棕色，黄色和红色均占20%，剩下橙色、蓝色。绿色均占10%。我们去购买并计数得到棕色455个，黄色343个，红色318个，橘色152个，蓝色130个，绿色129个。以$\alpha=0.05$检定是否符合发言人的说法。  
+> $H_{0}:p_{1}=p_{10},p_{2}=p_{20},...,p_{6}=p_{60}\quad v.s.\quad H_{1}:any\,one\,of\,p_{i}\neq p_{i0}$
+> $pvalue=P(D>d|H_{0}\,is\,true)=P(D>\sum\limits_{i=1}^{6}\frac{(x_{i}-n\cdot p_{i})^{2}}{n\cdot p_{i}}|H_{0}\,is\,true)=P(D>\sum\limits_{i=1}^{6}\frac{(x_{i}-n\cdot p_{i0})^{2}}{n\cdot p_{i0}})=P(\chi^{2}_{5}>12.23)=0.032$  
+> 所以我们会拒绝原假设
+
+> eg2:用泊松分布来刻画一些稀有事件，现在用其刻画在3年内伦敦80岁以上女性每日的死亡人数，现在收集数据并探究是否可以用泊松来刻画。0人死亡的天数为162,1人死亡的天数为267,3人死亡的天数为185,4人死亡的天数为111,5人死亡的天数为61,6人死亡的天数为27,7人死亡的天数8,8人死亡的天数为3,9人死亡的天数为1,10人及以上死亡的天数为0，总共记录天数为1096天。   
+> 这里我们要用D，但是我们会发现其中的$p_{i}$我们不知道，即使在原假设成立下也不可知。所以我们只能估计$p_{i}$,这时候我们就注意如果我们估计的话就要用到原假设成立的条件。  
+> $P(\textrm{i women over the age of 80 die on a given day}|H_{0}\,is\,true)=e^{-\lambda}\frac{\lambda^{i}}{i!},i=1,2,3,...$  
+> 所以我们只要估计$\lambda$就好了，这里我们当然使用MLE进行估计。回忆以前的知识，实际上就是样本均值即可。$$\hat{\lambda}=\textrm{给定某天死亡的人数}=\frac{\textrm{total number of fatalities}}{\textrm{total number of days}}=2.157$$  
+> 通过这样我们得到的$E_{i}$无法满足定理中要求的$n\cdot p_{i}>5$，所以我们还需要认为调整划分区域以保证满足条件。之后就不说了，还是计算pvalue。
+
+
+###Continuous Case
+
+$$H_{0}:f_{X}(x)=f_{0}(x)\quad v.s.\quad H_{1}:f_{X}(x)\neq f_{0}(x)$$
+
+对于连续分布的情况，我们就必须进行人为分组。一旦分组划分好了之后，就和之前的离散分布的情况是相同的，每一个class的$p_{i}$可以通过积分估计出来(这里就用到了原假设的条件了)。
+
+> eg:一个统计软件称可以产生来自任何分布的随机样本，我们要求其产生40个数据来自pdf为$f_{Y}(y)=6y(1-y),0\leq y\leq 1$,用goodness-of-fit test检验是否这些数据的确来自这么一个分布。  
+> $$H_{0}:f_{Y}(y)=6y(1-y)\quad v.s.\quad H_{1}:f_{Y}(y)\neq 6y(1-y)$$  
+> 具体过程我们就不写了，我们首先对y的取值进行划分，注意划分时要保证$E_{i}>5$即可。
+
+
+对于连续分布的问题，我们会发现一些问题：
+
+1. 划分区间不能太多，不然每个区间包含的信息量太少，近似卡方无法成立
+2. 划分区间不能太少，不然信息太粗糙。因为本来我们将连续变量离散化就已经有误差了，如果区间划分太少，可以想象直方图只有3、4列，无法还原原来的CDF
+
+
+##非参数方法(Nonparametric goodness-of-fit test)
+
+对于非参数方法我们只针对连续分布的检定。
+
+$$H_{0}:f_{X}(x)=f_{0}(x)\quad v.s.\quad H_{1}:f_{X}(X)\neq f_{0}(x)$$
+
+之前我们用的是pearsom chi-squared test就是运用离散化的方法，这是goodness-of-fit test的一种方法。但是对于连续分布而言我们检验$f(x)$就是检验CDF，那么离散化一定会造成偏差。并且不同的划分方法有可能得到不同的检定结果。所以我们介绍另外一种逻辑。
+
+**逻辑**
+
+其实我们忘记了一个最自然的逻辑：类似于检定参数，我们如果要检定$f(x)$，那我们就可以对$f(x)$进行估计，然后拿它和$f_{0}(x)$来比较。重点是我们应该如何翻译“reject H0”，并得到已知分布。
+
+现在我们就实现这个逻辑。
+
+###ECDF(经验累积分布函数)
+
+Definition:Let $(X_{1},X_{2},...,X_{n})$ be an i.i.d. random sample from a distribution with CDF $F(x)$.Then,the *empirical cumulative distribution function(ECDF)* is defined as
+$$F_{n}(x)=\frac{\textrm{number of elements}\leq x}{n}=\frac{1}{n}I(X_{i}\leq x)$$
+where $I(A)$ is the indicator function of event A.
+
+
+> 对于$I(X_{i}\leq x)$,给定一个固定的x，则ECDF是一个Bernoulli random variable，因为$P(I=1)=P(X_{i}\leq x)=F(x)$。所以$\sum\limits_{i=1}^{n}I(X_{i}\leq x)=nF_{n}(x)$就是一个二项分布。  
+> $$E(nF_{n}(x))=n\cdot E(F_{n}(x))=n\cdot F(x)$$  
+> 也就是说$F_{n}(x)$是对$F(x)$的无偏估计  
+> 另外，$F_{n}(x)$是一个step function(阶跃函数)
+
+因此我们已经找到了对于CDF的分布了。接下来就是看怎么翻译“reject H0”了。
+
+
+###Kolmogorov-Smirnov Test
+
+我们主要使用到了这么一个判别的方法
+
+$$D_{n}=\sqrt{n}\cdot sup_{x\in R}|F_{n}(x)-F_{0}(x)|$$
+
+其思路就是说我们找估计量和理论量的最大差距，如果过大的话我们就认为原假设是错误的。具体的检定方式我们给Wikipedia的介绍，大家可以仔细阅读
+
+[Kolmogorov-Smirnov](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test "Wikipedia")
+
+
+
+##Using Goodness-of-Fit Test test independence
+
+
+一般来说，如果我们想要证明两个变量独立，我们是通过$f_{X,Y}(x,y)=f_{X}(x)\cdot f_{Y}(y)$来证明的。但是很多时候我们不知道分布，这就有必要发展出一种test可以检验两个变量是不是独立的。
+
+因为使用的仍然是这个test，所以我们可以才想到还是利用观测值和期望值的差别进行检定。
+
+###contigency table(列联表)
+
+```{r}
+ct<-data.frame(Jane=factor(c("Yes","Yes","No","No","Yes","Not Sure"),levels = c("Yes","No","Not Sure")),Helen=factor(c("Yes","No","No","Yes","No","Yes"),levels =c("Yes","No")))
+table(ct)
+```
+
+列联表是这样一个表格，我们现在介绍二维情况：横向来加总表示的是左侧的这个随机变量取各个取值的观测个数，记为$R_{1},R_{2},...,R_{k}$;纵向来加总表示的是上侧的这个随机变量取各个取值的观测个数,记为$C_{1},C_{2},...,C_{t}$。并且有$\sum\limits_{i=1}^{k}R_{i}=\sum\limits_{i=1}^{t}C_{i}=n$,n为总的观测数。
+
+在列联表中我们把每一个格中的观测个数用$n_{ij}$表示，意思是它是第i行第j列的。而这个就是我们的观测值。
+
+
+###检定过程
+
+我们还是使用$D_{n}$来翻译“reject H0”,但是我们没办法找到相应的$p_{i}$,所以我们就要使用原假设成立的条件来估计$p_{i}$。
+
+当原假设成立的时候，也就是两个随机变量独立时，我们有
+$$P(R_{i}C_{j})=P(R_{i})P(C_{j})$$
+
+而这个$P(R_{i}C_{j})$就是我们要找的对应于观测值的$p_{i}$,因此我们想要估计它。估计它就可以通过估计$P(R_{i})$、$P(C_{j})$来实现。
+
+那么如何估计$P(R_{i})$、$P(C_{j})$呢？这个很容易，直接通过比例来估计就好：
+$$\hat{P(R_{i})}=\frac{R_{i}}{n},\hat{P(C_{j}}=\frac{C_{j}}{n}$$
+
+
+接下来就很容易了，因为我们已经得到了和本章最开始的参数方法所要求得到的所有东西，唯一要注意的就是因为我们进行了估计所以
+$$D_{n}\sim \chi^{2}_{k\cdot t-1-s},\textrm{s 是估计的未知参数的个数}$$
+
+> 但凡使用到了goodness-of-fit test,就必须保证每个划分区域的期望大于5，才能使得$D_{n}$近似服从于卡方分布。
+
+
+
+#Chapter 12 Analysis of Variance(ANOVA)
+
+
+这里我们介绍的是*one-factor analysis of variance*，我们稍后会给出模型。现在我先讲一下为什么会发展出这样一个东西：我们在前面的章节中已经讲过了*one sample test*、*two samples test*，自然地我们会想如果有multiple samples应该怎么处理呢？one-factor analysis of variance就是因此而产生的。而ANOVA还有很多的扩展，可以应用到更多的情况，比如multiple-factor analysis of variance以及非参数统计中会讲到的其他检验。
+
+
+##模型及假定
+
+$$Y_{ij}=\mu_{j}+\sigma_{ij},j=1,2,3,...,k$$
+$$\sigma_{ij}\sim i.i.d. N(0,\sigma^{2})$$
+$$Y_{ij}\sim i.i.d. N(\mu_{j},\sigma^{2})$$
+
+> 对应于multiple samples,每一个sample的样本数为$n_{j},j=1,2,3,...,k$,$\sum\limits_{j=1}^{k}n_{j}=n$
+
+$$H_{0}:\mu_{1}=\mu_{2}=\cdots=\mu_{k}\quad v.s.\quad H_{1}:\textrm{not all the }\mu_{j}\textrm{ are equal}$$
+
+
+##推导检定过程
+
+$$T_{.j}=\sum\limits_{i}^{n_{j}}Y_{ij},\quad\bar{Y_{.j}}=\frac{1}{n_{j}}\sum\limits_{i}^{n_{j}}Y_{ij}=\frac{T_{.j}}{n_{j}}$$
+$$T_{..}=\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}Y_{ij},\quad \bar{Y_{..}}=\frac{1}{n}\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}Y_{ij}=\frac{T_{..}}{n}$$
+
+
+我们现在想要检定多个均值是否相等，第一步当然是估计这些均值。显然我们会使用$Y_{.j}$进行估计，但是问题是现在怎么翻译“reject H0”呢？我们没有办法像单样本或者多样本那样来处理，所以我们运用另一种思路。
+
+$$H_{0}:\mu_{1}=\mu_{2}=\cdots=\mu_{k}\quad\Leftrightarrow\quad H_{0}:\mu_{1}=\mu_{2}=\cdots=\mu_{k}=\mu$$
+
+因此我们通过衡量各个样本组均值和总体均值的差异进行判断，类似于goodness-of-fit test中加总所有差值。
+
+
+**SSTR**
+
+$$\textrm{treatment sum of squares}:SSTR=\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}(Y_{.j}-Y_{..})^{2}$$
+$$SSTR=\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}[(Y_{.j}-\mu)-(Y_{..}-\mu)]^{2}=\sum\limits_{j=1}^{k}n_{j}(Y_{.j}-\mu)^{2}-n(Y_{..}-\mu)^{2}$$
+$$E(SSTR)=(k-1)\sigma^{2}+\sum\limits_{j=1}^{k}n_{j}(\mu-\mu_{j})^{2}$$
+
+
+因为SSTR很好地衡量了各个样本组均值和总体均值的差距，所以很自然地我们认为当SSTR很大的时候我们要拒绝原假设。现在我们就需要找到有关于SSTR的分布才能计算控制一类错误。
+
+*Theorem*:When $H_{0}$ is true,
+$$\frac{SSTR}{\sigma^{2}}\sim\chi_{k-1}^{2}$$
+
+
+> 虽然我们现在不进行证明，但是我们可以看到我们求出的SSTR的期望中，当原假设成立时后一项就被抵消了，只剩下$(k-1)\sigma^{2}$,又$E(\sigma^{2}\chi_{k-1}^{2})=(k-1)\sigma^{2}$
+
+当方差已知的情况下，我们就可以翻译“reject H0”了，可以得到critical value为$\chi_{k-1,1-\alpha}^{2}$。所以当$\frac{SSTR}{\sigma^{2}}>\chi_{k-1,1-\alpha}^{2}$时我们拒绝原假设。
+
+但是大多数时候方差是未知的，所以我们还需要估计方差。
+
+**SSE**
+
+和两样本一样，我们使用pooled sample variance来估计方差。
+
+$$S_{p}^{2}=\frac{\sum\limits_{j=1}^{k}(n_{j}-1)S_{j}^{2}}{\sum\limits_{j=1}^{k}(n_{j}-1)}=\frac{\sum\limits_{j=1}^{k}(n_{j}-1)S_{j}^{2}}{n-k}$$
+
+$$\textrm{error sum of squares}:SSE=\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}(Y_{ij}-Y_{.j})^{2}=\sum\limits_{j=1}^{k}(n_{j}-1)S_{j}^{2}$$
+$$\therefore\quad S_{p}^{2}=\frac{SSE}{n-k}$$
+
+
+$$E(SSE)=(n-k)\sigma^{2}$$
+
+*Theorem*:Regardless of whether $H_{0}$ is true,we have the following results:
+
+1. $\frac{SSE}{\sigma^{2}}\sim\chi_{n-k}^{2}$
+2. SSE and SSTR are independent
+
+
+现在如果我们用pooled sample variance替换方差，那么我们就需要重新寻找在原假设成立条件下的分布。这时候我们发现不管是SSTR还是SSE都和卡方分布有关，因此我们就有
+
+$$F=\frac{\frac{SSTR}{\sigma^{2}}/(k-1)}{\frac{SSE}{\sigma^{2}}/(n-k)}=\frac{\frac{SSTR}{k-1}}{\frac{SSE}{n-k}}=\frac{MSTR}{MSE}\sim F_{k-1,n-k}\quad\textrm{,under }H_{0}\textrm{ is true}$$
+
+
+**F test**
+
+*Theorem*:Suppose we have k random samples of sizes $n_{1},n_{2},...,n_{k}$,respectively,and each ovservation in the random sample is normally distributed with the same unknown variance $\sigma^{2}$.Let $\mu_{1},\mu_{2},...,\mu_{k}$ be the true means associated with the k samples.Then
+
+1. If $H_{0}$ is true,$F=\frac{MSTR}{MSE}\sim F_{k-1,n-k}$f
+2. At significance level $\alpha$,$H_{0}$ is rejected when F>F_{1-\alpha,k-1,n-k}(这里其实就是控制一类错误)
+
+> MSTR和MSE分别表示mean sum of squares of treatment和mean sum of squares of error  
+> 要构成F分布，要求SSTR和SSE独立。在正态分布的假设下，我们已经证明了样本均值的函数和样本方差是独立的。对于原假设成立下，$\frac{SSTR}{\sigma^{2}}$服从卡方分布，我们可以通过矩母函数来证明。
+
+
+> 我们想探究一下two-sample t test和ANOVA的关系。因为它们除了样本组数目不同，其他的模型设定都是一样的，我们有理由相信它们是等价的。  
+> 当k=2，$SSTR=n(\bar{X}-\bar{Y_{..}})^{2}+m(\bar{Y}-\bar{Y_{..}})^{2}$  
+> 又因为$\bar{Y_{..}}=\frac{\sum\limits_{i=1}^{n}X_{i}+\sum\limits_{j=1}^{m}Y_{j}}{n+m}=\frac{n\bar{X}+m\bar{Y}}{n+m}$  
+> $\Rightarrow SSTR=\frac{(\bar{X}-\bar{Y})^{2}}{\frac{1}{n}+\frac{1}{m}}$  
+> $SSE=(n+m-2)S_{p}^{2}$  
+> $\therefore F=\frac{MSTR}{MSE}=\frac{SSTR}{SSE/(n+m-2)}=\frac{(\bar{X}-\bar{Y})^{2}}{S_{p}^{2}(\frac{1}{n}+\frac{1}{m})}=T^{2}$  
+> 即证
+
+
+**SSTOT**
+
+$$\textrm{total sum of squares}:SSTOT=\sum\limits_{j=1}^{k}\sum\limits_{i=1}^{n_{j}}(Y_{ij}-Y_{..})^{2}$$
+
+*Theorem[Decompositions of SSTOT]*：Suppose we have k samples of sizes $n_{1},n_{2},...,n_{k}$,then
+$$SSTOT=SSTR+SSE$$
+
+
+##ANOVA Table
+
+
+
+##Multiple Comparison
+
+在one factor ANOVA之后，如果$H_{0}$被拒绝了，我们想知道到底是哪些组的均值的差异造成的原假设被拒绝。
+
+###两两比较
+
+最自然的一种想法就是在多样本检定被拒绝之后，我们再进行多个两样本t检定。对于每一个两样本t检定，我们控制一类错误发生概率为$\alpha$。
+
+$$P(\textrm{type I error of ANOVA})=P(\textrm{at lease one type I error occours among all those T test})=1-P(\textrm{no type I error occours among all those T test})=1-(1-\alpha)^{k}$$
+
+> $P(\textrm{at lease one type I error occours among all those T test})$ is called the probability of *familywise type I error*  
+> 当$\alpha=0.05,k=10$时，$P(\textrm{type I error of ANOVA})=0.4>0.05$  
+> 我们之所以要这样做是因为我们进行多个两样本t检定，其实也就是在做multiple comparison，那么我们肯定想保证总的检定的一类错误发生率控制在$\alpha$以内。但是这里出现的问题就是一类错误发生概率被放大了。  
+> This is so-called *multiple comparison problem*
+
+
+**Bonferroni Correction**
+
+It is considered the simplest and most conservative method to control the familywise error.
+
+这种方法的思路就是既然一类错误会被放大，那么我们就控制每一次t检定的$\alpha$在一个很小的值。
+
+对于每一个t test，我们选择$\alpha$作为significance level,$p_{1},p_{2},...,p_{m}$表示m个假定检验的p-value:
+$$P(\textrm{at least one type I error occours among those t test})=P(\cup_{m}\{p_{i}<\frac{\alpha}{m}\})\leq\sum\limits_{m}P(p_{i}<\frac{\alpha}{m})\leq m\cdot \frac{\alpha}{m}=\alpha$$
+
+> 假设有10个样本组，那么m=45。很显然这样的后果就是，对于每一个两样本检定都太过于保守了，无法得出究竟是哪些均值偏离导致ANOVA被拒绝。
+
+
+**Tukey's method**
+
+Definition:Let $W_{1},W_{2},...,W_{k}$ be a set of k independent normally distributed random variable with mean $\mu$ and variance $\sigma^{2}$.And let R denote their range:
+$$R=max_{i}W_{i}-min_{i}W_{i}$$
+Suppose $S^{2}$ is associated with a $\chi^{2}$ random variable with $v$ defrees of freedom,independent of the $W_{i}'s$,where $E(S^{2})=\sigma^{2}$.Then the *studentized range*,$Q_{k,v}$,is the ratio
+$$Q_{k,v}=\frac{R}{S}$$
+ 
+ 
+ > studentize range distribution的定义域为正值 
+  
+  
+ *Theorem*:Let $\bar{Y_{.j}},j=1,2,...,k$ be the k sample means in a completely randomized one-factor design.Let $n_{j}=r$ be the sommon sample size,and let $\mu_{j}$ be the true means,j=1,2,...,k.THe probability is $1-\alpha$ that all $C_{k}^{2}$ differences $\mu_{i}-\mu_{j}$ will simultaneaslysatisfy the following inequalities:
+$$\bar{Y_{.i}}-\bar{Y_{.j}}-D\sqrt{MSE}<\mu_{i}-\mu_{j}<\bar{Y_{.i}}-\bar{Y_{.j}}+D\sqrt{MSE}$$
+where $D=Q_{\alpha,k,\frac{rk-k}{\sqrt{r}}}$.If for any given i and j,the point zero is not contained in the preceding inequality,then $H_{0}$ can be rejected at the significance level of $\alpha$.
+
+
+> proof:Let $W_{t}=\bar{Y_{.t}}-\mu_{t}$,then $W_{t}\sim N(0,\frac{\sigma^{2}}{r})$  
+> 又$\because E(MSE)=\sigma^{2}$,$\therefore E(\frac{MSE}{r})=\frac{\sigma^{2}}{r}$  
+> $$\frac{maxW_{t}-minW_{t}}{\sqrt{\frac{MSE}{r}}}\sim Q_{k,rk-k}$$  
+> $P(\frac{maxW_{t}-minW_{t}}{\sqrt{\frac{MSE}{r}}}<Q_{\alpha,k,rk-k})=1-\alpha$  
+> $\Rightarrow P(maxW_{t}-minW_{t}<Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}})=1-\alpha$  
+> $\Leftrightarrow P(|W_{i}-W_{j}|<Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}})=1-\alpha\quad\textrm{for all i and j}$  
+> $P(-Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}}<W_{i}-W_{j}<Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}})=1-\alpha\quad\textrm{for all i and j}$ e 
+> $\because W_{t}=Y_{.t}-\mu_{t}$,$$\therefore P(Y_{.i}-Y_{.j}-Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}}<\mu_{i}-\mu_{j}<Y_{.i}-Y_{.j}+Q_{\alpha,k,rk-k}\cdot\sqrt{\frac{MSE}{r}})=1-\alpha\quad\textrm{for all i and j}$$  
+> 这样我们就找到了对于所有i和j的自信区间。我们可以通过自信区间进行检定，当0不在自信区间的取值中时我们认为原假设错误。
+
+
+> 这里我们使用的最重要的一个点是将极差转换为了对于任意i,j均成立，这样我们就能够做到对两两进行检定。  
+> 不仅如此，这个方法首先用$P(\frac{maxW_{t}-minW_{t}}{\sqrt{\frac{MSE}{r}}}<Q_{\alpha,k,rk-k})=1-\alpha$作为等价于ANOVA的检定，因为我们当然可以在样本均值差距过大的时候拒绝原假设——$H_{0}:\mu_{1}=\mu_{2}=\cdots=\mu_{k}$，只不过这里是求自信区间来检定。然后再讲极差等价转化为对于任意i，j均成立来达到两两检定的目的。
+> 那么我们进一步可以说，当我们进行subhypothesis时，如果有拒绝其中的某个原假设，那么我们肯定会拒绝更大的原假设。
+
+
+
+###部分和比较(test subhypothesis with contrasts)
+
+$$H_{0}:\sum\limits_{j=1}^{k}c_{j}\mu_{j}=0\quad v.s.\quad H_{1}:\sum\limits_{j=1}^{k}c_{j}\mu_{j}\neq 0\quad\quad\textrm{provided that}\sum_{j=1}^{k}c_{j}=0$$
+
+
+Definition:Let $\mu_{1},\mu_{2},...,\mu_{k}$ denote the true means of k factor levels being sampled.A linear combination,C,of the $\mu_{j}'s$ is said to be a contrast if the sum of its coefficients is 0.That is,C is a contrast if $\sum\limits_{j=1}^{k}c_{j}\mu_{j}$,where the $c_{j}'s$ are constants such that $\sum\limits_{j=1}^{k}c_{j}=0$
+
+> 和两两比较类似，用contrast的目的是在原假设不成立的时候寻找是哪个地方不成立，但不同于两两比较的地方在于我们想看一下是哪一部分和哪一部分差异大。  
+> 这里解释一下为什么一定要contrast。是因为这确保了当原假设成立时，这里的检定也肯定成立。如果研究不是contrast的情况没有什么意义。  
+> 两两比较也就可以看作是特殊的contrast了
+
+> 这里因为是一次检定，我们就估计好均值之后还是得到样本均值的函数，所以还是有正态分布来用，比较简单。如果方差未知那就估计就好了。不展开讲了。
